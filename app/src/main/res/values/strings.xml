@@ -1,3 +1,15 @@
 <resources>
-    <string name="app_name">FeCom</string>
+    <string name="app_name">Fe:Com</string>
+
+    <string name="search">search</string>
+    <string name="mypage">mypage</string>
+    <string name="title">타이틀</string>
+    <string name="nickname">닉네임</string>
+
+    <string name="tab_board">전체 게시판</string>
+    <string name="tab_dailytalk">Daily Talk</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_majorcommunity">전공 커뮤니티</string>
+    <string name="tab_notice">알림</string>
+    <string name="tab_message">쪽지함</string>
 </resources>

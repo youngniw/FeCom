@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_actionbar">
+
+    <ImageView
+        android:id="@+id/homeTB_search"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/icon_search"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="25dp"
+        android:layout_toStartOf="@id/homeTB_mypage"
+        android:contentDescription="@string/search" />
+
+    <ImageView
+        android:id="@+id/homeTB_mypage"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_user"
+        android:contentDescription="@string/mypage" />
+</RelativeLayout>

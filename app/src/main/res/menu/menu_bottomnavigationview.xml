@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/tab_board"
+        android:icon="@drawable/tab_board"
+        android:title="@string/tab_board" />
+    <item
+        android:id="@+id/tab_dailyTalk"
+        android:icon="@drawable/tab_dailytalk"
+        android:title="@string/tab_dailytalk" />
+    <item
+        android:id="@+id/tab_home"
+        android:icon="@drawable/tab_home"
+        android:title="@string/tab_home" />
+    <item
+        android:id="@+id/tab_majorCommunity"
+        android:icon="@drawable/tab_majorcommunity"
+        android:title="@string/tab_majorcommunity" />
+    <item
+        android:id="@+id/tab_notice"
+        android:icon="@drawable/tab_notice"
+        android:title="@string/tab_notice" />
+</menu>
