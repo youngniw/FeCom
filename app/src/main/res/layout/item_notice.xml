@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/icon_comment2"
+        android:layout_marginEnd="5dp"
+        android:contentDescription="@string/tab_notice" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/noticeRow_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IT공학전공"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+        <TextView
+            android:id="@+id/noticeRow_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="새로운 댓글이 달렸습니다."
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

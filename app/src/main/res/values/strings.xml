@@ -3,6 +3,9 @@
 
     <string name="search">search</string>
     <string name="mypage">mypage</string>
+    <string name="like">좋아요</string>
+    <string name="comment">댓글</string>
+    <string name="subscribe">구독</string>
     <string name="title">타이틀</string>
     <string name="nickname">닉네임</string>
 

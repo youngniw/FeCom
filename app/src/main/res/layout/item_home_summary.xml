@@ -20,6 +20,7 @@
         android:layout_marginStart="25dp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:singleLine="true"
         android:text="@string/homeSummaryRow_content"
         android:textColor="@color/middle_grey"
         android:textSize="13sp" />

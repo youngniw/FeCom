@@ -10,7 +10,8 @@
         android:id="@+id/boardRow_ivSubscribe"
         android:layout_width="15dp"
         android:layout_height="15dp"
-        android:src="@drawable/icon_subscribe"/>
+        android:src="@drawable/icon_subscribe"
+        android:contentDescription="@string/subscribe" />
 
     <TextView
         android:id="@+id/boardRow_tvBoardName"
