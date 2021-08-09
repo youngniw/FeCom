@@ -2,11 +2,11 @@ package com.eighteen.fecom.data;
 
 import java.util.ArrayList;
 
-public class MajorData {
+public class MajorInfo {
     String collegeName;
     ArrayList<String> departmentLists;
 
-    public MajorData(String collegeName, ArrayList<String> departmentLists) {
+    public MajorInfo(String collegeName, ArrayList<String> departmentLists) {
         this.collegeName = collegeName;
 
         if (departmentLists != null)        //TODO: 확인해봐야 함!!

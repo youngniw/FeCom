@@ -13,7 +13,7 @@
             android:padding="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/board_rvBasic"
+                android:id="@+id/fBoard_rvBasic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_board"
@@ -25,7 +25,7 @@
                 android:layout_height="20dp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/board_rvSub"
+                android:id="@+id/fBoard_rvSub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_board"

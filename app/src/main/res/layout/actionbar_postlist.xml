@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_fecom">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/postlist_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tab_board"
+            android:textColor="@color/white_transparent2"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+        <TextView
+            android:id="@+id/postlist_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/postlist_search"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/icon_search"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="25dp"
+        android:layout_toStartOf="@id/postlist_menu"
+        android:contentDescription="@string/search"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/postlist_menu"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/icon_menu"
+        android:contentDescription="@string/mypage"
+        app:tint="@color/white" />
+
+</RelativeLayout>

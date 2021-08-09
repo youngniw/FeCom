@@ -1,6 +1,7 @@
 package com.eighteen.fecom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eighteen.fecom.DailyTalkActivity;
+import com.eighteen.fecom.PostListActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.SummaryData;
 
@@ -50,13 +53,16 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         ItemViewHolder(final View itemView) {
             super(itemView);
 
-            tvTopic = itemView.findViewById(R.id.homeSummaryRow_topic);
-            tvContent = itemView.findViewById(R.id.homeSummaryRow_content);
+            tvTopic = itemView.findViewById(R.id.fHomeSummaryRow_topic);
+            tvContent = itemView.findViewById(R.id.fHomeSummaryRow_content);
 
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 해당 게시판 혹은 데일리톡으로 넘어감!
+                    //TODO: 해당 게시판 혹은 데일리톡으로 넘어감!(if문)
+                    context.startActivity(new Intent(context, PostListActivity.class));
+                    //혹은 데일리톡 화면!
+                    //context.startActivity(new Intent(context, DailyTalkActivity.class));
                 }
             });
         }

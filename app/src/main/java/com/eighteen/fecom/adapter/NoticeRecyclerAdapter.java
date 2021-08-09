@@ -1,6 +1,7 @@
 package com.eighteen.fecom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eighteen.fecom.PostListActivity;
 import com.eighteen.fecom.R;
-import com.eighteen.fecom.data.NoticeData;
+import com.eighteen.fecom.data.NoticeInfo;
 
 import java.util.ArrayList;
 
 public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAdapter.NoticeViewHolder> {
     private Context context;
-    private ArrayList<NoticeData> noticeDataList;
+    private ArrayList<NoticeInfo> noticeInfoList;
 
-    public NoticeRecyclerAdapter(ArrayList<NoticeData> noticeDataList) {
-        this.noticeDataList = noticeDataList;
+    public NoticeRecyclerAdapter(ArrayList<NoticeInfo> noticeInfoList) {
+        this.noticeInfoList = noticeInfoList;
     }
 
     @NonNull
@@ -36,12 +38,12 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull NoticeRecyclerAdapter.NoticeViewHolder holder, int position) {
-        holder.tvAbout.setText(noticeDataList.get(position).getNoticeAbout());
-        holder.tvContent.setText(noticeDataList.get(position).getNoticeContent());
+        holder.tvAbout.setText(noticeInfoList.get(position).getNoticeAbout());
+        holder.tvContent.setText(noticeInfoList.get(position).getNoticeContent());
     }
 
     @Override
-    public int getItemCount() { return noticeDataList.size(); }
+    public int getItemCount() { return noticeInfoList.size(); }
 
     public class NoticeViewHolder extends RecyclerView.ViewHolder {
         TextView tvAbout;
@@ -57,6 +59,9 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 게시판글/전공글/데일리톡으로 넘어감!(알림에 대한)
+                    context.startActivity(new Intent(context, PostListActivity.class));
+                    //혹은 데일리톡 화면!
+                    //context.startActivity(new Intent(context, DailyTalkActivity.class));
                 }
             });
         }

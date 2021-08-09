@@ -1,10 +1,10 @@
 package com.eighteen.fecom.data;
 
-public class BoardData {
+public class BoardInfo {
     private String boardName;
     private boolean isISubscribe;
 
-    public BoardData(String boardName, boolean isISubscribe) {
+    public BoardInfo(String boardName, boolean isISubscribe) {
         this.boardName = boardName;
         this.isISubscribe = isISubscribe;
     }

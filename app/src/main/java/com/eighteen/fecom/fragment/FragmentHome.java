@@ -33,7 +33,7 @@ public class FragmentHome extends Fragment {
         bSumLists.add(new SummaryData("자취 천국", "전신거울 가성비 좋은.."));
         bSumLists.add(new SummaryData("넷플 중독자", "트와일라잇 존잼이구."));
 
-        RecyclerView rvBoard = rootView.findViewById(R.id.home_rvBoard);
+        RecyclerView rvBoard = rootView.findViewById(R.id.fHome_rvBoard);
         LinearLayoutManager bManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         rvBoard.setLayoutManager(bManager);
         HomeRecyclerAdapter bAdapter = new HomeRecyclerAdapter(bSumLists);
@@ -46,7 +46,7 @@ public class FragmentHome extends Fragment {
         dtSumLists.add(new SummaryData("데이뚜데이뚜", "오늘 썸남이랑 첫 데이뚜.. 옷 뭐 입을지 추천요!"));
         dtSumLists.add(new SummaryData("맑은하늘", "투데이 한강뷰:) 미쳐버렸다!!!>_<"));
 
-        RecyclerView rvDailyTalk = rootView.findViewById(R.id.home_rvDailyTalk);
+        RecyclerView rvDailyTalk = rootView.findViewById(R.id.fHome_rvDailyTalk);
         LinearLayoutManager dtManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         rvDailyTalk.setLayoutManager(dtManager);
         HomeRecyclerAdapter dtAdapter = new HomeRecyclerAdapter(dtSumLists);

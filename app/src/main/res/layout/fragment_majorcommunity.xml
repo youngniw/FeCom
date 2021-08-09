@@ -13,7 +13,7 @@
             android:padding="20dp">
 
             <SearchView
-                android:id="@+id/major_sv"
+                android:id="@+id/fMajor_sv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_searchview"
@@ -22,7 +22,7 @@
                 android:queryHint="전공 이름을 검색하세요."/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/major_rvCollege"
+                android:id="@+id/fMajor_rvCollege"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"

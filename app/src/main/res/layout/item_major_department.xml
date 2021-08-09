@@ -5,7 +5,7 @@
     android:padding="5dp">
 
     <TextView
-        android:id="@+id/departmentRow_tv"
+        android:id="@+id/fDepartmentRow_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="XXXX과"

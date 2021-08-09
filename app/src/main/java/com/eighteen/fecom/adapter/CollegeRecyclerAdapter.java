@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eighteen.fecom.R;
-import com.eighteen.fecom.data.MajorData;
+import com.eighteen.fecom.data.MajorInfo;
 
 import java.util.ArrayList;
 
 public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecyclerAdapter.CollegeViewHolder> {
     private Context context;
-    private ArrayList<MajorData> collegeList;
+    private ArrayList<MajorInfo> collegeList;
 
-    public CollegeRecyclerAdapter(ArrayList<MajorData> collegeList) {
+    public CollegeRecyclerAdapter(ArrayList<MajorInfo> collegeList) {
         this.collegeList = collegeList;
     }
 
@@ -53,9 +53,9 @@ public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecycler
         CollegeViewHolder(final View itemView) {
             super(itemView);
 
-            ivIsClicked = itemView.findViewById(R.id.collegeRow_ivCollege);
-            tvCollegeName = itemView.findViewById(R.id.collegeRow_tvCollege);
-            rvDepartment = itemView.findViewById(R.id.collegeRow_rvDepartment);
+            ivIsClicked = itemView.findViewById(R.id.fCollegeRow_ivCollege);
+            tvCollegeName = itemView.findViewById(R.id.fCollegeRow_tvCollege);
+            rvDepartment = itemView.findViewById(R.id.fCollegeRow_rvDepartment);
 
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();

@@ -1,10 +1,10 @@
 package com.eighteen.fecom.data;
 
-public class NoticeData {
+public class NoticeInfo {
     private String noticeAbout;
     private String noticeContent;
 
-    public NoticeData(String noticeAbout, String noticeContent) {
+    public NoticeInfo(String noticeAbout, String noticeContent) {
         this.noticeAbout = noticeAbout;
         this.noticeContent = noticeContent;
     }

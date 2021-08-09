@@ -93,13 +93,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_bias="0.85">
         <ImageView
+            android:id="@+id/dailyTalk_ivLike"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/icon_like"
             android:layout_marginEnd="5dp"
             android:contentDescription="@string/like" />
         <TextView
-            android:id="@+id/dailyTalk_like"
+            android:id="@+id/dailyTalk_tvLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100"

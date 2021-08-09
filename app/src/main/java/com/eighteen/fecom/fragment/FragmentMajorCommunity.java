@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.adapter.CollegeRecyclerAdapter;
-import com.eighteen.fecom.data.MajorData;
+import com.eighteen.fecom.data.MajorInfo;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ public class FragmentMajorCommunity extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_majorcommunity, container, false);
 
-        SearchView svSearch = rootView.findViewById(R.id.major_sv);
+        SearchView svSearch = rootView.findViewById(R.id.fMajor_sv);
         svSearch.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {        //TODO: 검색 창 포커스 없애기가 안됨!!
                 Log.i("확인용", "2");
@@ -35,7 +35,7 @@ public class FragmentMajorCommunity extends Fragment {
         });
 
         //기본 게시판 임시 데이터 생성(TODO: 추후 삭제)
-        ArrayList<MajorData> collegeLists = new ArrayList<>();
+        ArrayList<MajorInfo> collegeLists = new ArrayList<>();
         ArrayList<String> departList1 = new ArrayList<>();
             departList1.add("국어국문학과");  departList1.add("독어독문학과");  departList1.add("문예창작학과");  departList1.add("문헌정보학과");
             departList1.add("영어영문학과");  departList1.add("일어일문학과");  departList1.add("중어중문학과");  departList1.add("철학과");
@@ -52,15 +52,15 @@ public class FragmentMajorCommunity extends Fragment {
         departList6.add("간호학과");  departList6.add("의예과");
         ArrayList<String> departList7 = new ArrayList<>();
         departList7.add("디자인학과");  departList7.add("경호학과");  departList7.add("무용학과");
-        collegeLists.add(new MajorData("인문계열", departList1));
-        collegeLists.add(new MajorData("사회계열", departList2));
-        collegeLists.add(new MajorData("교육계열", departList3));
-        collegeLists.add(new MajorData("공학계열", departList4));
-        collegeLists.add(new MajorData("자연계열", departList5));
-        collegeLists.add(new MajorData("의약계열", departList6));
-        collegeLists.add(new MajorData("예체능계열", departList7));
+        collegeLists.add(new MajorInfo("인문계열", departList1));
+        collegeLists.add(new MajorInfo("사회계열", departList2));
+        collegeLists.add(new MajorInfo("교육계열", departList3));
+        collegeLists.add(new MajorInfo("공학계열", departList4));
+        collegeLists.add(new MajorInfo("자연계열", departList5));
+        collegeLists.add(new MajorInfo("의약계열", departList6));
+        collegeLists.add(new MajorInfo("예체능계열", departList7));
 
-        RecyclerView rvMajorCollege = rootView.findViewById(R.id.major_rvCollege);
+        RecyclerView rvMajorCollege = rootView.findViewById(R.id.fMajor_rvCollege);
         LinearLayoutManager collegeManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         rvMajorCollege.setLayoutManager(collegeManager);
         CollegeRecyclerAdapter collegeAdapter = new CollegeRecyclerAdapter(collegeLists);
