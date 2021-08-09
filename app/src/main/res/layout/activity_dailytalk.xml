@@ -54,7 +54,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:text="1시간 전"
-            android:textColor="@color/grey_time"
+            android:textColor="@color/middle_grey"
             android:textSize="12sp" />
     </RelativeLayout>
 

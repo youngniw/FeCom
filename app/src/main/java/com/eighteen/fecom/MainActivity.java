@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         tabToolbarListener();
     }
 
-    public void homeToolbarListener(Toolbar toolbar) {
+    private void homeToolbarListener(Toolbar toolbar) {
         ImageView ivSearch = toolbar.findViewById(R.id.homeTB_search);
         ivSearch.setOnClickListener(v -> {
             //TODO: 검색 창으로 넘어감!
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("NonConstantResourceId")
-    public void tabToolbarListener() {
+    private void tabToolbarListener() {
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_tab);
         bottomNavigationView.setSelectedItemId(R.id.tab_home);
 
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void tabNoticeSetting() {
+    private void tabNoticeSetting() {
         TextView tvMessage = toolbar.findViewById(R.id.noticeTB_message);
         TextView tvNotice = toolbar.findViewById(R.id.noticeTB_notice);
         tvNotice.setEnabled(false);
