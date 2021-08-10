@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eighteen.fecom.PostActivity;
 import com.eighteen.fecom.PostListActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.NoticeInfo;
@@ -59,9 +60,9 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 게시판글/전공글/데일리톡으로 넘어감!(알림에 대한)
-                    context.startActivity(new Intent(context, PostListActivity.class));
-                    //혹은 데일리톡 화면!
-                    //context.startActivity(new Intent(context, DailyTalkActivity.class));
+                    context.startActivity(new Intent(context, PostListActivity.class));         //게시판
+                    //context.startActivity(new Intent(context, DailyTalkActivity.class));      //데일리톡
+                    //context.startActivity(new Intent(context, PostActivity.class));           //게시글
                 }
             });
         }

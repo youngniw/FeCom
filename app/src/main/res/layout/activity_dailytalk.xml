@@ -16,10 +16,10 @@
         app:layout_constraintRight_toRightOf="parent">
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/dailyTalk_toolbar"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:contentInsetStart="0dp"
             app:contentInsetEnd="0dp"/>

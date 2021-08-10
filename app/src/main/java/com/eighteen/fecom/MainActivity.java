@@ -91,37 +91,41 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transactionNow = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.tab_board: {
+                    transactionNow.replace(R.id.main_framelayout, fragmentBoard).commitAllowingStateLoss();
+
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab, null);
                     actionBar.setCustomView(actionBarView, params);
                     TextView tvTitle = toolbar.findViewById(R.id.tabTB_title);
                     tvTitle.setText(R.string.tab_board);
 
-                    transactionNow.replace(R.id.main_framelayout, fragmentBoard).commitAllowingStateLoss();
                     break;
                 }
                 case R.id.tab_home: {
+                    transactionNow.replace(R.id.main_framelayout, fragmentHome).commitAllowingStateLoss();
+
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab_home, null);
                     actionBar.setCustomView(actionBarView, params);
                     homeToolbarListener(toolbar);
 
-                    transactionNow.replace(R.id.main_framelayout, fragmentHome).commitAllowingStateLoss();
                     break;
                 }
                 case R.id.tab_majorCommunity: {
+                    transactionNow.replace(R.id.main_framelayout, fragmentMajorCommunity).commitAllowingStateLoss();
+
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab, null);
                     actionBar.setCustomView(actionBarView, params);
                     TextView tvTitle = toolbar.findViewById(R.id.tabTB_title);
                     tvTitle.setText(R.string.tab_majorcommunity);
 
-                    transactionNow.replace(R.id.main_framelayout, fragmentMajorCommunity).commitAllowingStateLoss();
                     break;
                 }
                 case R.id.tab_notice: {
+                    transactionNow.replace(R.id.main_framelayout, fragmentNotice).commitAllowingStateLoss();
+
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab_notice, null);
                     actionBar.setCustomView(actionBarView, params);
                     tabNoticeSetting();
 
-                    transactionNow.replace(R.id.main_framelayout, fragmentNotice).commitAllowingStateLoss();
                     break;
                 }
             }

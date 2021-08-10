@@ -20,6 +20,10 @@
                 android:iconifiedByDefault="false"
                 android:queryBackground="@null"
                 android:queryHint="전공 이름을 검색하세요."/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/bg_shadow"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fMajor_rvCollege"

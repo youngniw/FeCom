@@ -9,7 +9,6 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/dailyTalk_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
@@ -42,12 +41,13 @@
         android:id="@+id/postRow_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:lineSpacingExtra="2dp"
         android:ellipsize="end"
         android:maxLines="4"
         android:singleLine="false"
-        android:paddingStart="1dp"
-        android:paddingEnd="1dp"
-        android:text="같이 강남역 근처에서 C언어 공부할 스터디원 구해요!  일주일에 한 번 세시간 정도로 생각하고 있구요 강의 듣고 돌아가면서 발표하고 궁금한거 서로 물어봐요~"
+        android:text="@string/content"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
@@ -62,36 +62,40 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/postRow_ivLike"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon_like"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
+            android:src="@drawable/icon_like"
             android:contentDescription="@string/like" />
         <TextView
             android:id="@+id/postRow_tvLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
+            android:layout_gravity="center_vertical"
+            android:text="@string/example_num"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
 
         <View
-            android:layout_width="40dp"
+            android:layout_width="20dp"
             android:layout_height="match_parent" />
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon_comment"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
+            android:src="@drawable/icon_comment"
             android:contentDescription="@string/comment" />
         <TextView
             android:id="@+id/postRow_tvComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="100"
+            android:layout_gravity="center_vertical"
+            android:text="@string/example_num"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
     </LinearLayout>
 
 </LinearLayout>

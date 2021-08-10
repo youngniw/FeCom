@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.PostListActivity;
+import com.eighteen.fecom.PostActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.PostInfo;
 
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
     private Context context;
-    private ArrayList<PostInfo> postInfoList;
+    private ArrayList<PostInfo> postList;
 
-    public PostRecyclerAdapter(ArrayList<PostInfo> postInfoList) {
-        this.postInfoList = postInfoList;
+    public PostRecyclerAdapter(ArrayList<PostInfo> postList) {
+        this.postList = postList;
     }
 
     @NonNull
@@ -40,19 +40,19 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PostRecyclerAdapter.PostViewHolder holder, int position) {
-        holder.tvWriterName.setText(postInfoList.get(position).getWriterName());
-        holder.tvTime.setText(postInfoList.get(position).getPostTime());
-        holder.tvContent.setText(postInfoList.get(position).getContent());
-        if (postInfoList.get(position).getIsILike())
+        holder.tvWriterName.setText(postList.get(position).getWriterName());
+        holder.tvTime.setText(postList.get(position).getPostTime());
+        holder.tvContent.setText(postList.get(position).getContent());
+        if (postList.get(position).getIsILike())
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
-        holder.tvLike.setText(String.valueOf(postInfoList.get(position).getLikeNum()));
-        holder.tvComment.setText(String.valueOf(postInfoList.get(position).getCommentNum()));
+        holder.tvLike.setText(String.valueOf(postList.get(position).getLikeNum()));
+        holder.tvComment.setText(String.valueOf(postList.get(position).getCommentNum()));
     }
 
     @Override
-    public int getItemCount() { return postInfoList.size(); }
+    public int getItemCount() { return postList.size(); }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
         TextView tvWriterName;
@@ -76,7 +76,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 게시판글/전공글으로 넘어감!
-                    context.startActivity(new Intent(context, PostListActivity.class));
+                    context.startActivity(new Intent(context, PostActivity.class));
                 }
             });
         }
