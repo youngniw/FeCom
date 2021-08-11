@@ -1,8 +1,8 @@
 package com.eighteen.fecom;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +28,11 @@ public class PostActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
             Objects.requireNonNull(actionBar).setDisplayShowCustomEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
         View customView = View.inflate(this, R.layout.actionbar_post, null);
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
         actionBar.setCustomView(customView, params);
+        toolbarListener(toolbar);
 
         //comment글 임시 데이터 생성(TODO: 추후 삭제) -> Time은 바꿔야 함!
         ArrayList<CommentInfo> commentList = new ArrayList<>();
@@ -48,12 +49,13 @@ public class PostActivity extends AppCompatActivity {
         rvComment.addItemDecoration(new DividerItemDecoration(this, 1));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private void toolbarListener(Toolbar toolbar) {
+        ImageView ivBack = toolbar.findViewById(R.id.post_back);
+        ivBack.setOnClickListener(v -> finish());
+
+        ImageView ivMenu = toolbar.findViewById(R.id.post_menu);
+        ivMenu.setOnClickListener(v -> {
+            //TODO: 메뉴 버튼 클릭 시:)
+        });
     }
 }

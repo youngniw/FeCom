@@ -25,7 +25,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private Toolbar toolbar;
     private ActionBar actionBar;
     private FragmentManager fragmentManager;
     private FragmentBoard fragmentBoard;
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
             Objects.requireNonNull(actionBar).setDisplayShowCustomEnabled(true);
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_framelayout, fragmentHome).commitAllowingStateLoss();
 
-        tabToolbarListener();
+        tabToolbarListener(toolbar);
     }
 
     private void homeToolbarListener(Toolbar toolbar) {
@@ -70,13 +69,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ImageView ivMyPage = toolbar.findViewById(R.id.homeTB_mypage);
-        ivMyPage.setOnClickListener(v -> {
-            //TODO: 마이페이지 창으로 넘어감
-        });
+        ivMyPage.setOnClickListener(v -> startActivity(new Intent(this, MyPageActivity.class)));
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void tabToolbarListener() {
+    private void tabToolbarListener(Toolbar toolbar) {
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_tab);
         bottomNavigationView.setSelectedItemId(R.id.tab_home);
 
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab_notice, null);
                     actionBar.setCustomView(actionBarView, params);
-                    tabNoticeSetting();
+                    tabNoticeSetting(toolbar);
 
                     break;
                 }
@@ -133,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void tabNoticeSetting() {
+    private void tabNoticeSetting(Toolbar toolbar) {
         TextView tvMessage = toolbar.findViewById(R.id.noticeTB_message);
         TextView tvNotice = toolbar.findViewById(R.id.noticeTB_notice);
         tvNotice.setEnabled(false);

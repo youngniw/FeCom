@@ -28,7 +28,9 @@ public class FragmentMajorCommunity extends Fragment {
         svSearch.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {        //TODO: 검색 창 포커스 없애기가 안됨!!
                 Log.i("확인용", "2");
-                svSearch.onActionViewCollapsed();
+                //svSearch.onActionViewCollapsed();
+                enableSearchView(v, false);
+                svSearch.clearFocus();
             }
             else
                 Log.i("확인용", "1");
@@ -67,5 +69,16 @@ public class FragmentMajorCommunity extends Fragment {
         rvMajorCollege.setAdapter(collegeAdapter);
 
         return rootView;
+    }
+
+    private void enableSearchView(View view, boolean enabled) {
+        view.setEnabled(enabled);
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                enableSearchView(child, enabled);
+            }
+        }
     }
 }

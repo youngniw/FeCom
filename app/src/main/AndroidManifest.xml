@@ -19,6 +19,8 @@
         <activity android:name=".PostListActivity"/>
         <activity android:name=".DailyTalkActivity"/>
         <activity android:name=".PostActivity"/>
+        <activity android:name=".PostingActivity"/>
+        <activity android:name=".MyPageActivity"/>
     </application>
 
 </manifest>
