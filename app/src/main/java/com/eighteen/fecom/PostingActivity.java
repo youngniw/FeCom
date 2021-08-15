@@ -2,6 +2,7 @@ package com.eighteen.fecom;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,13 +27,14 @@ public class PostingActivity extends AppCompatActivity {
         ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.MATCH_PARENT);
         actionBar.setCustomView(customView, params);
         toolbarListener(toolbar);
+
+        CheckBox cbAnonymous = findViewById(R.id.posting_cbAnonymous);
+        //TODO: 익명에 체크일 시 익명으로 서버에 저장 -> if (cbAnonymous.isChecked() == true)
     }
 
     private void toolbarListener(Toolbar toolbar) {
         AppCompatButton btCancel = toolbar.findViewById(R.id.posting_cancel);
-        btCancel.setOnClickListener(v -> {
-            finish();
-        });
+        btCancel.setOnClickListener(v -> finish());
 
         AppCompatButton btComplete = toolbar.findViewById(R.id.posting_complete);
         btComplete.setOnClickListener(v -> {

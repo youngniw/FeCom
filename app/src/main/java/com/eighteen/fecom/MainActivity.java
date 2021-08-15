@@ -90,10 +90,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.tab_board: {
                     transactionNow.replace(R.id.main_framelayout, fragmentBoard).commitAllowingStateLoss();
 
-                    View actionBarView = View.inflate(this, R.layout.actionbar_tab, null);
+                    View actionBarView = View.inflate(this, R.layout.actionbar_tab_board, null);
                     actionBar.setCustomView(actionBarView, params);
-                    TextView tvTitle = toolbar.findViewById(R.id.tabTB_title);
-                    tvTitle.setText(R.string.tab_board);
+                    boardToolbarListener(toolbar);
 
                     break;
                 }
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.tab_majorCommunity: {
                     transactionNow.replace(R.id.main_framelayout, fragmentMajorCommunity).commitAllowingStateLoss();
 
-                    View actionBarView = View.inflate(this, R.layout.actionbar_tab, null);
+                    View actionBarView = View.inflate(this, R.layout.actionbar_tab_major, null);
                     actionBar.setCustomView(actionBarView, params);
                     TextView tvTitle = toolbar.findViewById(R.id.tabTB_title);
                     tvTitle.setText(R.string.tab_majorcommunity);
@@ -127,6 +126,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             return true;
+        });
+    }
+
+    private void boardToolbarListener(Toolbar toolbar) {
+        ImageView ivSearch = toolbar.findViewById(R.id.boardTB_search);
+        ivSearch.setOnClickListener(v -> {
+            //TODO: 검색 창으로 넘어감
+        });
+        ImageView ivAdd = toolbar.findViewById(R.id.boardTB_add);
+        ivAdd.setOnClickListener(v -> {
+            //TODO: 게시판 추가
         });
     }
 
