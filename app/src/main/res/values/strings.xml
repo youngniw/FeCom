@@ -18,6 +18,26 @@
     <string name="example_time">2021.07.15 20:50:10</string>
     <string name="example_num">100</string>
 
+    <string name="login_id">ID</string>
+    <string name="login_id_ex">fecomMyfriend@gmail.com</string>
+    <string name="login_pw">PASSWORD</string>
+    <string name="login_pw_ex">••••••••••</string>
+    <string name="login_login">LOGIN</string>
+    <string name="login_signup">SIGN UP</string>
+
+    <string name="signup_check">중복 확인</string>
+    <string name="signup_name">NAME</string>
+    <string name="signup_name_ex">김눈송</string>
+    <string name="signup_nick">NICKNAME</string>
+    <string name="signup_nick_ex">능소화</string>
+    <string name="signup_next">NEXT➞</string>
+
+    <string name="signup2_univMail">대학교 메일 계정</string>
+    <string name="signup2_univMail_ex">snow@sookmyung.ac.kr</string>
+    <string name="signup2_auth">인증</string>
+    <string name="signup2_studentID">학생증</string>
+    <string name="signup2_plus">+</string>
+
     <string name="tab_board">전체 게시판</string>
     <string name="tab_dailytalk">Daily Talk</string>
     <string name="tab_home">Home</string>

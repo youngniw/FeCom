@@ -12,16 +12,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Button loginBtn = findViewById(R.id.loginBtn);
-        Button registerBtn = findViewById(R.id.registerBtn);
+        Button loginBtn = findViewById(R.id.login_btLogin);
+        Button registerBtn = findViewById(R.id.login_btSignUp);
 
 
         loginBtn.setOnClickListener(v -> {
+            //TODO: 서버에서 로그인 확인 받기:)
             startActivity(new Intent(this, MainActivity.class));
         });
 
-        registerBtn.setOnClickListener( v -> {
-            startActivity(new Intent(this, SignUpActivity.class));
-        });
+        registerBtn.setOnClickListener( v -> startActivity(new Intent(this, SignUpActivity.class)));
     }
 }
