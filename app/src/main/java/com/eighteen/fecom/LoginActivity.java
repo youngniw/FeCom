@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(v -> {
             //TODO: 서버에서 로그인 확인 받기:)
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         });
 
         registerBtn.setOnClickListener( v -> startActivity(new Intent(this, SignUpActivity.class)));

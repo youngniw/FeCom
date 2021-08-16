@@ -8,9 +8,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.InputStream;
+import java.util.Objects;
 
 public class SignUp2Activity extends AppCompatActivity {
     ImageView ivStudentCard;
@@ -36,28 +38,24 @@ public class SignUp2Activity extends AppCompatActivity {
 
         btSignUp = findViewById(R.id.signup2_btSubmit);
         btSignUp.setOnClickListener(v -> {
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent loginIntent = new Intent(this, LoginActivity.class);
+            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(loginIntent);
+            finish();
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
+        if (requestCode == 2 && resultCode == RESULT_OK) {
             try {
-                InputStream in = getContentResolver().openInputStream(data.getData());
+                InputStream in = getContentResolver().openInputStream(Objects.requireNonNull(data).getData());
                 Bitmap img = BitmapFactory.decodeStream(in);
                 in.close();
-                // 이미지 표시
-//                if (requestCode == 1) {
-//                    card1Img.setImageBitmap(img);
-//                }
-                if (requestCode == 2) {  // requeseCode == 2
-                    ivStudentCard.setImageBitmap(img);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+                ivStudentCard.setImageBitmap(img);
+            } catch (Exception e) { e.printStackTrace(); }
         }
     }
 }

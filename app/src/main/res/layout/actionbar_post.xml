@@ -25,7 +25,7 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="15dp"
         android:src="@drawable/icon_menu"
-        android:contentDescription="@string/mypage"
+        android:contentDescription="@string/menu"
         app:tint="@color/white" />
 
 </RelativeLayout>

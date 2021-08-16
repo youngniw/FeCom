@@ -14,6 +14,7 @@
     <string name="cancel">취소</string>
     <string name="complete">완료</string>
     <string name="posting">글쓰기</string>
+    <string name="menu">Menu</string>
 
     <string name="example_time">2021.07.15 20:50:10</string>
     <string name="example_num">100</string>
@@ -23,6 +24,7 @@
     <string name="login_pw">PASSWORD</string>
     <string name="login_pw_ex">••••••••••</string>
     <string name="login_login">LOGIN</string>
+    <string name="login_logout">LOGOUT</string>
     <string name="login_signup">SIGN UP</string>
 
     <string name="signup_check">중복 확인</string>
@@ -46,6 +48,19 @@
     <string name="tab_message">쪽지함</string>
 
     <string name="board_add">게시판 추가</string>
+
+    <string name="mypage_memberInfo">회원 정보</string>
+    <string name="mypage_univAuth">학교 인증</string>
+    <string name="mypage_chNick">닉네임 변경</string>
+    <string name="mypage_chPW">비밀번호 변경</string>
+    <string name="mypage_community">커뮤니티</string>
+    <string name="mypage_writePosts">내가 작성한 글</string>
+    <string name="mypage_likePosts">내가 좋아요 누른 글</string>
+    <string name="mypage_appInfo">앱 정보</string>
+    <string name="mypage_version">버전 정보</string>
+    <string name="mypage_version_ex">1.0.1</string>
+    <string name="mypage_announcement">공지사항</string>
+    <string name="mypage_useInfo">이용 안내</string>
 
     <string name="major_college">XX계열</string>
 

@@ -13,7 +13,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signup);
 
         Button btNext = findViewById(R.id.signup_btNext);
-
         btNext.setOnClickListener(v -> {
             startActivity(new Intent(this, SignUp2Activity.class));
         });
