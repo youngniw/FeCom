@@ -7,25 +7,56 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eighteen.fecom.adapter.PostRecyclerAdapter;
 import com.eighteen.fecom.data.PostInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.eighteen.fecom.MainActivity.myInfo;
+
 public class PostListActivity extends AppCompatActivity {
+    private boolean isBoardPost = true;
+    private int boardOrCollegeID = -1;
+    private String boardOrCollegeName = "";
+    private ArrayList<PostInfo> postList = null;
+
+    private PostRecyclerAdapter postAdapter;
+    private SwipeRefreshLayout srlPosts;
+    private TextView tvInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_postlist);
+
+        isBoardPost = getIntent().hasExtra("boardID");
+        if (isBoardPost) {
+            boardOrCollegeID = getIntent().getExtras().getInt("boardID");
+            boardOrCollegeName = getIntent().getExtras().getString("boardName");
+        }
+        else {
+            boardOrCollegeID = getIntent().getExtras().getInt("collegeID");
+            boardOrCollegeName = getIntent().getExtras().getString("collegeName");
+        }
 
         Toolbar toolbar = findViewById(R.id.postlist_toolbar);
         setSupportActionBar(toolbar);
@@ -38,17 +69,17 @@ public class PostListActivity extends AppCompatActivity {
         actionBar.setCustomView(customView, params);
         toolbarListener(toolbar);
 
-        //post글 임시 데이터 생성(TODO: 추후 삭제) -> Time은 바꿔야 함!
-        ArrayList<PostInfo> postList = new ArrayList<>();
-        postList.add(new PostInfo(1, "지금배불러", "1시간 전", "같이 강남역 근처에서 C언어 공부할 스터디원 구해요!  일주일에 한 번 세시간 정도로 생각하고 있구요 강의 듣고 돌아가면서 발표하고 궁금한거 서로 물어봐요", 1, 1, 12));
-        postList.add(new PostInfo(2, "딸기두비두밥", "1시간 전", "안녕하세요 숙명여자대학교 IT공학과 학생입니다. 저희는 방학기간동안 프로젝트를 진행하고자 합니다.\n"+"현재 디자인팀(2명), 개발팀(4명)으로 구성..", 0, 3, 15));
-        postList.add(new PostInfo(3, "포도먹는슈가", "1시간 전", "이번에 정처기 보는 사람 있나요??", 0, 13, 7));
-        postList.add(new PostInfo(4, "아이스초코", "2시간 전", "정보보안 업계 취업하는 건 어떤가요??\n"+"전망은 좋다고 알고 있는데\n"+"급여나 워라벨 같은거 궁금합니다!!", 1, 8, 0));
+        tvInfo = findViewById(R.id.postlist_tvInfo);
 
+        srlPosts = findViewById(R.id.postlist_swipeRL);
+        srlPosts.setDistanceToTriggerSync(400);
+        srlPosts.setOnRefreshListener(() -> updatePostList(true));
+
+        postList = new ArrayList<>();
         RecyclerView rvPost = findViewById(R.id.postlist_rv);
         LinearLayoutManager postManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         rvPost.setLayoutManager(postManager);
-        PostRecyclerAdapter postAdapter = new PostRecyclerAdapter(postList);
+        postAdapter = new PostRecyclerAdapter(postList);
         rvPost.setAdapter(postAdapter);
         rvPost.addItemDecoration(new DividerItemDecoration(this, 1));
 
@@ -57,6 +88,8 @@ public class PostListActivity extends AppCompatActivity {
             startActivity(new Intent(this, PostingActivity.class));
             //startActivityForResult(new Intent(this, PostingActivity.class), POSTING_REQUEST);
         });
+
+        updatePostList(false);
     }
 
     private void toolbarListener(Toolbar toolbar) {
@@ -64,9 +97,12 @@ public class PostListActivity extends AppCompatActivity {
         ivBack.setOnClickListener(v -> finish());
         //TODO: 맞게 변경되어야 함!(Toolbar 설정)
         TextView tvTab = toolbar.findViewById(R.id.postlist_tab);
-        tvTab.setText("전공 커뮤니티");       //혹은 tvTab.setText("전체 게시판");
+        if (isBoardPost)
+            tvTab.setText("전체 게시판");
+        else
+            tvTab.setText("전공 커뮤니티");
         TextView tvTopic = toolbar.findViewById(R.id.postlist_topic);
-        tvTopic.setText("컴퓨터공학과");      //혹은 tvTopic.setText("비밀게시판");
+        tvTopic.setText(boardOrCollegeName);
         ImageView ivSearch = toolbar.findViewById(R.id.postlist_search);
         ivSearch.setOnClickListener(v -> {
             //TODO: 검색 창으로 넘어감
@@ -76,9 +112,9 @@ public class PostListActivity extends AppCompatActivity {
             PopupMenu setMenu = new PopupMenu(getApplicationContext(), v);
             getMenuInflater().inflate(R.menu.menu_postlist, setMenu.getMenu());
             setMenu.setOnMenuItemClickListener(menuItem -> {
-                if (menuItem.getItemId() == R.id.menu_postlist_refresh){
-                    //TODO: 새로고침
-                }
+                if (menuItem.getItemId() == R.id.menu_postlist_refresh)
+                    updatePostList(false);
+
                 else {
                     //TODO: 즐겨찾는 게시판에 추가
                 }
@@ -86,6 +122,57 @@ public class PostListActivity extends AppCompatActivity {
                 return false;
             });
             setMenu.show();
+        });
+    }
+
+    public void updatePostList(boolean isSwipe) {
+        postList.clear();
+        postAdapter.notifyDataSetChanged();
+
+        tvInfo.setVisibility(View.VISIBLE);
+        tvInfo.setText("게시글을 찾고 있습니다:)");
+        RetrofitClient.getApiService().getPosts(myInfo.getUserID(), boardOrCollegeID).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if (response.code() == 200) {
+                    postList.clear();
+                    try {
+                        JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                        JSONArray jsonPosts = result.getJSONArray("posts");
+                        for (int i=0; i<jsonPosts.length(); i++) {
+                            JSONObject postObject = jsonPosts.getJSONObject(i);
+
+                            int postID = postObject.getInt("id");
+                            int anonymous = postObject.getInt("anonymous");
+                            int writerID = postObject.getInt("writer");
+                            String writerNick = postObject.getString("writer_nickname");
+                            String postTime = postObject.getString("register_datetime");
+                            String content = postObject.getString("content");
+                            int isILike = postObject.getInt("thumbup");
+                            int likeNum = postObject.getInt("like_count");
+                            int commentNum = postObject.getInt("comment_count");
+
+                            postList.add(new PostInfo(postID, anonymous, writerID, writerNick, postTime, content, isILike, likeNum, commentNum));
+                        }
+                    } catch (JSONException e) { e.printStackTrace(); }
+
+                    tvInfo.setVisibility(View.GONE);
+                    postAdapter.notifyDataSetChanged();
+                }
+                else
+                    tvInfo.setText("게시글이 아직 없습니다.\n글을 작성해 보세요:)");
+
+                if (isSwipe)
+                    srlPosts.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                if (isSwipe)
+                    srlPosts.setRefreshing(false);
+
+                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요:)");
+            }
         });
     }
 }

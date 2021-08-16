@@ -46,7 +46,7 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
 
     @Override
     public void onBindViewHolder(@NonNull DailyTalkPagerAdapter.TalkViewHolder holder, int position) {
-        holder.tvWriterName.setText(talkList.get(position).getWriterName());
+        holder.tvWriterName.setText(talkList.get(position).getWriterNick());
         holder.tvTalkTime.setText(talkList.get(position).getPostTime());
         holder.tvContent.setText(talkList.get(position).getContent());
         if (talkList.get(position).getIsILike() == 1)

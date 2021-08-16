@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitAPI {
     @GET("/fecom/api/user/login.php")
-    Call<String> getUserInfo(@Query("email") String userEmail, @Query("pw") String userPW);                     //로그인
+    Call<String> getUserInfo(@Query("email") String userEmail, @Query("pw") String userPW);         //로그인
 
     @POST("/fecom/api/user/register.php")
     Call<String> postUserInfo(@Body JsonObject userData);               //회원가입
@@ -30,4 +30,11 @@ public interface RetrofitAPI {
     @FormUrlEncoded
     @POST("/fecom/api/board/register.php")
     Call<String> postAddBoard(@Field("board_name") String boardName, @Field("essential") int essential);        //게시판 추가
+
+
+    @GET("/fecom/api/post/search_by_board.php")
+    Call<String> getPosts(@Query("user_id") int userID, @Query("board_id") int boardID);            //해당 게시판의 게시글 조회
+
+    @POST("/fecom/api//post/register.php")
+    Call<String> postPostInfo(@Body JsonObject postData);               //게시글 등록
 }

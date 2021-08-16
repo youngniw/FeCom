@@ -40,7 +40,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PostRecyclerAdapter.PostViewHolder holder, int position) {
-        holder.tvWriterName.setText(postList.get(position).getWriterName());
+        holder.tvWriterNick.setText(postList.get(position).getWriterInfo().getNickname());
         holder.tvTime.setText(postList.get(position).getPostTime());
         holder.tvContent.setText(postList.get(position).getContent());
         if (postList.get(position).getIsILike() == 1)
@@ -55,7 +55,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     public int getItemCount() { return postList.size(); }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView tvWriterName;
+        TextView tvWriterNick;
         TextView tvTime;
         TextView tvContent;
         ImageView ivLike;
@@ -65,7 +65,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         PostViewHolder(final View itemView) {
             super(itemView);
 
-            tvWriterName = itemView.findViewById(R.id.postRow_name);
+            tvWriterNick = itemView.findViewById(R.id.postRow_name);
             tvTime = itemView.findViewById(R.id.postRow_time);
             tvContent = itemView.findViewById(R.id.postRow_content);
             ivLike = itemView.findViewById(R.id.postRow_ivLike);

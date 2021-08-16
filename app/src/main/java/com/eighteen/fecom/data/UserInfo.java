@@ -2,11 +2,16 @@ package com.eighteen.fecom.data;
 
 public class UserInfo {
     private int userID;
-    private String name;
-    private String nickname;
-    private String email;
-    private int univCode;
-    private String univName;
+    private String name = "";
+    private String nickname = "";
+    private String email = "";
+    private int univCode = -1;
+    private String univName = "";
+
+    public UserInfo(int userID, String nickname) {      //게시판의 게시글목록, 데일리톡에서 사용됨(PostListActivity, DailyTalkActivity)
+        this.userID = userID;
+        this.nickname = nickname;
+    }
 
     public UserInfo(int userID, String name, String nickname, String email, int univCode, String univName) {
         this.userID = userID;

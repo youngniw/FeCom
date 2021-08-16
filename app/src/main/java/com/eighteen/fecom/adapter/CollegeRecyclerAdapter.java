@@ -2,6 +2,7 @@ package com.eighteen.fecom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,12 @@ public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecycler
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 해당 계열의 글 목록이 보여아함(Intent)
-                    context.startActivity(new Intent(context, PostListActivity.class));
+                    Intent showPostList = new Intent(context, PostListActivity.class);
+                    Bundle bundle = new Bundle();
+                        bundle.putInt("collegeID", collegeList.get(pos).getCollegeID());
+                        bundle.putString("collegeName", collegeList.get(pos).getCollegeName());
+                    showPostList.putExtras(bundle);
+                    context.startActivity(showPostList);
                 }
             });
         }

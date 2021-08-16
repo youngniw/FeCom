@@ -2,6 +2,7 @@ package com.eighteen.fecom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,12 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerAdap
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 해당 게시판으로 넘어감!
-                    context.startActivity(new Intent(context, PostListActivity.class));
+                    Intent showPostList = new Intent(context, PostListActivity.class);
+                    Bundle bundle = new Bundle();
+                        bundle.putInt("boardID", boardInfoList.get(pos).getBoardID());
+                        bundle.putString("boardName", boardInfoList.get(pos).getBoardName());
+                    showPostList.putExtras(bundle);
+                    context.startActivity(showPostList);
                 }
             });
         }

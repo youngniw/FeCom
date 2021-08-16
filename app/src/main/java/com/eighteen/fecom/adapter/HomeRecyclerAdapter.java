@@ -2,6 +2,7 @@ package com.eighteen.fecom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.DailyTalkActivity;
 import com.eighteen.fecom.PostListActivity;
 import com.eighteen.fecom.R;
-import com.eighteen.fecom.data.SummaryData;
+import com.eighteen.fecom.data.SimpleBoardInfo;
 
 import java.util.ArrayList;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.ItemViewHolder> {
     private Context context;
-    private ArrayList<SummaryData> summaryDataList;
+    private ArrayList<SimpleBoardInfo> simpleBoardList;
 
-    public HomeRecyclerAdapter(ArrayList<SummaryData> summaryDataList) {
-        this.summaryDataList = summaryDataList;
+    public HomeRecyclerAdapter(ArrayList<SimpleBoardInfo> simpleBoardList) {
+        this.simpleBoardList = simpleBoardList;
     }
 
     @NonNull
@@ -31,7 +31,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.item_home_summary, parent, false);
+        View view = inflater.inflate(R.layout.item_home_board, parent, false);
         HomeRecyclerAdapter.ItemViewHolder viewHolder = new HomeRecyclerAdapter.ItemViewHolder(view);
 
         return viewHolder;
@@ -39,30 +39,32 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HomeRecyclerAdapter.ItemViewHolder holder, int position) {
-        holder.tvTopic.setText(summaryDataList.get(position).getTopic());
-        holder.tvContent.setText(summaryDataList.get(position).getContent());
+        holder.tvBoardName.setText(simpleBoardList.get(position).getName());
+        holder.tvContent.setText(simpleBoardList.get(position).getContent());
     }
 
     @Override
-    public int getItemCount() { return summaryDataList.size(); }
+    public int getItemCount() { return simpleBoardList.size(); }
 
     public class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTopic;
+        TextView tvBoardName;
         TextView tvContent;
 
         ItemViewHolder(final View itemView) {
             super(itemView);
 
-            tvTopic = itemView.findViewById(R.id.fHomeSummaryRow_topic);
-            tvContent = itemView.findViewById(R.id.fHomeSummaryRow_content);
+            tvBoardName = itemView.findViewById(R.id.fHomeBoardRow_boardName);
+            tvContent = itemView.findViewById(R.id.fHomeBoardRow_content);
 
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 해당 게시판 혹은 데일리톡으로 넘어감!(if문)
-                    context.startActivity(new Intent(context, PostListActivity.class));
-                    //혹은 데일리톡 화면!
-                    //context.startActivity(new Intent(context, DailyTalkActivity.class));
+                    Intent showPostList = new Intent(context, PostListActivity.class);
+                    Bundle bundle = new Bundle();
+                        bundle.putInt("boardID", simpleBoardList.get(pos).getBoardID());
+                        bundle.putString("boardName", simpleBoardList.get(pos).getName());
+                    showPostList.putExtras(bundle);
+                    context.startActivity(showPostList);
                 }
             });
         }

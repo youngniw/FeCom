@@ -2,16 +2,18 @@ package com.eighteen.fecom.data;
 
 public class PostInfo {
     private int postID;
-    private String writerName;
+    private int anonymous;
+    private UserInfo writerInfo;
     private String postTime;
     private String content;
     private int isILike;    //0이면 false, 1이면 true
     private int likeNum;
     private int commentNum;
 
-    public PostInfo(int postID, String writerName, String postTime, String content, int isILike, int likeNum, int commentNum) {
+    public PostInfo(int postID, int anonymous, int writerID, String writerNick, String postTime, String content, int isILike, int likeNum, int commentNum) {
         this.postID = postID;
-        this.writerName = writerName;
+        this.anonymous = anonymous;
+        writerInfo = new UserInfo(writerID, writerNick);
         this.postTime = postTime;
         this.content = content;
         this.isILike = isILike;
@@ -20,7 +22,8 @@ public class PostInfo {
     }
 
     public int getPostID() { return postID; }
-    public String getWriterName() { return writerName; }
+    public int getAnonymous() { return anonymous; }
+    public UserInfo getWriterInfo() { return writerInfo; }
     public String getPostTime() { return postTime; }
     public String getContent() { return content; }
     public int getIsILike() { return isILike; }
