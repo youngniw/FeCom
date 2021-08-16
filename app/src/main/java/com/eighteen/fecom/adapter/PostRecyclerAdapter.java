@@ -43,7 +43,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         holder.tvWriterName.setText(postList.get(position).getWriterName());
         holder.tvTime.setText(postList.get(position).getPostTime());
         holder.tvContent.setText(postList.get(position).getContent());
-        if (postList.get(position).getIsILike())
+        if (postList.get(position).getIsILike() == 1)
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));

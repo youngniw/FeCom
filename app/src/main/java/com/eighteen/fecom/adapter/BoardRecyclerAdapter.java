@@ -40,7 +40,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull BoardRecyclerAdapter.BoardViewHolder holder, int position) {
-        if (boardInfoList.get(position).getIsISubscribe())
+        if (boardInfoList.get(position).getAmISubscribe() == 1)
             holder.ivSubscribe.setColorFilter(ContextCompat.getColor(context, R.color.main_fecom));
         else
             holder.ivSubscribe.setImageResource(R.drawable.icon_subscribe);

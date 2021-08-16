@@ -16,106 +16,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <RelativeLayout
-        android:id="@+id/dailyTalk_rl"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/dailyTalk_vp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="35dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="15dp"
         app:layout_constraintTop_toBottomOf="@id/dailyTalk_toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.1">
-        <TextView
-            android:id="@+id/dailyTalk_writer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/nickname"
-            android:textColor="@color/black"
-            android:textSize="17sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/dailyTalk_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="1시간 전"
-            android:textColor="@color/middle_grey"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        app:layout_constraintTop_toBottomOf="@id/dailyTalk_rl"
-        app:layout_constraintBottom_toTopOf="@id/dailyTalk_ll"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-        <TextView
-            android:id="@+id/dailyTalk_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="오늘 남자친구랑 헤어졌는데.. 이 친구가 바람을 피웠어요.. 진짜 열이 받아서.. XX... 오늘 하루만 같이 욕해주세요;;.... 아오.... 이런 거지같은... 길가다가 넘어져라...!!"
-            android:textColor="@color/black"
-            android:textSize="15sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/dailyTalk_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.85">
-        <ImageView
-            android:id="@+id/dailyTalk_ivLike"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon_like"
-            android:layout_marginEnd="5dp"
-            android:contentDescription="@string/like" />
-        <TextView
-            android:id="@+id/dailyTalk_tvLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="40dp"
-            android:layout_height="match_parent" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon_comment"
-            android:layout_marginEnd="5dp"
-            android:contentDescription="@string/comment" />
-        <TextView
-            android:id="@+id/dailyTalk_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/dailyTalk_fabWrite"

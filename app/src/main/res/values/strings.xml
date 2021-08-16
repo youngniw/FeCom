@@ -21,8 +21,12 @@
 
     <string name="login_id">ID</string>
     <string name="login_id_ex">fecomMyfriend@gmail.com</string>
+    <string name="login_id_error">이메일 ID를 입력해주세요.</string>
+    <string name="login_id_error2">이메일 ID가 옳지 않습니다.</string>
     <string name="login_pw">PASSWORD</string>
     <string name="login_pw_ex">••••••••••</string>
+    <string name="login_pw_error">비밀번호를 입력해주세요.</string>
+    <string name="login_pw_error2">비밀번호가 옳지 않습니다.</string>
     <string name="login_login">LOGIN</string>
     <string name="login_logout">LOGOUT</string>
     <string name="login_signup">SIGN UP</string>
@@ -30,9 +34,17 @@
     <string name="signup_check">중복 확인</string>
     <string name="signup_name">NAME</string>
     <string name="signup_name_ex">김눈송</string>
+    <string name="signup_name_error">이름을 입력해주세요.</string>
     <string name="signup_nick">NICKNAME</string>
     <string name="signup_nick_ex">능소화</string>
+    <string name="signup_nick_error">닉네임을 입력해주세요.</string>
+    <string name="signup_nick_error2">이미 해당 닉네임을 가진 회원이 존재합니다.</string>
+    <string name="signup_id_error">이미 해당 이메일 ID를 가진 회원이 존재합니다.</string>
+    <string name="signup_id_error2">이메일ID 중복 확인해 주세요:)</string>
+    <string name="signup_id_ok">사용 가능한 ID입니다.</string>
     <string name="signup_next">NEXT➞</string>
+    <string name="signup_submit">Submit</string>
+    <string name="signup_submit_error">다시 한번 제출해 주세요:)</string>
 
     <string name="signup2_univMail">대학교 메일 계정</string>
     <string name="signup2_univMail_ex">snow@sookmyung.ac.kr</string>
@@ -58,9 +70,12 @@
     <string name="mypage_likePosts">내가 좋아요 누른 글</string>
     <string name="mypage_appInfo">앱 정보</string>
     <string name="mypage_version">버전 정보</string>
-    <string name="mypage_version_ex">1.0.1</string>
+    <string name="mypage_version_ex">1.0</string>
     <string name="mypage_announcement">공지사항</string>
     <string name="mypage_useInfo">이용 안내</string>
+
+    <string name="dailyTalk_time">1시간 전</string>
+    <string name="dailyTalk_content">데일리톡 내용</string>
 
     <string name="major_college">XX계열</string>
 

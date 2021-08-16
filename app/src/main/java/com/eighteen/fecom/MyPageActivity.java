@@ -41,8 +41,9 @@ public class MyPageActivity extends AppCompatActivity {
         tvChPW = findViewById(R.id.mypage_chPW);
         tvWritePosts = findViewById(R.id.mypage_writePosts);
         tvLikePosts = findViewById(R.id.mypage_likePosts);
+
         tvVersion = findViewById(R.id.mypage_version);
-            tvVersion.setText(getString(R.string.mypage_version_ex));
+        tvVersion.setText(BuildConfig.VERSION_NAME);
         tvAnnouncement = findViewById(R.id.mypage_announcement);
         tvUseInfo = findViewById(R.id.mypage_useInfo);
         btLogout = findViewById(R.id.mypage_btLogout);
@@ -58,37 +59,37 @@ public class MyPageActivity extends AppCompatActivity {
     private void mypageClickListener() {
         tvUnivAuth.setOnClickListener(v -> {
             //TODO: 학교 인증 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivity(new Intent(this, .class));
         });
 
         tvChNick.setOnClickListener(v -> {
             //TODO: 닉네임 변경 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivityForResult(new Intent(this, .class), CHANGE_NICK_REQUEST);
         });
 
         tvChPW.setOnClickListener(v -> {
             //TODO: 비밀번호 변경 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivityForResult(new Intent(this, .class), CHANGE_PW_REQUEST);
         });
 
         tvWritePosts.setOnClickListener(v -> {
             //TODO: 내가 작성한 글 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivity(new Intent(this, .class));
         });
 
         tvLikePosts.setOnClickListener(v -> {
             //TODO: 내가 좋아요한 글 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivity(new Intent(this, .class));
         });
 
         tvAnnouncement.setOnClickListener(v -> {
             //TODO: 공지사항 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivity(new Intent(this, .class));
         });
 
         tvUseInfo.setOnClickListener(v -> {
             //TODO: 이용안내 화면으로 넘어감
-            startActivity(new Intent(this, .class));
+            //startActivity(new Intent(this, .class));
         });
 
         btLogout.setOnClickListener(v -> {

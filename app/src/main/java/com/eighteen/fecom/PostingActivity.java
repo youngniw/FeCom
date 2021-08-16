@@ -17,6 +17,8 @@ public class PostingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posting);
 
+        boolean isDailyTalk = getIntent().hasExtra("isDailyTalk");
+
         Toolbar toolbar = findViewById(R.id.posting_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -29,6 +31,8 @@ public class PostingActivity extends AppCompatActivity {
         toolbarListener(toolbar);
 
         CheckBox cbAnonymous = findViewById(R.id.posting_cbAnonymous);
+        if (isDailyTalk)
+            cbAnonymous.setVisibility(View.GONE);
         //TODO: 익명에 체크일 시 익명으로 서버에 저장 -> if (cbAnonymous.isChecked() == true)
     }
 

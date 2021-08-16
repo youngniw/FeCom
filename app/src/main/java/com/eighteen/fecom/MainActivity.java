@@ -1,5 +1,6 @@
 package com.eighteen.fecom;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -9,22 +10,38 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eighteen.fecom.data.UserInfo;
 import com.eighteen.fecom.fragment.FragmentBoard;
 import com.eighteen.fecom.fragment.FragmentHome;
 import com.eighteen.fecom.fragment.FragmentMajorCommunity;
 import com.eighteen.fecom.fragment.FragmentMessage;
 import com.eighteen.fecom.fragment.FragmentNotice;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.JsonObject;
 
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
+    public static UserInfo myInfo = null;
     private ActionBar actionBar;
     private FragmentManager fragmentManager;
     private FragmentBoard fragmentBoard;
@@ -88,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
             FragmentTransaction transactionNow = fragmentManager.beginTransaction();
             switch (item.getItemId()) {
                 case R.id.tab_board: {
+                    Bundle bundle = new Bundle();
+                        bundle.putInt("userID", myInfo.getUserID());
+                    fragmentBoard.setArguments(bundle);
                     transactionNow.replace(R.id.main_framelayout, fragmentBoard).commitAllowingStateLoss();
 
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab_board, null);
@@ -134,9 +154,66 @@ public class MainActivity extends AppCompatActivity {
         ivSearch.setOnClickListener(v -> {
             //TODO: 검색 창으로 넘어감
         });
+
         ImageView ivAdd = toolbar.findViewById(R.id.boardTB_add);
         ivAdd.setOnClickListener(v -> {
-            //TODO: 게시판 추가
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_board, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            builder.setView(dialogView);
+            final AlertDialog alertDialog = builder.create();
+            alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            alertDialog.show();
+
+            WindowManager.LayoutParams params = alertDialog.getWindow().getAttributes();
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getRealSize(size);
+            int width = size.x;
+            params.width = (int) (width*0.75);
+            alertDialog.getWindow().setAttributes(params);
+
+            TextView tvError = dialogView.findViewById(R.id.dialog_board_error);
+            tvError.setVisibility(View.GONE);
+
+            Button btAddComplete = dialogView.findViewById(R.id.dialog_board_btComplete);
+            btAddComplete.setOnClickListener(view -> {
+                EditText etBoardName = dialogView.findViewById(R.id.dialog_board_etName);
+
+                String boardName = etBoardName.getText().toString().trim();
+                if (boardName.length() == 0) {
+                    tvError.setVisibility(View.VISIBLE);
+                    tvError.setText("이름을 입력해주세요.");
+                }
+                else {
+                    JsonObject boardData = new JsonObject();
+                    boardData.addProperty("board_name", boardName);
+                    boardData.addProperty("essential", 0);
+                    RetrofitClient.getApiService().postAddBoard(boardName, 0).enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                            Log.i("MainActivity 확인용", response.toString());
+                            if (response.code() == 200) {
+                                alertDialog.dismiss();
+                                fragmentBoard.setBoardList();
+                            }
+                            else {
+                                tvError.setVisibility(View.VISIBLE);
+                                tvError.setText("이미 해당 이름의 게시판이 존재합니다.");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                            tvError.setVisibility(View.VISIBLE);
+                            tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요:)");
+                        }
+                    });
+                }
+            });
+
+            Button btAddCancel = dialogView.findViewById(R.id.dialog_board_btCancel);
+            btAddCancel.setOnClickListener(view -> alertDialog.dismiss());
         });
     }
 

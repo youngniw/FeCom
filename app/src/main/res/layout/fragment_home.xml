@@ -15,24 +15,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_board"
                 android:orientation="vertical"
                 android:padding="10dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="즐겨찾는 게시판"
+                    android:text="데일리톡 Top 10"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fHome_rvBoard"
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/fHome_vpDailyTalk"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="270dp"
                     android:layout_marginTop="10dp"
-                    android:nestedScrollingEnabled="false" />
+                    android:clipChildren="false"
+                    android:clipToPadding="false"
+                    android:orientation="horizontal"
+                    android:padding="10dp" />
             </LinearLayout>
 
             <View
@@ -49,13 +51,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="데일리톡 Top 10"
+                    android:text="즐겨찾는 게시판"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fHome_rvDailyTalk"
+                    android:id="@+id/fHome_rvBoard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

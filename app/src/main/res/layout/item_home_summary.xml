@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp"
+    android:paddingTop="7dp"
+    android:paddingBottom="7dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
     <TextView
@@ -11,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/homeSummaryRow_topic"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/fHomeSummaryRow_content"
@@ -23,5 +26,5 @@
         android:singleLine="true"
         android:text="@string/homeSummaryRow_content"
         android:textColor="@color/middle_grey"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 </LinearLayout>
