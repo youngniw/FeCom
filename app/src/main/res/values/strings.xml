@@ -47,6 +47,8 @@
 
     <string name="board_add">게시판 추가</string>
 
+    <string name="major_college">XX계열</string>
+
     <string name="homeSummaryRow_topic">게시판 및 작성자</string>
     <string name="homeSummaryRow_content">내용입니다..</string>
 

@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/signup_name_ex"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:textSize="15sp" />
 
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/signup_nick_ex"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:textSize="15sp" />
             <View
@@ -98,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/login_id_ex"
+                android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:textSize="15sp" />
             <View
@@ -132,6 +135,7 @@
             android:id="@+id/signup_etPW"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:importantForAutofill="no"
             android:inputType="textPassword"
             android:hint="@string/login_pw_ex"
             android:textSize="15sp" />

@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/signup2_univMail_ex"
+                android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:textSize="15sp" />
             <View
@@ -86,7 +87,8 @@
                 android:id="@+id/signup2_ivCard"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:background="@color/middle2_grey" />
+                android:background="@color/middle2_grey"
+                android:contentDescription="@string/signup2_studentID" />
 
             <Button
                 android:id="@+id/signup2_btAddCard"

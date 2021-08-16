@@ -1,6 +1,7 @@
 package com.eighteen.fecom.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eighteen.fecom.PostListActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.MajorInfo;
 
@@ -48,36 +50,18 @@ public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecycler
     public class CollegeViewHolder extends RecyclerView.ViewHolder {
         ImageView ivIsClicked;
         TextView tvCollegeName;
-        RecyclerView rvDepartment;
 
         CollegeViewHolder(final View itemView) {
             super(itemView);
 
             ivIsClicked = itemView.findViewById(R.id.fCollegeRow_ivCollege);
             tvCollegeName = itemView.findViewById(R.id.fCollegeRow_tvCollege);
-            rvDepartment = itemView.findViewById(R.id.fCollegeRow_rvDepartment);
 
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    if (tvCollegeName.getCurrentTextColor() == ContextCompat.getColor(context, R.color.black)) {
-                        ivIsClicked.setImageResource(R.drawable.icon_opened);
-                        tvCollegeName.setTextColor(ContextCompat.getColor(context, R.color.main_fecom));
-
-                        if (collegeList.get(pos).getDepartmentLists().size() > 0) {
-                            rvDepartment.setVisibility(View.VISIBLE);
-                            DepartRecyclerAdapter adapter = new DepartRecyclerAdapter(collegeList.get(pos).getDepartmentLists());
-                            rvDepartment.setHasFixedSize(true);
-                            rvDepartment.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-                            rvDepartment.setAdapter(adapter);
-                        }
-                    }
-                    else {
-                        ivIsClicked.setImageResource(R.drawable.icon_closed);
-                        tvCollegeName.setTextColor(ContextCompat.getColor(context, R.color.black));
-
-                        rvDepartment.setVisibility(View.GONE);
-                    }
+                    //TODO: 해당 계열의 글 목록이 보여아함(Intent)
+                    context.startActivity(new Intent(context, PostListActivity.class));
                 }
             });
         }

@@ -1,11 +1,9 @@
 package com.eighteen.fecom.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,18 +21,6 @@ public class FragmentMajorCommunity extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_majorcommunity, container, false);
-
-        SearchView svSearch = rootView.findViewById(R.id.fMajor_sv);
-        svSearch.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {        //TODO: 검색 창 포커스 없애기가 안됨!!
-                Log.i("확인용", "2");
-                //svSearch.onActionViewCollapsed();
-                enableSearchView(v, false);
-                svSearch.clearFocus();
-            }
-            else
-                Log.i("확인용", "1");
-        });
 
         //기본 게시판 임시 데이터 생성(TODO: 추후 삭제)
         ArrayList<MajorInfo> collegeLists = new ArrayList<>();
@@ -69,16 +55,5 @@ public class FragmentMajorCommunity extends Fragment {
         rvMajorCollege.setAdapter(collegeAdapter);
 
         return rootView;
-    }
-
-    private void enableSearchView(View view, boolean enabled) {
-        view.setEnabled(enabled);
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                View child = viewGroup.getChildAt(i);
-                enableSearchView(child, enabled);
-            }
-        }
     }
 }
