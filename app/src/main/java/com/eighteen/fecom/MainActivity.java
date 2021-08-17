@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -22,7 +23,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eighteen.fecom.data.UserInfo;
@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void homeToolbarListener(Toolbar toolbar) {
-        ImageView ivSearch = toolbar.findViewById(R.id.homeTB_search);
+        AppCompatImageButton ivSearch = toolbar.findViewById(R.id.homeTB_search);
         ivSearch.setOnClickListener(v -> {
             //TODO: 검색 창으로 넘어감!
         });
 
-        ImageView ivMyPage = toolbar.findViewById(R.id.homeTB_mypage);
+        AppCompatImageButton ivMyPage = toolbar.findViewById(R.id.homeTB_mypage);
         ivMyPage.setOnClickListener(v -> startActivity(new Intent(this, MyPageActivity.class)));
     }
 
@@ -150,12 +150,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void boardToolbarListener(Toolbar toolbar) {
-        ImageView ivSearch = toolbar.findViewById(R.id.boardTB_search);
+        AppCompatImageButton ivSearch = toolbar.findViewById(R.id.boardTB_search);
         ivSearch.setOnClickListener(v -> {
             //TODO: 검색 창으로 넘어감
         });
 
-        ImageView ivAdd = toolbar.findViewById(R.id.boardTB_add);
+        AppCompatImageButton ivAdd = toolbar.findViewById(R.id.boardTB_add);
         ivAdd.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_board, null);
 

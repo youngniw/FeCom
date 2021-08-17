@@ -2,9 +2,7 @@ package com.eighteen.fecom;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -13,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -91,7 +90,7 @@ public class PostListActivity extends AppCompatActivity {
     }
 
     private void toolbarListener(Toolbar toolbar) {
-        ImageView ivBack = toolbar.findViewById(R.id.postlist_back);
+        AppCompatImageButton ivBack = toolbar.findViewById(R.id.postlist_back);
         ivBack.setOnClickListener(v -> finish());
         TextView tvTab = toolbar.findViewById(R.id.postlist_tab);
         if (isBoardPost)
@@ -100,11 +99,11 @@ public class PostListActivity extends AppCompatActivity {
             tvTab.setText("전공 커뮤니티");
         TextView tvTopic = toolbar.findViewById(R.id.postlist_topic);
         tvTopic.setText(boardOrCollegeName);
-        ImageView ivSearch = toolbar.findViewById(R.id.postlist_search);
+        AppCompatImageButton ivSearch = toolbar.findViewById(R.id.postlist_search);
         ivSearch.setOnClickListener(v -> {
             //TODO: 검색 창으로 넘어감
         });
-        ImageView ivMenu = toolbar.findViewById(R.id.postlist_menu);
+        AppCompatImageButton ivMenu = toolbar.findViewById(R.id.postlist_menu);
         ivMenu.setOnClickListener(v -> {
             PopupMenu setMenu = new PopupMenu(getApplicationContext(), v);
             getMenuInflater().inflate(R.menu.menu_postlist, setMenu.getMenu());

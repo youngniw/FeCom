@@ -2,15 +2,14 @@ package com.eighteen.fecom;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.eighteen.fecom.adapter.CommentRecyclerAdapter;
 import com.eighteen.fecom.data.CommentInfo;
@@ -51,12 +50,17 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void toolbarListener(Toolbar toolbar) {
-        ImageView ivBack = toolbar.findViewById(R.id.post_back);
+        AppCompatImageButton ivBack = toolbar.findViewById(R.id.post_back);
         ivBack.setOnClickListener(v -> finish());
 
-        ImageView ivMenu = toolbar.findViewById(R.id.post_menu);
-        ivMenu.setOnClickListener(v -> {
-            //TODO: 메뉴 버튼 클릭 시:)
+        AppCompatImageButton ivDelete = toolbar.findViewById(R.id.post_delete);
+        ivDelete.setOnClickListener(v -> {
+            //TODO: 삭제 버튼 클릭 시:)
+        });
+
+        AppCompatImageButton ivRefresh = toolbar.findViewById(R.id.post_refresh);
+        ivRefresh.setOnClickListener(v -> {
+            //TODO: 새로고침 버튼 클릭 시:)
         });
     }
 }

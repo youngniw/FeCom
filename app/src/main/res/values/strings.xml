@@ -16,6 +16,7 @@
     <string name="complete">완료</string>
     <string name="posting">글쓰기</string>
     <string name="menu">Menu</string>
+    <string name="refresh">새로고침</string>
 
     <string name="example_time">2021.07.15 20:50:10</string>
     <string name="example_num">100</string>

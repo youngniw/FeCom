@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -100,11 +99,11 @@ public class PostingActivity extends AppCompatActivity {
 
         TextView tvTitle = toolbar.findViewById(R.id.posting_topic);
         if (whereFrom == 1)
-            tvTitle.setText("게시판");
+            tvTitle.setText(R.string.board);
         else if (whereFrom == 2)
-            tvTitle.setText("Daily Talk");
+            tvTitle.setText(R.string.tab_dailytalk);
         else
-            tvTitle.setText("전공 커뮤니티");
+            tvTitle.setText(R.string.tab_majorcommunity);
 
         AppCompatButton btComplete = toolbar.findViewById(R.id.posting_complete);
         btComplete.setOnClickListener(v -> {
