@@ -78,7 +78,7 @@
                     android:layout_marginBottom="25dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
-                    android:text="Post글 내용입니다아:)"
+                    android:text="Post글 내용입니다:)"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -146,7 +146,7 @@
                 android:layout_marginTop="5dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:text="아직 댓글이 없습니다:)"
+                android:text="아직 댓글이 없습니다."
                 android:textAlignment="center"
                 android:lineSpacingExtra="3dp"
                 android:textColor="@color/grey"
@@ -206,7 +206,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:background="@android:color/transparent"
-            android:hint="댓글 입력:)"
+            android:hint="댓글을 입력하세요."
             android:inputType="text"
             android:padding="4dp"
             android:textSize="15sp"

@@ -96,14 +96,14 @@ public class FragmentBoard extends Fragment {
                 }
                 else {
                     tvInfo.setVisibility(View.VISIBLE);
-                    tvInfo.setText("게시판 로딩 실패\n 다시 조회해주세요:)");
+                    tvInfo.setText("게시판 로딩 실패\n 다시 조회해 주세요:)");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 tvInfo.setVisibility(View.VISIBLE);
-                tvInfo.setText("게시판 로딩 실패\n 다시 조회해주세요:)");
+                tvInfo.setText("게시판 로딩 실패\n 다시 조회해 주세요:)");
             }
         });
     }

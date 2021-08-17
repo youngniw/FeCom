@@ -122,14 +122,14 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         else {
                             tvPWError.setVisibility(View.VISIBLE);
-                            tvPWError.setText("다시 한번 시도해 주세요:)");
+                            tvPWError.setText("다시 한번 시도해 주세요.");
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         tvPWError.setVisibility(View.VISIBLE);
-                        tvPWError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요:)");
+                        tvPWError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요.");
                     }
                 });
             }

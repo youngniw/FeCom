@@ -131,7 +131,7 @@ public class PostActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                                Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요:)", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                             }
                         }));
                 builder.setNegativeButton("취소", (dialog, id) -> dialog.cancel());
@@ -147,10 +147,7 @@ public class PostActivity extends AppCompatActivity {
             ivDelete.setVisibility(View.GONE);
 
         AppCompatImageButton ivRefresh = toolbar.findViewById(R.id.post_refresh);
-        ivRefresh.setOnClickListener(v -> {
-            updatePostInfo();
-            //TODO: 아래로 올려야 함!
-        });
+        ivRefresh.setOnClickListener(v -> updatePostInfo());
     }
 
     public void showPostInfo() {
@@ -184,7 +181,7 @@ public class PostActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("PostActivity 확인용", response.toString());
                 if (response.code() == 200) {
-                    Log.i("PostActivity 확인용", response.body());
+                    Log.i("PostActivity 확인용", response.body());     //TODO: 확인 요망!
                     try {
                         JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
 
@@ -206,7 +203,11 @@ public class PostActivity extends AppCompatActivity {
                                 JSONObject commentObject = jsonComments.getJSONObject(i);
                                 int commentID = commentObject.getInt("id");
                                 int commentAnonymous = commentObject.getInt("anonymous");
-                                //TODO: anonymous_num를 받음 -> 자유게시판 3번째 글 보면 null 있음!! null 처리 해줘야 함!!
+
+                                int anonymousNum = -1;
+                                if (!commentObject.isNull("anonymous_num"))
+                                    anonymousNum = commentObject.getInt("anonymous_num");
+
                                 int commenterID = commentObject.getInt("writer");
                                 String commenterNick = commentObject.getString("writer_nickname");
                                 String commentTime = commentObject.getString("register_datetime");
@@ -214,7 +215,7 @@ public class PostActivity extends AppCompatActivity {
                                 int commentAmILike = commentObject.getInt("thumbup");
                                 int commentLikeNum = commentObject.getInt("comment_like_count");
 
-                                commentList.add(new CommentInfo(commentID, commentAnonymous, commenterID, commenterNick, commentTime, comment, commentAmILike, commentLikeNum));
+                                commentList.add(new CommentInfo(commentID, commentAnonymous, anonymousNum, commenterID, commenterNick, commentTime, comment, commentAmILike, commentLikeNum));
                             }
                         }
                     } catch (JSONException e) { e.printStackTrace(); }
@@ -225,13 +226,15 @@ public class PostActivity extends AppCompatActivity {
 
                     commentAdapter.notifyDataSetChanged();
                 }
-                else        //response.code() == 400
+                else if (response.code() == 400)
                     tvInfo.setText("삭제된 글입니다. :<");
+                else
+                    tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요.");
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요:)");
+                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요.");
             }
         });
     }

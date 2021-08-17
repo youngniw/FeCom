@@ -202,7 +202,7 @@ public class PostListActivity extends AppCompatActivity {
                 if (isSwipe)
                     srlPosts.setRefreshing(false);
 
-                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요:)");
+                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요.");
             }
         });
     }

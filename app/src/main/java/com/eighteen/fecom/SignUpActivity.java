@@ -136,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         etNick.setEnabled(true);
                         tvNickError.setVisibility(View.VISIBLE);
-                        tvNickError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요:)");
+                        tvNickError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요.");
                     }
                 });
             }
@@ -174,7 +174,7 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         etEmail.setEnabled(true);
                         tvEmailError.setVisibility(View.VISIBLE);
-                        tvEmailError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요:)");
+                        tvEmailError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요.");
                     }
                 });
             }
@@ -190,7 +190,7 @@ public class SignUpActivity extends AppCompatActivity {
                 tvNameError.setVisibility(View.VISIBLE);
             else if (!isCheckedNick) {
                 tvNickError.setVisibility(View.VISIBLE);
-                tvNickError.setText("닉네임 중복 확인해 주세요:)");
+                tvNickError.setText("닉네임 중복 확인해 주세요.");
             }
             else if (!isCheckedEmail) {
                 tvEmailError.setVisibility(View.VISIBLE);
@@ -224,7 +224,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         tvEmailError.setVisibility(View.VISIBLE);
-                        tvEmailError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요:)");
+                        tvEmailError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
                     }
                 });
             }

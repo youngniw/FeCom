@@ -43,7 +43,7 @@
     <string name="signup_nick_error">닉네임을 입력해주세요.</string>
     <string name="signup_nick_error2">이미 해당 닉네임을 가진 회원이 존재합니다.</string>
     <string name="signup_id_error">이미 해당 이메일 ID를 가진 회원이 존재합니다.</string>
-    <string name="signup_id_error2">이메일ID 중복 확인해 주세요:)</string>
+    <string name="signup_id_error2">이메일ID 중복 확인해 주세요.</string>
     <string name="signup_id_ok">사용 가능한 ID입니다.</string>
     <string name="signup_next">NEXT➞</string>
     <string name="signup_submit">Submit</string>
@@ -64,9 +64,9 @@
 
     <string name="board_add">게시판 추가</string>
 
-    <string name="home_dailyError">데일리톡 로딩 실패\n다시 로딩하려면 클릭해주세요:)</string>
-    <string name="home_boardError">즐겨찾는 게시판 로딩 실패\n다시 로딩하려면 클릭해주세요:)</string>
-    <string name="home_noBoard">구독한 게시판이 없음:)</string>
+    <string name="home_dailyError">데일리톡 로딩 실패\n다시 로딩하려면 클릭해 주세요:)</string>
+    <string name="home_boardError">즐겨찾는 게시판 로딩 실패\n다시 로딩하려면 클릭해 주세요:)</string>
+    <string name="home_noBoard">구독한 게시판이 없습니다.</string>
 
     <string name="mypage_memberInfo">회원 정보</string>
     <string name="mypage_univAuth">학교 인증</string>
@@ -87,7 +87,7 @@
     <string name="major_college">XX계열</string>
 
     <string name="posting_error">내용을 입력하세요.</string>
-    <string name="posting_content">글의 내용을 입력하세요:)</string>
+    <string name="posting_content">글의 내용을 입력하세요.</string>
 
     <string name="fHomeBoardRow_content">내용입니다..</string>
 

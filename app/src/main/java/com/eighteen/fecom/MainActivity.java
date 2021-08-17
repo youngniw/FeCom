@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                             tvError.setVisibility(View.VISIBLE);
-                            tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요:)");
+                            tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요.");
                         }
                     });
                 }

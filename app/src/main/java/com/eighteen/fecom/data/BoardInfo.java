@@ -17,4 +17,6 @@ public class BoardInfo {
     public String getBoardName() { return boardName; }
     public int getEssential() { return essential; }
     public int getAmISubscribe() { return amISubscribe; }
+
+    public void setAmISubscribe(int amISubscribe) { this.amISubscribe = amISubscribe; }
 }

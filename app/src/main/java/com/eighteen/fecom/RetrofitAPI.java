@@ -34,6 +34,13 @@ public interface RetrofitAPI {
     @POST("/fecom/api/board/register.php")
     Call<String> postAddBoard(@Field("board_name") String boardName, @Field("essential") int essential);        //게시판 추가
 
+    @FormUrlEncoded
+    @POST("/fecom/api/board/register_subscribe.php")
+    Call<String> postSubscribeBoard(@Field("user_id") int userID, @Field("board_id") int boardID);           //게시판 구독
+
+    @FormUrlEncoded
+    @POST("/fecom/api/board/delete_subscribe.php")
+    Call<String> postDeleteSubscribeB(@Field("user_id") int userID, @Field("board_id") int boardID);         //게시판 구독 취소
 
     @GET("/fecom/api/post/search_by_board.php")
     Call<String> getPosts(@Query("user_id") int userID, @Query("board_id") int boardID);            //해당 게시판의 게시글 조회
