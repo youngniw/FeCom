@@ -18,6 +18,9 @@ import com.eighteen.fecom.PostActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.PostInfo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
@@ -44,11 +47,30 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PostRecyclerAdapter.PostViewHolder holder, int position) {
-        if (postList.get(position).getAnonymous() == 1)
+        if (postList.get(position).getAnonymous() == 1) {
             holder.tvWriterNick.setText(R.string.anonymous);
-        else
+            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.grey));
+        }
+        else {
             holder.tvWriterNick.setText(postList.get(position).getWriterInfo().getNick());
-        holder.tvTime.setText(postList.get(position).getPostTime());
+            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
+
+        LocalDateTime dateNow = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.parse(postList.get(position).getPostTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        if (ChronoUnit.SECONDS.between(date, dateNow) < 60)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.SECONDS.between(date, dateNow)).concat("초 전"));
+        else if (ChronoUnit.MINUTES.between(date, dateNow) < 60)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.MINUTES.between(date, dateNow)).concat("분 전"));
+        else if (ChronoUnit.HOURS.between(date, dateNow) < 24)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
+        else if (ChronoUnit.DAYS.between(date, dateNow) < 7)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.DAYS.between(date, dateNow)).concat("일 전"));
+        else if (ChronoUnit.YEARS.between(date, dateNow) < 1)
+            holder.tvTime.setText(String.valueOf(date.getMonthValue()).concat("/").concat(String.valueOf(date.getDayOfMonth())));
+        else
+            holder.tvTime.setText(String.valueOf(date.getYear()).substring(2).concat("/").concat(String.valueOf(date.getMonthValue())).concat("/").concat(String.valueOf(date.getDayOfMonth())));
+
         holder.tvContent.setText(postList.get(position).getContent());
         if (postList.get(position).getAmILike() == 1)
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));

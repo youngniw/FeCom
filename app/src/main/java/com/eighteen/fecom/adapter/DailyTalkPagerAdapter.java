@@ -16,6 +16,9 @@ import com.eighteen.fecom.DailyTalkActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.PostInfo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAdapter.TalkViewHolder> {
@@ -47,7 +50,16 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
     @Override
     public void onBindViewHolder(@NonNull DailyTalkPagerAdapter.TalkViewHolder holder, int position) {
         holder.tvWriterName.setText(talkList.get(position).getWriterInfo().getNick());
-        holder.tvTalkTime.setText(talkList.get(position).getPostTime());
+
+        LocalDateTime dateNow = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.parse(talkList.get(position).getPostTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        if (ChronoUnit.SECONDS.between(date, dateNow) < 60)
+            holder.tvTalkTime.setText(String.valueOf(ChronoUnit.SECONDS.between(date, dateNow)).concat("초 전"));
+        else if (ChronoUnit.MINUTES.between(date, dateNow) < 60)
+            holder.tvTalkTime.setText(String.valueOf(ChronoUnit.MINUTES.between(date, dateNow)).concat("분 전"));
+        else if (ChronoUnit.HOURS.between(date, dateNow) <= 24)
+            holder.tvTalkTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
+
         holder.tvContent.setText(talkList.get(position).getContent());
         if (talkList.get(position).getAmILike() == 1)
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));

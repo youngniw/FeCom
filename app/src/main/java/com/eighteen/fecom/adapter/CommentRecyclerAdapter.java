@@ -20,6 +20,9 @@ import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.CommentInfo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -50,11 +53,29 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
 
     @Override
     public void onBindViewHolder(@NonNull CommentRecyclerAdapter.CommentViewHolder holder, int position) {
-        if (commentList.get(position).getAnonymous() == 1)      //TODO: 나중에 익명2와 같이 순서로 변경해야 함!
+        if (commentList.get(position).getAnonymous() == 1) {     //TODO: 나중에 익명2와 같이 순서로 변경해야 함!
             holder.tvWriterNick.setText(R.string.anonymous);
-        else
+            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.grey));
+        }
+        else {
             holder.tvWriterNick.setText(commentList.get(position).getCommenterInfo().getNick());
-        holder.tvTime.setText(commentList.get(position).getCommentTime());
+            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.black));
+        }
+
+        LocalDateTime dateNow = LocalDateTime.now();
+        LocalDateTime date = LocalDateTime.parse(commentList.get(position).getCommentTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        if (ChronoUnit.SECONDS.between(date, dateNow) < 60)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.SECONDS.between(date, dateNow)).concat("초 전"));
+        else if (ChronoUnit.MINUTES.between(date, dateNow) < 60)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.MINUTES.between(date, dateNow)).concat("분 전"));
+        else if (ChronoUnit.HOURS.between(date, dateNow) < 24)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
+        else if (ChronoUnit.DAYS.between(date, dateNow) < 7)
+            holder.tvTime.setText(String.valueOf(ChronoUnit.DAYS.between(date, dateNow)).concat("일 전"));
+        else if (ChronoUnit.YEARS.between(date, dateNow) < 1)
+            holder.tvTime.setText(String.valueOf(date.getMonthValue()).concat("/").concat(String.valueOf(date.getDayOfMonth())));
+        else
+            holder.tvTime.setText(String.valueOf(date.getYear()).substring(2).concat("/").concat(String.valueOf(date.getMonthValue())).concat("/").concat(String.valueOf(date.getDayOfMonth())));
 
         if (myInfo.getUserID() != commentList.get(position).getCommenterInfo().getUserID())
             holder.ibtDelete.setVisibility(View.GONE);

@@ -1,7 +1,7 @@
 package com.eighteen.fecom.data;
 
 public class SimpleBoardInfo {
-    private int boardID;        //게시판 id
+    private int boardID;
     private String name;        //게시판 이름
     private String content;
 
