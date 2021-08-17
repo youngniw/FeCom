@@ -68,6 +68,9 @@
     <string name="home_boardError">즐겨찾는 게시판 로딩 실패\n다시 로딩하려면 클릭해 주세요:)</string>
     <string name="home_noBoard">구독한 게시판이 없습니다.</string>
 
+    <string name="board_subscribe_yes">즐겨찾는 게시판 등록</string>
+    <string name="board_subscribe_no">즐겨찾는 게시판 해제</string>
+
     <string name="mypage_memberInfo">회원 정보</string>
     <string name="mypage_univAuth">학교 인증</string>
     <string name="mypage_chNick">닉네임 변경</string>

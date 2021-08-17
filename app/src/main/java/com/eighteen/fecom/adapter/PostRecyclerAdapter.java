@@ -3,11 +3,13 @@ package com.eighteen.fecom.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -16,12 +18,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.eighteen.fecom.PostActivity;
 import com.eighteen.fecom.R;
+import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.PostInfo;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
     private Context context;
@@ -72,11 +85,62 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             holder.tvTime.setText(String.valueOf(date.getYear()).substring(2).concat("/").concat(String.valueOf(date.getMonthValue())).concat("/").concat(String.valueOf(date.getDayOfMonth())));
 
         holder.tvContent.setText(postList.get(position).getContent());
+
+        //TODO: 이미지버튼으로 바꾸자!!!! -> padding 넣어야 함!!
         if (postList.get(position).getAmILike() == 1)
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
+        holder.ivLike.setOnClickListener(v -> {
+            if (postList.get(position).getAmILike() == 1) {
+                RetrofitClient.getApiService().postDeleteLikeP(myInfo.getUserID(), postList.get(position).getPostID()).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                        Log.i("PostRecycler 확인용1", response.toString());
+                        if (response.code() == 200) {
+                            try {
+                                JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                                postList.get(position).setAmILike(0);
+                                postList.get(position).setLikeNum(result.getInt("like_count"));
+                                notifyItemChanged(position);
+                            } catch (JSONException e) { e.printStackTrace(); }
+                        }
+                        else
+                            Toast.makeText(context, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        Toast.makeText(context, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else {
+                RetrofitClient.getApiService().postRegisterLikeP(myInfo.getUserID(), postList.get(position).getPostID()).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                        Log.i("PostRecycler 확인용2", response.toString());
+                        if (response.code() == 200) {
+                            try {
+                                JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                                postList.get(position).setAmILike(1);
+                                postList.get(position).setLikeNum(result.getInt("like_count"));
+                                notifyItemChanged(position);
+                            } catch (JSONException e) { e.printStackTrace(); }
+                        }
+                        else
+                            Toast.makeText(context, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        Toast.makeText(context, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         holder.tvLike.setText(String.valueOf(postList.get(position).getLikeNum()));
+
         holder.tvComment.setText(String.valueOf(postList.get(position).getCommentNum()));
     }
 

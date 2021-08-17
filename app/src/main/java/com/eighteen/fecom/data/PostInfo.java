@@ -56,6 +56,9 @@ public class PostInfo implements Parcelable {
     public int getLikeNum() { return likeNum; }
     public int getCommentNum() { return commentNum; }
 
+    public void setAmILike(int amILike) { this.amILike = amILike; }
+    public void setLikeNum(int likeNum) { this.likeNum = likeNum; }
+
     @Override
     public int describeContents() {
         return 0;

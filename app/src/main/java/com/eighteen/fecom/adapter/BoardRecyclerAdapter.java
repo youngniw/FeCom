@@ -120,6 +120,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerAdap
                     Bundle bundle = new Bundle();
                         bundle.putInt("boardID", boardInfoList.get(pos).getBoardID());
                         bundle.putString("boardName", boardInfoList.get(pos).getBoardName());
+                        bundle.putInt("amISubscribe", boardInfoList.get(pos).getAmISubscribe());
                     showPostList.putExtras(bundle);
                     context.startActivity(showPostList);
                 }

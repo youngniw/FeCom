@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitAPI {
     @GET("/fecom/api/user/login.php")
-    Call<String> getUserInfo(@Query("email") String userEmail, @Query("pw") String userPW);         //로그인
+    Call<String> getUserInfo(@Query("email") String userEmail, @Query("pw") String userPW);                     //로그인
 
     @POST("/fecom/api/user/register.php")
     Call<String> postUserInfo(@Body JsonObject userData);               //회원가입
@@ -36,24 +36,33 @@ public interface RetrofitAPI {
 
     @FormUrlEncoded
     @POST("/fecom/api/board/register_subscribe.php")
-    Call<String> postSubscribeBoard(@Field("user_id") int userID, @Field("board_id") int boardID);           //게시판 구독
+    Call<String> postSubscribeBoard(@Field("user_id") int userID, @Field("board_id") int boardID);              //게시판 구독
 
     @FormUrlEncoded
     @POST("/fecom/api/board/delete_subscribe.php")
-    Call<String> postDeleteSubscribeB(@Field("user_id") int userID, @Field("board_id") int boardID);         //게시판 구독 취소
+    Call<String> postDeleteSubscribeB(@Field("user_id") int userID, @Field("board_id") int boardID);            //게시판 구독 취소
 
     @GET("/fecom/api/post/search_by_board.php")
-    Call<String> getPosts(@Query("user_id") int userID, @Query("board_id") int boardID);            //해당 게시판의 게시글 조회
+    Call<String> getPosts(@Query("user_id") int userID, @Query("board_id") int boardID);                        //해당 게시판의 게시글 조회
 
     @POST("/fecom/api/post/register.php")
     Call<String> postPostInfo(@Body JsonObject postData);               //게시글 등록
 
     @POST("/fecom/api/post/show_detail.php")
-    Call<String> getPostInfo(@Query("user_id") int userID, @Query("post_id") int postID);                //게시글 세부 정보 조회
+    Call<String> getPostInfo(@Query("user_id") int userID, @Query("post_id") int postID);                       //게시글 세부 정보 조회
     
     @FormUrlEncoded
     @POST("/fecom/api/post/delete.php")
     Call<String> postDeletePost(@Field("post_id") int postID);          //게시글 삭제
+
+
+    @FormUrlEncoded
+    @POST("/fecom/api/postlike/register.php")
+    Call<String> postRegisterLikeP(@Field("user_id") int userID, @Field("post_id") int postID);                 //게시글 좋아요 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/postlike/delete.php")
+    Call<String> postDeleteLikeP(@Field("user_id") int userID, @Field("post_id") int postID);                   //게시글 좋아요 삭제
 
 
     @FormUrlEncoded

@@ -3,9 +3,11 @@ package com.eighteen.fecom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -38,6 +40,7 @@ import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class PostListActivity extends AppCompatActivity {
     private boolean isBoardPost = true;
+    private int amISubscribe = 0;
     private int boardOrCollegeID = -1;
     private String boardOrCollegeName = "";
     private ArrayList<PostInfo> postList = null;
@@ -53,6 +56,7 @@ public class PostListActivity extends AppCompatActivity {
 
         isBoardPost = getIntent().hasExtra("boardID");
         if (isBoardPost) {
+            amISubscribe = getIntent().getExtras().getInt("amISubscribe");
             boardOrCollegeID = getIntent().getExtras().getInt("boardID");
             boardOrCollegeName = getIntent().getExtras().getString("boardName");
         }
@@ -115,12 +119,56 @@ public class PostListActivity extends AppCompatActivity {
         ivMenu.setOnClickListener(v -> {
             PopupMenu setMenu = new PopupMenu(getApplicationContext(), v);
             getMenuInflater().inflate(R.menu.menu_postlist, setMenu.getMenu());
+
+            MenuItem subscribeMenu = setMenu.getMenu().findItem(R.id.menu_postlist_subscribe);
+            if (amISubscribe == 1)
+                subscribeMenu.setTitle(R.string.board_subscribe_no);
+            else
+                subscribeMenu.setTitle(R.string.board_subscribe_yes);
+
             setMenu.setOnMenuItemClickListener(menuItem -> {
                 if (menuItem.getItemId() == R.id.menu_postlist_refresh)
                     updatePostList(false);
 
-                else {
-                    //TODO: 즐겨찾는 게시판에 추가
+                else {      //TODO: BoardRecyclerAdapter의 내용을 새로고침 해야 함! -> registerForActivityResult
+                    if (amISubscribe == 1) {    //"즐겨찾는 게시판 해제" 선택
+                        RetrofitClient.getApiService().postDeleteSubscribeB(myInfo.getUserID(), boardOrCollegeID).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                Log.i("PostListActivity 확인용", response.toString());
+                                if (response.code() == 200) {
+                                    amISubscribe = 0;
+                                    subscribeMenu.setTitle(R.string.board_subscribe_yes);
+                                }
+                                else
+                                    Toast.makeText(PostListActivity.this, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                Toast.makeText(PostListActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                    else {                      //"즐겨찾는 게시판 등록" 선택
+                        RetrofitClient.getApiService().postSubscribeBoard(myInfo.getUserID(), boardOrCollegeID).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                Log.i("PostListActivity 확인용", response.toString());
+                                if (response.code() == 200) {
+                                    amISubscribe = 1;
+                                    subscribeMenu.setTitle(R.string.board_subscribe_no);
+                                }
+                                else
+                                    Toast.makeText(PostListActivity.this, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                Toast.makeText(PostListActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
 
                 return false;

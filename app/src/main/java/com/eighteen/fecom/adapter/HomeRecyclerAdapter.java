@@ -67,6 +67,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
                     Bundle bundle = new Bundle();
                         bundle.putInt("boardID", simpleBoardList.get(pos).getBoardID());
                         bundle.putString("boardName", simpleBoardList.get(pos).getName());
+                        bundle.putInt("amISubscribe", 1);
                     showPostList.putExtras(bundle);
                     context.startActivity(showPostList);
                 }

@@ -38,7 +38,7 @@ import retrofit2.Response;
 import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class PostActivity extends AppCompatActivity {
-    private boolean isWriter = false, isDeleted = false;
+    private boolean isWriter = false, isDeleted = false, isChangedLike = false;
     private PostInfo postInfo;
     private ArrayList<CommentInfo> commentList = null;
 
@@ -81,6 +81,7 @@ public class PostActivity extends AppCompatActivity {
         tvCommentInfo = findViewById(R.id.post_commentInfo);
 
         showPostInfo();
+        postClickListener();
 
         RecyclerView rvComment = findViewById(R.id.post_rvComments);
         LinearLayoutManager commentManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
@@ -94,7 +95,7 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        if (isDeleted) {
+        if (isDeleted || isChangedLike) {
             Intent deletedIntent = new Intent();
             setResult(RESULT_OK, deletedIntent);
         }
@@ -150,6 +151,63 @@ public class PostActivity extends AppCompatActivity {
         ivRefresh.setOnClickListener(v -> updatePostInfo());
     }
 
+    private void postClickListener() {
+        ivPostLike.setOnClickListener(v -> {
+            if (postInfo.getAmILike() == 1) {
+                RetrofitClient.getApiService().postDeleteLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                        Log.i("PostActivity 확인용", response.toString());
+                        if (response.code() == 200) {
+                            isChangedLike = true;
+                            try {
+                                JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+
+                                postInfo.setAmILike(0);
+                                postInfo.setLikeNum(result.getInt("like_count"));
+                                ivPostLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.black));
+                                tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
+                            } catch (JSONException e) { e.printStackTrace(); }
+                        }
+                        else
+                            Toast.makeText(PostActivity.this, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            else {
+                RetrofitClient.getApiService().postRegisterLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                        Log.i("PostRecycler 확인용", response.toString());
+                        if (response.code() == 200) {
+                            isChangedLike = true;
+                            try {
+                                JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+
+                                postInfo.setAmILike(1);
+                                postInfo.setLikeNum(result.getInt("like_count"));
+                                ivPostLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.red));
+                                tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
+                            } catch (JSONException e) { e.printStackTrace(); }
+                        }
+                        else
+                            Toast.makeText(PostActivity.this, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
     public void showPostInfo() {
         if (postInfo.getAnonymous() == 1)
             tvWriterNick.setText(R.string.anonymous);
@@ -181,7 +239,7 @@ public class PostActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("PostActivity 확인용", response.toString());
                 if (response.code() == 200) {
-                    Log.i("PostActivity 확인용", response.body());     //TODO: 확인 요망!
+                    Log.i("PostActivity 확인용", response.body());
                     try {
                         JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
 
