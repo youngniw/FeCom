@@ -62,7 +62,7 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
                     //TODO: 게시판글/전공글/데일리톡으로 넘어감!(알림에 대한)
                     context.startActivity(new Intent(context, PostListActivity.class));         //게시판
                     //context.startActivity(new Intent(context, DailyTalkActivity.class));      //데일리톡
-                    //context.startActivity(new Intent(context, PostActivity.class));           //게시글
+                    //context.startActivity(new Intent(context, PostActivity.class));           //게시글       -> postInfo를 넘겨줘야 함!
                 }
             });
         }

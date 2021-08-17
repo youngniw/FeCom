@@ -2,6 +2,7 @@ package com.eighteen.fecom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -77,11 +78,18 @@ public class PostListActivity extends AppCompatActivity {
         srlPosts.setDistanceToTriggerSync(400);
         srlPosts.setOnRefreshListener(() -> updatePostList(true));
 
+        ActivityResultLauncher<Intent> startActivityResultPost = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK)
+                        updatePostList(false);
+                });
+
         postList = new ArrayList<>();
         RecyclerView rvPost = findViewById(R.id.postlist_rv);
         LinearLayoutManager postManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         rvPost.setLayoutManager(postManager);
-        postAdapter = new PostRecyclerAdapter(postList);
+        postAdapter = new PostRecyclerAdapter(postList, startActivityResultPost);
         rvPost.setAdapter(postAdapter);
         rvPost.addItemDecoration(new DividerItemDecoration(this, 1));
 
@@ -124,7 +132,7 @@ public class PostListActivity extends AppCompatActivity {
     public void addPostSetting() {
         ActivityResultLauncher<Intent> startActivityResultPosting = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                result -> { //TODO: Posting으로 부터 받음(result.getData() -> Intent)
+                result -> {     //TODO: Posting으로 부터 받음(result.getData() -> Intent)
                     if (result.getResultCode() == RESULT_OK)
                         updatePostList(false);
                 });
@@ -157,8 +165,8 @@ public class PostListActivity extends AppCompatActivity {
         RetrofitClient.getApiService().getPosts(myInfo.getUserID(), boardOrCollegeID).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                Log.i("PostListActivity 확인용", response.toString());
                 if (response.code() == 200) {
-                    postList.clear();
                     try {
                         JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
                         JSONArray jsonPosts = result.getJSONArray("posts");
@@ -171,11 +179,11 @@ public class PostListActivity extends AppCompatActivity {
                             String writerNick = postObject.getString("writer_nickname");
                             String postTime = postObject.getString("register_datetime");
                             String content = postObject.getString("content");
-                            int isILike = postObject.getInt("thumbup");
+                            int amILike = postObject.getInt("thumbup");
                             int likeNum = postObject.getInt("like_count");
                             int commentNum = postObject.getInt("comment_count");
 
-                            postList.add(new PostInfo(postID, anonymous, writerID, writerNick, postTime, content, isILike, likeNum, commentNum));
+                            postList.add(new PostInfo(postID, anonymous, writerID, writerNick, postTime, content, amILike, likeNum, commentNum));
                         }
                     } catch (JSONException e) { e.printStackTrace(); }
 

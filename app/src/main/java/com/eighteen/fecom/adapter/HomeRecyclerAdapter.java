@@ -40,7 +40,11 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull HomeRecyclerAdapter.ItemViewHolder holder, int position) {
         holder.tvBoardName.setText(simpleBoardList.get(position).getName());
-        holder.tvContent.setText(simpleBoardList.get(position).getContent());
+
+        if (simpleBoardList.get(position).getContent().equals(""))
+            holder.tvContent.setText("X 게시글이 존재하지 않음 X");
+        else
+            holder.tvContent.setText(simpleBoardList.get(position).getContent());
     }
 
     @Override

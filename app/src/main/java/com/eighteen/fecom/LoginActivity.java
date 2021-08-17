@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,11 +93,21 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         if (response.code() == 200) {
+                            Log.i("LoginActivity 확인용", response.body());
                             try {
                                 JSONObject userInfo = new JSONObject(Objects.requireNonNull(response.body()));
                                 JSONObject user = userInfo.getJSONObject("user");
+
+                                int univCode = -1;
+                                if (!user.isNull("univ_code"))
+                                    univCode = user.getInt("univ_code");
+
+                                String univName = "";
+                                if (!user.isNull("univ_name"))
+                                    univName = user.getString("univ_name");
+
                                 myInfo = new UserInfo(user.getInt("id"), user.getString("username"), user.getString("nickname"),
-                                        user.getString("email"), user.getInt("univ_code"), user.getString("univ_name"));
+                                        user.getString("email"), univCode, univName);
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             } catch (JSONException e) { e.printStackTrace(); }
@@ -105,9 +116,13 @@ public class LoginActivity extends AppCompatActivity {
                             tvEmailError.setVisibility(View.VISIBLE);
                             tvEmailError.setText(R.string.login_id_error2);
                         }
-                        else {      //response.code() == 402
+                        else if (response.code() == 402) {
                             tvPWError.setVisibility(View.VISIBLE);
                             tvPWError.setText(R.string.login_pw_error2);
+                        }
+                        else {
+                            tvPWError.setVisibility(View.VISIBLE);
+                            tvPWError.setText("다시 한번 시도해 주세요:)");
                         }
                     }
 

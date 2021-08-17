@@ -46,10 +46,10 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
 
     @Override
     public void onBindViewHolder(@NonNull DailyTalkPagerAdapter.TalkViewHolder holder, int position) {
-        holder.tvWriterName.setText(talkList.get(position).getWriterInfo().getNickname());
+        holder.tvWriterName.setText(talkList.get(position).getWriterInfo().getNick());
         holder.tvTalkTime.setText(talkList.get(position).getPostTime());
         holder.tvContent.setText(talkList.get(position).getContent());
-        if (talkList.get(position).getIsILike() == 1)
+        if (talkList.get(position).getAmILike() == 1)
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));

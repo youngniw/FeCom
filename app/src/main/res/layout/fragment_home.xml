@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -26,15 +27,45 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/fHome_vpDailyTalk"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:layout_marginTop="10dp"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:orientation="horizontal"
-                    android:padding="10dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/fHome_vpDailyTalk"
+                        android:layout_width="match_parent"
+                        android:layout_height="270dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:orientation="horizontal"
+                        android:padding="10dp" />
+
+                    <LinearLayout
+                        android:id="@+id/fHome_llDailyError"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:src="@drawable/icon_refresh"
+                            android:contentDescription="@string/refresh"
+                            app:tint="@color/grey" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_dailyError"
+                            android:textAlignment="center"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <View
@@ -56,12 +87,56 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/fHome_rvBoard"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:nestedScrollingEnabled="false" />
+                    android:layout_marginTop="10dp">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/fHome_rvBoard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false" />
+
+                    <LinearLayout
+                        android:id="@+id/fHome_llBoardError"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/fHome_ivBoardError"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginBottom="10dp"
+                            android:src="@drawable/icon_refresh"
+                            android:contentDescription="@string/refresh"
+                            app:tint="@color/grey" />
+
+                        <TextView
+                            android:id="@+id/fHome_tvBoardError"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_boardError"
+                            android:textAlignment="center"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/fHome_tvNoBoard"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="30dp"
+                            android:paddingBottom="10dp"
+                            android:text="@string/home_noBoard"
+                            android:textAlignment="center"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>

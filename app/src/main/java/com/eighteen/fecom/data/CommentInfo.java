@@ -2,29 +2,31 @@ package com.eighteen.fecom.data;
 
 public class CommentInfo {
     private int commentID;
-    private String writerName;
+    private int anonymous;
+    private UserInfo commenterInfo;
     private String commentTime;
     private String content;
-    private boolean isILike;    //0이면 false, 1이면 true
+    private int amILike;
     private int likeNum;
 
-    public CommentInfo(int commentID, String writerName, String commentTime, String content, boolean isILike, int likeNum) {
+    public CommentInfo(int commentID, int anonymous, int commenterID, String commenterNick, String commentTime, String content, int amILike, int likeNum) {
         this.commentID = commentID;
-        this.writerName = writerName;
+        this.anonymous = anonymous;
+        commenterInfo = new UserInfo(commenterID, commenterNick);
         this.commentTime = commentTime;
-        this.content = content;
-        this.isILike = isILike;
+        if (content == null)
+            this.content = "";
+        else
+            this.content = content;
+        this.amILike = amILike;
         this.likeNum = likeNum;
     }
 
     public int getCommentID() { return commentID; }
-    public String getWriterName() { return writerName; }
+    public int getAnonymous() { return anonymous; }
+    public UserInfo getCommenterInfo() { return commenterInfo; }
     public String getCommentTime() { return commentTime; }
     public String getContent() { return content; }
-    public boolean getIsILike() { return isILike; }
+    public int getAmILike() { return amILike; }
     public int getLikeNum() { return likeNum; }
-
-    public void changeLike() {
-        isILike = !isILike;
-    }
 }

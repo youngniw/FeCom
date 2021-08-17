@@ -1,27 +1,63 @@
 package com.eighteen.fecom;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eighteen.fecom.adapter.CommentRecyclerAdapter;
 import com.eighteen.fecom.data.CommentInfo;
+import com.eighteen.fecom.data.PostInfo;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.eighteen.fecom.MainActivity.myInfo;
+
 public class PostActivity extends AppCompatActivity {
+    private boolean isWriter = false, isDeleted = false;
+    private PostInfo postInfo;
+    private ArrayList<CommentInfo> commentList = null;
+
+    private CommentRecyclerAdapter commentAdapter;
+    private LinearLayout llPost;
+    private ImageView ivPostLike;
+    private TextView tvInfo, tvWriterNick, tvTime, tvContent, tvLikeNum, tvCommentNum, tvCommentInfo;
+
+    //TODO: 댓글 추가 버튼도 구현해야 함!
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+
+        postInfo = getIntent().getParcelableExtra("postInfo");
+        if (myInfo.getUserID() == postInfo.getWriterInfo().getUserID())
+            isWriter = true;
+        commentList = new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.post_toolbar);
         setSupportActionBar(toolbar);
@@ -34,19 +70,40 @@ public class PostActivity extends AppCompatActivity {
         actionBar.setCustomView(customView, params);
         toolbarListener(toolbar);
 
-        //comment글 임시 데이터 생성(TODO: 추후 삭제) -> Time은 바꿔야 함!
-        ArrayList<CommentInfo> commentList = new ArrayList<>();
-        commentList.add(new CommentInfo(1, "세린", "2021.08.10 20:32:11", "댓글1입니다.", true, 1));
-        commentList.add(new CommentInfo(2, "소은", "2021.08.10 20:42:25", "이거 익명인가?", true, 38));
-        commentList.add(new CommentInfo(3, "영은", "2021.08.10 21:00:14", "나야나!!*_*", false, 13));
-        commentList.add(new CommentInfo(4, "아이스초코", "2021.08.10 21:23:15", "Hello:) Hi", true, 3));
+        llPost = findViewById(R.id.post_llPost);
+        tvInfo = findViewById(R.id.post_tvInfo);
+        tvWriterNick = findViewById(R.id.post_writerName);
+        tvTime = findViewById(R.id.post_time);
+        tvContent = findViewById(R.id.post_content);
+        ivPostLike = findViewById(R.id.post_ivLike);
+        tvLikeNum = findViewById(R.id.post_likeNum);
+        tvCommentNum = findViewById(R.id.post_commentNum);
+        tvCommentInfo = findViewById(R.id.post_commentInfo);
+
+        showPostInfo();
 
         RecyclerView rvComment = findViewById(R.id.post_rvComments);
         LinearLayoutManager commentManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         rvComment.setLayoutManager(commentManager);
-        CommentRecyclerAdapter commentAdapter = new CommentRecyclerAdapter(commentList);
+        commentAdapter = new CommentRecyclerAdapter(commentList);
         rvComment.setAdapter(commentAdapter);
         rvComment.addItemDecoration(new DividerItemDecoration(this, 1));
+
+        updatePostInfo();
+    }
+
+    @Override
+    public void finish() {
+        if (isDeleted) {
+            Intent deletedIntent = new Intent();
+            setResult(RESULT_OK, deletedIntent);
+        }
+        else {
+            Intent returnIntent = new Intent();
+            setResult(RESULT_CANCELED, returnIntent);
+        }
+
+        super.finish();
     }
 
     private void toolbarListener(Toolbar toolbar) {
@@ -54,13 +111,128 @@ public class PostActivity extends AppCompatActivity {
         ivBack.setOnClickListener(v -> finish());
 
         AppCompatImageButton ivDelete = toolbar.findViewById(R.id.post_delete);
-        ivDelete.setOnClickListener(v -> {
-            //TODO: 삭제 버튼 클릭 시:)
-        });
+        if (isWriter) {
+            ivDelete.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
+                builder.setTitle("글 삭제").setMessage("현재 글을 삭제하시겠습니까?");
+                builder.setPositiveButton("삭제", (dialog, which) ->
+                        RetrofitClient.getApiService().postDeletePost(postInfo.getPostID()).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                Log.i("PostActivity 확인용1", response.toString());
+
+                                if (response.code() == 200) {
+                                    isDeleted = true;
+                                    finish();
+                                }
+                                else
+                                    Toast.makeText(PostActivity.this, "해당 글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요:)", Toast.LENGTH_SHORT).show();
+                            }
+                        }));
+                builder.setNegativeButton("취소", (dialog, id) -> dialog.cancel());
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setOnShowListener(dialogInterface -> {
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.main_fecom));
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.main_fecom));
+                });
+                alertDialog.show();
+            });
+        }
+        else
+            ivDelete.setVisibility(View.GONE);
 
         AppCompatImageButton ivRefresh = toolbar.findViewById(R.id.post_refresh);
         ivRefresh.setOnClickListener(v -> {
-            //TODO: 새로고침 버튼 클릭 시:)
+            updatePostInfo();
+            //TODO: 아래로 올려야 함!
+        });
+    }
+
+    public void showPostInfo() {
+        if (postInfo.getAnonymous() == 1)
+            tvWriterNick.setText(R.string.anonymous);
+        else
+            tvWriterNick.setText(postInfo.getWriterInfo().getNick());
+        tvTime.setText(postInfo.getPostTime());
+        tvContent.setText(postInfo.getContent());
+        if (postInfo.getAmILike() == 1)
+            ivPostLike.setColorFilter(ContextCompat.getColor(this, R.color.red));
+        else
+            ivPostLike.setColorFilter(ContextCompat.getColor(this, R.color.black));
+        tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
+        tvCommentNum.setText(String.valueOf(postInfo.getCommentNum()));
+
+        if (commentList.size() == 0)
+            tvCommentInfo.setVisibility(View.VISIBLE);
+    }
+
+    public void updatePostInfo() {
+        commentList.clear();
+        commentAdapter.notifyDataSetChanged();
+
+        llPost.setVisibility(View.INVISIBLE);
+        tvInfo.setVisibility(View.VISIBLE);
+        tvInfo.setText("글을 불러오고 있습니다:)");
+        tvCommentInfo.setVisibility(View.GONE);
+        RetrofitClient.getApiService().getPostInfo(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                Log.i("PostActivity 확인용", response.toString());
+                if (response.code() == 200) {
+                    Log.i("PostActivity 확인용", response.body());
+                    try {
+                        JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+
+                        JSONObject postObject = result.getJSONObject("post");
+                        int postID = postObject.getInt("id");
+                        int postAnonymous = postObject.getInt("anonymous");
+                        int writerID = postObject.getInt("writer");
+                        String writerNick = postObject.getString("writer_nickname");
+                        String postTime = postObject.getString("register_datetime");
+                        String content = postObject.getString("content");
+                        int amILike = postObject.getInt("thumbup");
+                        int likeNum = postObject.getInt("like_count");
+                        int commentNum = postObject.getInt("comment_count");
+                        postInfo = new PostInfo(postID, postAnonymous, writerID, writerNick, postTime, content, amILike, likeNum, commentNum);
+
+                        if (result.has("comments")) {
+                            JSONArray jsonComments = result.getJSONArray("comments");
+                            for (int i=0; i<jsonComments.length(); i++) {
+                                JSONObject commentObject = jsonComments.getJSONObject(i);
+                                int commentID = commentObject.getInt("id");
+                                int commentAnonymous = commentObject.getInt("anonymous");
+                                //TODO: anonymous_num를 받음 -> 자유게시판 3번째 글 보면 null 있음!! null 처리 해줘야 함!!
+                                int commenterID = commentObject.getInt("writer");
+                                String commenterNick = commentObject.getString("writer_nickname");
+                                String commentTime = commentObject.getString("register_datetime");
+                                String comment = commentObject.getString("content");
+                                int commentAmILike = commentObject.getInt("thumbup");
+                                int commentLikeNum = commentObject.getInt("comment_like_count");
+
+                                commentList.add(new CommentInfo(commentID, commentAnonymous, commenterID, commenterNick, commentTime, comment, commentAmILike, commentLikeNum));
+                            }
+                        }
+                    } catch (JSONException e) { e.printStackTrace(); }
+
+                    tvInfo.setVisibility(View.GONE);
+                    llPost.setVisibility(View.VISIBLE);
+                    showPostInfo();
+
+                    commentAdapter.notifyDataSetChanged();
+                }
+                else        //response.code() == 400
+                    tvInfo.setText("삭제된 글입니다. :<");
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요:)");
+            }
         });
     }
 }

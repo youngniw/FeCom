@@ -8,7 +8,11 @@ public class SimpleBoardInfo {
     public SimpleBoardInfo(int boardID, String name, String content) {
         this.boardID = boardID;
         this.name = name;
-        this.content = content;
+
+        if (content == null)
+            this.content = "";
+        else
+            this.content = content;
     }
 
     public int getBoardID() { return boardID; }

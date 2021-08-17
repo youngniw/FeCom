@@ -2,12 +2,14 @@ package com.eighteen.fecom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,9 +23,11 @@ import java.util.ArrayList;
 public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
     private Context context;
     private ArrayList<PostInfo> postList;
+    private ActivityResultLauncher<Intent> startActivityResultPost;
 
-    public PostRecyclerAdapter(ArrayList<PostInfo> postList) {
+    public PostRecyclerAdapter(ArrayList<PostInfo> postList, ActivityResultLauncher<Intent> startActivityResultPost) {
         this.postList = postList;
+        this.startActivityResultPost = startActivityResultPost;
     }
 
     @NonNull
@@ -40,10 +44,13 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PostRecyclerAdapter.PostViewHolder holder, int position) {
-        holder.tvWriterNick.setText(postList.get(position).getWriterInfo().getNickname());
+        if (postList.get(position).getAnonymous() == 1)
+            holder.tvWriterNick.setText(R.string.anonymous);
+        else
+            holder.tvWriterNick.setText(postList.get(position).getWriterInfo().getNick());
         holder.tvTime.setText(postList.get(position).getPostTime());
         holder.tvContent.setText(postList.get(position).getContent());
-        if (postList.get(position).getIsILike() == 1)
+        if (postList.get(position).getAmILike() == 1)
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
             holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
@@ -76,7 +83,11 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 게시판글/전공글으로 넘어감!
-                    context.startActivity(new Intent(context, PostActivity.class));
+                    Intent showPostIntent = new Intent(context, PostActivity.class);
+                    Bundle bundle = new Bundle();
+                        bundle.putParcelable("postInfo", postList.get(pos));
+                    showPostIntent.putExtras(bundle);
+                    startActivityResultPost.launch(showPostIntent);
                 }
             });
         }
