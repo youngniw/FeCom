@@ -35,6 +35,6 @@ public interface RetrofitAPI {
     @GET("/fecom/api/post/search_by_board.php")
     Call<String> getPosts(@Query("user_id") int userID, @Query("board_id") int boardID);            //해당 게시판의 게시글 조회
 
-    @POST("/fecom/api//post/register.php")
+    @POST("/fecom/api/post/register.php")
     Call<String> postPostInfo(@Body JsonObject postData);               //게시글 등록
 }

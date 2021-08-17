@@ -2,11 +2,14 @@ package com.eighteen.fecom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -83,19 +86,13 @@ public class PostListActivity extends AppCompatActivity {
         rvPost.setAdapter(postAdapter);
         rvPost.addItemDecoration(new DividerItemDecoration(this, 1));
 
-        FloatingActionButton fabAddPost = findViewById(R.id.postlist_fabWrite);
-        fabAddPost.setOnClickListener(v -> {    //TODO: 글 추가가 되면 새로고침 되어야 함!
-            startActivity(new Intent(this, PostingActivity.class));
-            //startActivityForResult(new Intent(this, PostingActivity.class), POSTING_REQUEST);
-        });
-
         updatePostList(false);
+        addPostSetting();
     }
 
     private void toolbarListener(Toolbar toolbar) {
         ImageView ivBack = toolbar.findViewById(R.id.postlist_back);
         ivBack.setOnClickListener(v -> finish());
-        //TODO: 맞게 변경되어야 함!(Toolbar 설정)
         TextView tvTab = toolbar.findViewById(R.id.postlist_tab);
         if (isBoardPost)
             tvTab.setText("전체 게시판");
@@ -123,6 +120,33 @@ public class PostListActivity extends AppCompatActivity {
             });
             setMenu.show();
         });
+    }
+
+    public void addPostSetting() {
+        ActivityResultLauncher<Intent> startActivityResultPosting = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> { //TODO: Posting으로 부터 받음(result.getData() -> Intent)
+                    if (result.getResultCode() == RESULT_OK)
+                        updatePostList(false);
+                });
+
+        FloatingActionButton fabAddPost = findViewById(R.id.postlist_fabWrite);
+        fabAddPost.setOnClickListener(v -> {
+            Intent postingIntent = new Intent(this, PostingActivity.class);
+            Bundle bundle = new Bundle();
+            if (isBoardPost)
+                bundle.putInt("boardID", boardOrCollegeID);
+            else
+                bundle.putInt("collegeID", boardOrCollegeID);
+            postingIntent.putExtras(bundle);
+            startActivityResultPosting.launch(postingIntent);
+        });
+    }
+
+    @Override
+    public void finish() {
+        //TODO: Main으로 갈 때 update 되게 해야 함!
+        super.finish();
     }
 
     public void updatePostList(boolean isSwipe) {

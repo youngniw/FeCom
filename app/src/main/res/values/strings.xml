@@ -3,6 +3,7 @@
 
     <string name="search">search</string>
     <string name="mypage">mypage</string>
+    <string name="board">게시판</string>
     <string name="like">좋아요</string>
     <string name="comment">댓글</string>
     <string name="subscribe">구독</string>
@@ -79,7 +80,10 @@
 
     <string name="major_college">XX계열</string>
 
-    <string name="fHomeBoardRow_boardName">게시판</string>
+    <string name="posting_anonymous">익명</string>
+    <string name="posting_error">내용을 입력하세요.</string>
+    <string name="posting_content">글의 내용을 입력하세요:)</string>
+
     <string name="fHomeBoardRow_content">내용입니다..</string>
 
     <string name="boardRow_name">자유게시판</string>

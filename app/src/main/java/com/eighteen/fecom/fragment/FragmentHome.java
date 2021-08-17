@@ -30,12 +30,12 @@ public class FragmentHome extends Fragment {
         //즐겨찾는 게시판 임시 데이터 생성(TODO: 추후 삭제)
         ArrayList<SimpleBoardInfo> bSumLists = new ArrayList<>();
         bSumLists.add(new SimpleBoardInfo(1, "자유게시판", "슬기로운 의사생활 하는 날! 호롤롤롤 너무 신나잖아???!! 1가구 1익준 해야한다고...!!!"));
-        bSumLists.add(new SimpleBoardInfo(1, "오늘은 뭐 먹지?", "대박 맛집 발견"));
-        bSumLists.add(new SimpleBoardInfo(1, "데일리룩", "ootd"));
-        bSumLists.add(new SimpleBoardInfo(1, "취준생 모여라!", "드디어 취뽀했다"));
-        bSumLists.add(new SimpleBoardInfo(1, "맛집알고시포", "햄버거 먹고싶은데....."));
-        bSumLists.add(new SimpleBoardInfo(1, "자취 천국", "전신거울 가성비 좋은.."));
-        bSumLists.add(new SimpleBoardInfo(1, "넷플 중독자", "트와일라잇 존잼이구."));
+        bSumLists.add(new SimpleBoardInfo(2, "오늘은 뭐 먹지?", "대박 맛집 발견"));
+        bSumLists.add(new SimpleBoardInfo(3, "데일리룩", "ootd"));
+        bSumLists.add(new SimpleBoardInfo(4, "취준생 모여라!", "드디어 취뽀했다"));
+        bSumLists.add(new SimpleBoardInfo(5, "맛집알고시포", "햄버거 먹고싶은데....."));
+        bSumLists.add(new SimpleBoardInfo(6, "자취 천국", "전신거울 가성비 좋은.."));
+        bSumLists.add(new SimpleBoardInfo(7, "넷플 중독자", "트와일라잇 존잼이구."));
 
         RecyclerView rvBoard = rootView.findViewById(R.id.fHome_rvBoard);
         LinearLayoutManager bManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);

@@ -34,16 +34,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
-            android:text="익명" />
+            android:text="@string/posting_anonymous" />
+
+        <TextView
+            android:id="@+id/posting_errorInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:text="@string/posting_error"
+            android:textColor="@color/red"
+            android:textSize="13sp"
+            android:visibility="gone" />
 
         <EditText
-            android:id="@+id/post_etComment"
+            android:id="@+id/posting_etContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
-            android:hint="게시글의 내용을 입력하세요:)"
-            android:inputType="text"
+            android:hint="@string/posting_content"
+            android:inputType="textMultiLine"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:importantForAutofill="no" />
