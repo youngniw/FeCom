@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_fecom">
@@ -26,6 +27,22 @@
         android:text="@string/tab_dailytalk"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="RelativeOverlap" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/dailyTalk_refresh"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:adjustViewBounds="true"
+        android:backgroundTint="@color/main_fecom"
+        android:contentDescription="@string/refresh"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_refresh"
+        app:tint="@color/white" />
 
 </RelativeLayout>

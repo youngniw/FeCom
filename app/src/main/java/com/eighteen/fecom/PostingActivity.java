@@ -122,14 +122,7 @@ public class PostingActivity extends AppCompatActivity {
         AppCompatButton btComplete = toolbar.findViewById(R.id.posting_complete);
         btComplete.setOnClickListener(v -> {
             //TODO: posting 성공! -> 서버로 값 전달(startActivityForResult로 인해 결과 전달)
-            //TODO: 익명에 체크일 시 익명으로 서버에 저장 -> if (cbAnonymous.isChecked() == true)
             tvError.setVisibility(View.GONE);
-
-            int anonymous;
-            if (cbAnonymous.isChecked())
-                anonymous = 1;
-            else
-                anonymous = 0;
 
             String content = etContent.getText().toString().trim();
             if (content.length() == 0) {
@@ -138,6 +131,8 @@ public class PostingActivity extends AppCompatActivity {
             }
             else {
                 if (isEditing) {
+                    int anonymous = cbAnonymous.isChecked() ? 1 : 0;
+
                     if (whereFrom == 1 && (!content.equals(boardPostInfo.getContent()) || anonymous != boardPostInfo.getAnonymous())) {       //게시글 수정 완료
                         JsonObject postData = new JsonObject();
                         postData.addProperty("post_id", boardPostInfo.getPostID());
@@ -201,8 +196,29 @@ public class PostingActivity extends AppCompatActivity {
                             }
                         });
                     }
-                    else if (whereFrom == 2){
-                        //TODO: 데일리톡 추가
+                    else if (whereFrom == 2) {
+                        JsonObject talkData = new JsonObject();
+                        talkData.addProperty("writer", myInfo.getUserID());
+                        talkData.addProperty("content", content);
+                        RetrofitClient.getApiService().postRegisterTalk(talkData).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                if (response.code() == 200) {
+                                    isSubmitted = true;
+                                    finish();
+                                }
+                                else {
+                                    tvError.setVisibility(View.VISIBLE);
+                                    tvError.setText(R.string.signup_submit_error);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                tvError.setVisibility(View.VISIBLE);
+                                tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                            }
+                        });
                     }
                     else {
                         //TODO: 전공 커뮤니티 추가

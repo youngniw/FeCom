@@ -18,14 +18,34 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp">
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="데일리톡 Top 10"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="5dp" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="데일리톡 Top 10"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/fHome_refreshTalk"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:adjustViewBounds="true"
+                        android:backgroundTint="@android:color/transparent"
+                        android:contentDescription="@string/refresh"
+                        android:padding="3dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/icon_refresh"
+                        app:tint="@color/main_fecom" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -42,28 +62,41 @@
 
                     <LinearLayout
                         android:id="@+id/fHome_llDailyError"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:orientation="vertical">
                         <ImageView
+                            android:id="@+id/fHome_ivTalkError"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
+                            android:layout_marginBottom="10dp"
                             android:src="@drawable/icon_refresh"
                             android:contentDescription="@string/refresh"
                             app:tint="@color/grey" />
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="10dp"/>
+
                         <TextView
+                            android:id="@+id/fHome_tvTalkError"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/home_dailyError"
                             android:textAlignment="center"
                             android:textColor="@color/grey"
                             android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/fHome_tvNoTalk"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="30dp"
+                            android:paddingBottom="10dp"
+                            android:text="@string/home_noTalk"
+                            android:textAlignment="center"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -94,7 +127,7 @@
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/home_refreshBoard"
+                        android:id="@+id/fHome_refreshBoard"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"

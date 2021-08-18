@@ -84,7 +84,7 @@ public interface RetrofitAPI {
 
 
     @FormUrlEncoded
-    @POST("/fecom/api/postcommentexpression/register.php")
+    @POST("/fecom/api/postcommentexpression/register_like.php")
     Call<String> postRegisterLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);           //댓글 좋아요 추가
 
     @FormUrlEncoded
@@ -98,4 +98,14 @@ public interface RetrofitAPI {
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/delete_dislike.php")
     Call<String> postDeleteNotLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //댓글 싫어요 삭제
+
+
+    @GET("/fecom/api/dailytalk/show_top10.php")
+    Call<String> getTop10Talks(@Query("user_id") int userID);           //가장 좋아요가 많은 10개의 데일리톡 조회
+
+    @GET("/fecom/api/dailytalk/search_all.php")
+    Call<String> getDailyTalks(@Query("user_id") int userID);           //전체 데일리톡 조회
+    
+    @POST("/fecom/api/dailytalk/register.php")
+    Call<String> postRegisterTalk(@Body JsonObject talkData);           //데일리톡 등록
 }

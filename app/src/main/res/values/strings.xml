@@ -74,6 +74,7 @@
     <string name="home_dailyError">데일리톡 로딩 실패\n다시 로딩하려면 클릭해 주세요:)</string>
     <string name="home_boardError">즐겨찾는 게시판 로딩 실패\n다시 로딩하려면 클릭해 주세요:)</string>
     <string name="home_noBoard">구독한 게시판이 없습니다.</string>
+    <string name="home_noTalk">데일리 톡 Top 10이 없습니다.</string>
 
     <string name="board_subscribe_yes">즐겨찾는 게시판 등록</string>
     <string name="board_subscribe_no">즐겨찾는 게시판 해제</string>
@@ -93,6 +94,7 @@
 
     <string name="dailyTalk_time">1시간 전</string>
     <string name="dailyTalk_content">데일리톡 내용</string>
+    <string name="dailyTalk_load">Daily Talk 불러오는 중:)</string>
 
     <string name="college_ex">XX계열</string>
 

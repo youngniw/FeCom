@@ -2,11 +2,17 @@ package com.eighteen.fecom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
@@ -16,14 +22,31 @@ import com.eighteen.fecom.adapter.DailyTalkPagerAdapter;
 import com.eighteen.fecom.data.PostInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.eighteen.fecom.MainActivity.myInfo;
+
 public class DailyTalkActivity extends AppCompatActivity {
+    private ArrayList<PostInfo> dtalkLists = null;
+
+    private DailyTalkPagerAdapter talkAdapter;
+    private TextView tvInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dailytalk);
+
+        dtalkLists = new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.dailyTalk_toolbar);
         setSupportActionBar(toolbar);
@@ -36,15 +59,10 @@ public class DailyTalkActivity extends AppCompatActivity {
         actionBar.setCustomView(customView, params);
         toolbarListener(toolbar);
 
-        //데일리톡 Top 10 임시 데이터 생성(TODO: 추후 삭제)
-        ArrayList<PostInfo> dtalkLists = new ArrayList<>();
-        dtalkLists.add(new PostInfo(1, 0, 1, "능소능소", "1시간 전", "오늘 남자친구랑 헤어졌는데.. \n이 친구가 바람을 피웠어요.. \n진짜 열이 받아서.. XX... 오늘 하루만 같이 욕해주세요;;.... 아오.... 이런 거지같은...\n 길가다가 넘어져라...!!", 1, 32, 2));
-        dtalkLists.add(new PostInfo(2, 0, 2, "하이하이", "3시간 전", "경영학과 과제 세상 많아.. 진짜 교수님.. 이게 말이 된다고 생각하세요??", 0, 10, 9));
-        dtalkLists.add(new PostInfo(3, 0,3, "능소화", "5시간 전", "오늘 학교 앞 호박떡 집에 갔는데,,\n웬일로 딱 하나 남음:)\n여러분:) 제가 막차 탔어요>_<", 1, 22, 3));
-        dtalkLists.add(new PostInfo(4, 0,4, "하이헬로", "8시간 전", "투데이 한강뷰:) 미쳐버렸다!!!>_<", 1, 9, 3));
+        tvInfo = findViewById(R.id.dailyTalk_info);
 
         ViewPager2 vpDailyTalk = findViewById(R.id.dailyTalk_vp);
-        DailyTalkPagerAdapter talkAdapter = new DailyTalkPagerAdapter(false, dtalkLists);
+        talkAdapter = new DailyTalkPagerAdapter(false, dtalkLists);
         vpDailyTalk.setAdapter(talkAdapter);
         vpDailyTalk.setOffscreenPageLimit(3);
         vpDailyTalk.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -57,19 +75,73 @@ public class DailyTalkActivity extends AppCompatActivity {
         });
         vpDailyTalk.setPageTransformer(transformer);
 
+        ActivityResultLauncher<Intent> startActivityResultPosting = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK)
+                        updateTalkList();
+                });
         FloatingActionButton fabAddPost = findViewById(R.id.dailyTalk_fabWrite);
         fabAddPost.setOnClickListener(v -> {
             Intent addTalk = new Intent(this, PostingActivity.class);
             Bundle bundle = new Bundle();
                 bundle.putBoolean("isDailyTalk", true);
             addTalk.putExtras(bundle);
-            startActivity(addTalk);     //TODO: 익명 안되게!!
-            //startActivityForResult(new Intent(this, PostingActivity.class), POSTING_REQUEST);
+            startActivityResultPosting.launch(addTalk);
         });
+
+        updateTalkList();
     }
 
     private void toolbarListener(Toolbar toolbar) {
         ImageView ivBack = toolbar.findViewById(R.id.dailyTalk_back);
         ivBack.setOnClickListener(v -> finish());
+
+        AppCompatImageButton ibRefresh = findViewById(R.id.dailyTalk_refresh);
+        ibRefresh.setOnClickListener(v -> updateTalkList());
+    }
+
+    private void updateTalkList() {
+        dtalkLists.clear();
+        talkAdapter.notifyDataSetChanged();
+
+        tvInfo.setVisibility(View.VISIBLE);
+        tvInfo.setText(R.string.dailyTalk_load);
+        RetrofitClient.getApiService().getDailyTalks(myInfo.getUserID()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                Log.i("DailyTalkActivity 확인용", response.toString());
+                if (response.code() == 200) {
+                    try {
+                        JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                        JSONArray jsonPosts = result.getJSONArray("dailytalks");
+                        for (int i=0; i<jsonPosts.length(); i++) {
+                            JSONObject postObject = jsonPosts.getJSONObject(i);
+
+                            int talkID = postObject.getInt("id");
+                            int writerID = postObject.getInt("writer");
+                            String writerNick = postObject.getString("writer_nickname");
+                            String postTime = postObject.getString("register_datetime");
+                            String content = postObject.getString("content");
+                            int amILike = postObject.getInt("thumbup");
+                            int likeNum = postObject.getInt("like_count");
+                            int commentNum = postObject.getInt("comment_count");
+
+                            dtalkLists.add(new PostInfo(talkID, 0, writerID, writerNick, postTime, content, amILike, likeNum, commentNum));
+                        }
+                    } catch (JSONException e) { e.printStackTrace(); }
+
+                    tvInfo.setVisibility(View.GONE);
+                    talkAdapter.notifyDataSetChanged();
+                }
+                else
+                    tvInfo.setText("Daily Talk이 아직 없습니다.\n한번 작성해 보세요:)");
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                tvInfo.setText("Daily Talk 로드 실패\n네트워크를 확인해 주세요.");
+            }
+        });
     }
 }

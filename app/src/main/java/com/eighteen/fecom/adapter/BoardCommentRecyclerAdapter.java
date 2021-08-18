@@ -137,7 +137,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
             }
         });
         holder.tvLike.setText(String.valueOf(commentList.get(position).getLikeNum()));
-        holder.ibtNotLike.setOnClickListener(v -> {     //TODO: 싫어요 api 구현!!
+        holder.ibtNotLike.setOnClickListener(v -> {
             holder.ibtNotLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == -1) {

@@ -174,7 +174,7 @@ public class BoardPostListActivity extends AppCompatActivity {
     public void addPostSetting() {
         ActivityResultLauncher<Intent> startActivityResultPosting = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                result -> {     //TODO: Posting으로 부터 받음(result.getData() -> Intent)
+                result -> {
                     if (result.getResultCode() == RESULT_OK)
                         updatePostList(false);
                 });

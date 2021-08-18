@@ -43,12 +43,12 @@ public class FragmentHome extends Fragment {
     ArrayList<PostInfo> dtalkLists = null;
     ArrayList<SimpleBoardInfo> bSubLists = null;
 
-    AppCompatImageButton ibRefreshBoard;
+    AppCompatImageButton ibRefreshTalk, ibRefreshBoard;
     DailyTalkPagerAdapter talkAdapter;
-    HomeRecyclerAdapter bAdapter;
-    ImageView ivBoardError;
+    HomeRecyclerAdapter boardAdapter;
+    ImageView ivTalkError, ivBoardError;
     LinearLayout llTalkError, llBoardError;
-    TextView tvBoardError, tvNoBoard;
+    TextView tvTalkError, tvNoTalk, tvBoardError, tvNoBoard;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +63,11 @@ public class FragmentHome extends Fragment {
         dtalkLists.add(new PostInfo(3, 0,3, "능소화", "5시간 전", "오늘 학교 앞 호박떡 집에 갔는데,,\n웬일로 딱 하나 남음:)\n여러분:) 제가 막차 탔어요>_<", 1, 22, 3));
         dtalkLists.add(new PostInfo(4, 0,4, "하이헬로", "8시간 전", "투데이 한강뷰:) 미쳐버렸다!!!>_<", 1, 9, 3));
 
+        ibRefreshTalk = rootView.findViewById(R.id.fHome_refreshTalk);
         llTalkError = rootView.findViewById(R.id.fHome_llDailyError);
+        ivTalkError = rootView.findViewById(R.id.fHome_ivTalkError);
+        tvTalkError = rootView.findViewById(R.id.fHome_tvTalkError);
+        tvNoTalk = rootView.findViewById(R.id.fHome_tvNoTalk);
         ViewPager2 vpDailyTalk = rootView.findViewById(R.id.fHome_vpDailyTalk);
         talkAdapter = new DailyTalkPagerAdapter(true, dtalkLists);
         vpDailyTalk.setAdapter(talkAdapter);
@@ -78,7 +82,7 @@ public class FragmentHome extends Fragment {
         });
         vpDailyTalk.setPageTransformer(transformer);
 
-        ibRefreshBoard = rootView.findViewById(R.id.home_refreshBoard);
+        ibRefreshBoard = rootView.findViewById(R.id.fHome_refreshBoard);
         llBoardError = rootView.findViewById(R.id.fHome_llBoardError);
         ivBoardError = rootView.findViewById(R.id.fHome_ivBoardError);
         tvBoardError = rootView.findViewById(R.id.fHome_tvBoardError);
@@ -86,8 +90,8 @@ public class FragmentHome extends Fragment {
         RecyclerView rvBoard = rootView.findViewById(R.id.fHome_rvBoard);
         LinearLayoutManager bManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false);
         rvBoard.setLayoutManager(bManager);
-        bAdapter = new HomeRecyclerAdapter(bSubLists);
-        rvBoard.setAdapter(bAdapter);
+        boardAdapter = new HomeRecyclerAdapter(bSubLists);
+        rvBoard.setAdapter(boardAdapter);
 
         setTopTalkPager();
         setSubscribeBoard();
@@ -99,14 +103,67 @@ public class FragmentHome extends Fragment {
 
     private void homeClickListener() {
         llTalkError.setOnClickListener(v -> setTopTalkPager());
+        ibRefreshTalk.setOnClickListener(v -> setTopTalkPager());
 
         llBoardError.setOnClickListener(v -> setSubscribeBoard());
         ibRefreshBoard.setOnClickListener(v -> setSubscribeBoard());
     }
 
     private void setTopTalkPager() {
-        //TODO: 데일리톡!
         dtalkLists.clear();
+        talkAdapter.notifyDataSetChanged();
+
+        llTalkError.setVisibility(View.GONE);
+        ibRefreshTalk.setVisibility(View.INVISIBLE);
+        RetrofitClient.getApiService().getDailyTalks(myInfo.getUserID()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                Log.i("FragmentHome 확인용1", response.toString());
+                if (response.code() == 200) {
+                    Log.i("FragmentHome 확인용1", response.body());
+                    try {
+                        JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                        JSONArray jsonPosts = result.getJSONArray("dailytalks");
+                        for (int i=0; i<jsonPosts.length(); i++) {
+                            JSONObject postObject = jsonPosts.getJSONObject(i);
+
+                            int talkID = postObject.getInt("id");
+                            int writerID = postObject.getInt("writer");
+                            String writerNick = postObject.getString("writer_nickname");
+                            String postTime = postObject.getString("register_datetime");
+                            String content = postObject.getString("content");
+                            int amILike = postObject.getInt("thumbup");
+                            int likeNum = postObject.getInt("like_count");
+                            int commentNum = postObject.getInt("comment_count");
+
+                            dtalkLists.add(new PostInfo(talkID, 0, writerID, writerNick, postTime, content, amILike, likeNum, commentNum));
+                        }
+                    } catch (JSONException e) { e.printStackTrace(); }
+                    talkAdapter.notifyDataSetChanged();
+                    ibRefreshTalk.setVisibility(View.VISIBLE);
+                }
+                else if (response.code() == 400) {
+                    llTalkError.setVisibility(View.VISIBLE);
+                    ivTalkError.setVisibility(View.GONE);
+                    tvTalkError.setVisibility(View.GONE);
+                    tvNoTalk.setVisibility(View.VISIBLE);
+                }
+                else {
+                    llTalkError.setVisibility(View.VISIBLE);
+                    ivTalkError.setVisibility(View.VISIBLE);
+                    tvTalkError.setVisibility(View.VISIBLE);
+                    tvNoTalk.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                llTalkError.setVisibility(View.VISIBLE);
+                ivTalkError.setVisibility(View.VISIBLE);
+                tvTalkError.setVisibility(View.VISIBLE);
+                tvNoTalk.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void setSubscribeBoard() {
@@ -116,9 +173,9 @@ public class FragmentHome extends Fragment {
         RetrofitClient.getApiService().getSubscribeBoard(myInfo.getUserID()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                Log.i("FragmentHome 확인용1", response.toString());
+                Log.i("FragmentHome 확인용2", response.toString());
                 if (response.code() == 200) {
-                    Log.i("FragmentHome 확인용1", response.body());
+                    Log.i("FragmentHome 확인용2", response.body());
                     try {
                         JSONObject boardsInfo = new JSONObject(Objects.requireNonNull(response.body()));
                         JSONArray jsonPosts = boardsInfo.getJSONArray("boards");
@@ -130,7 +187,7 @@ public class FragmentHome extends Fragment {
                                 bSubLists.add(new SimpleBoardInfo(boardObject.getInt("id"), boardObject.getString("board_name"), boardObject.getString("latestContent")));
                         }
                     } catch (JSONException e) { e.printStackTrace(); }
-                    bAdapter.notifyDataSetChanged();
+                    boardAdapter.notifyDataSetChanged();
                     ibRefreshBoard.setVisibility(View.VISIBLE);
                 }
                 else if (response.code() == 400) {      //구독한 게시판이 없을 때
