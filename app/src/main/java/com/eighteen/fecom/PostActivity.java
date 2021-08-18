@@ -343,12 +343,12 @@ public class PostActivity extends AppCompatActivity {
                 else if (response.code() == 400)
                     tvInfo.setText("삭제된 글입니다. :<");
                 else
-                    tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요.");
+                    tvInfo.setText("게시글 로드 실패\n네트워크를 확인해 주세요.");
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해주세요.");
+                tvInfo.setText("게시글 로드 실패\n네트워크를 확인해 주세요.");
             }
         });
     }

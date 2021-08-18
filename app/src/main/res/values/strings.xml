@@ -25,11 +25,11 @@
 
     <string name="login_id">ID</string>
     <string name="login_id_ex">fecomMyfriend@gmail.com</string>
-    <string name="login_id_error">이메일 ID를 입력해주세요.</string>
+    <string name="login_id_error">이메일 ID를 입력해 주세요.</string>
     <string name="login_id_error2">이메일 ID가 옳지 않습니다.</string>
     <string name="login_pw">PASSWORD</string>
     <string name="login_pw_ex">••••••••••</string>
-    <string name="login_pw_error">비밀번호를 입력해주세요.</string>
+    <string name="login_pw_error">비밀번호를 입력해 주세요.</string>
     <string name="login_pw_error2">비밀번호가 옳지 않습니다.</string>
     <string name="login_login">LOGIN</string>
     <string name="login_logout">LOGOUT</string>
@@ -38,10 +38,10 @@
     <string name="signup_check">중복 확인</string>
     <string name="signup_name">NAME</string>
     <string name="signup_name_ex">김눈송</string>
-    <string name="signup_name_error">이름을 입력해주세요.</string>
+    <string name="signup_name_error">이름을 입력해 주세요.</string>
     <string name="signup_nick">NICKNAME</string>
     <string name="signup_nick_ex">능소화</string>
-    <string name="signup_nick_error">닉네임을 입력해주세요.</string>
+    <string name="signup_nick_error">닉네임을 입력해 주세요.</string>
     <string name="signup_nick_error2">이미 해당 닉네임을 가진 회원이 존재합니다.</string>
     <string name="signup_id_error">이미 해당 이메일 ID를 가진 회원이 존재합니다.</string>
     <string name="signup_id_error2">이메일ID 중복 확인해 주세요.</string>

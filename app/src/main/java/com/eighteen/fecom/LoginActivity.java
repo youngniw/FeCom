@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         tvPWError.setVisibility(View.VISIBLE);
-                        tvPWError.setText("서버와 연결되지 않습니다. 네트워크를 확인해주세요.");
+                        tvPWError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
                     }
                 });
             }
