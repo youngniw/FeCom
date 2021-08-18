@@ -97,7 +97,7 @@ public class PostActivity extends AppCompatActivity {
         rvComment.setAdapter(commentAdapter);
         rvComment.addItemDecoration(new DividerItemDecoration(this, 1));
 
-        updatePostInfo();
+        updatePostInfo(false);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class PostActivity extends AppCompatActivity {
             ivDelete.setVisibility(View.GONE);
 
         AppCompatImageButton ivRefresh = toolbar.findViewById(R.id.post_refresh);
-        ivRefresh.setOnClickListener(v -> updatePostInfo());
+        ivRefresh.setOnClickListener(v -> updatePostInfo(false));
     }
 
     private void postListener() {
@@ -239,16 +239,16 @@ public class PostActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("PostActivity 댓글 확인용", response.toString());
-                        etComment.setEnabled(true);
-
                         if (response.code() == 200) {
                             isChangedComment = true;
-                            updatePostInfo();
+                            updatePostInfo(true);
                             etComment.setText("");
-                            nsvPost.post(() -> nsvPost.fullScroll(View.FOCUS_DOWN));
+                            cbAnonymous.setChecked(false);
                         }
                         else
                             Toast.makeText(PostActivity.this, "죄송합니다. 다시 한번 댓글을 전송해 주세요:)", Toast.LENGTH_SHORT).show();
+
+                        etComment.setEnabled(true);
                     }
 
                     @Override
@@ -279,7 +279,7 @@ public class PostActivity extends AppCompatActivity {
             tvCommentInfo.setVisibility(View.VISIBLE);
     }
 
-    public void updatePostInfo() {
+    public void updatePostInfo(boolean isAddComment) {
         commentList.clear();
         commentAdapter.notifyDataSetChanged();
 
@@ -336,6 +336,9 @@ public class PostActivity extends AppCompatActivity {
                     showPostInfo();
 
                     commentAdapter.notifyDataSetChanged();
+
+                    if (isAddComment)
+                        nsvPost.post(() -> nsvPost.fullScroll(View.FOCUS_DOWN));
                 }
                 else if (response.code() == 400)
                     tvInfo.setText("삭제된 글입니다. :<");

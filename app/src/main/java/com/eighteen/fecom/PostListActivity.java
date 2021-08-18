@@ -113,7 +113,12 @@ public class PostListActivity extends AppCompatActivity {
         tvTopic.setText(boardOrCollegeName);
         AppCompatImageButton ivSearch = toolbar.findViewById(R.id.postlist_search);
         ivSearch.setOnClickListener(v -> {
-            //TODO: 검색 창으로 넘어감
+            Intent searchIntent = new Intent(this, SearchActivity.class);
+            Bundle bundle = new Bundle();
+                bundle.putInt("whichTopic", 3);     //게시물 검색
+                bundle.putInt("boardID", boardOrCollegeID);
+            searchIntent.putExtras(bundle);
+            startActivity(searchIntent);
         });
         AppCompatImageButton ivMenu = toolbar.findViewById(R.id.postlist_menu);
         ivMenu.setOnClickListener(v -> {

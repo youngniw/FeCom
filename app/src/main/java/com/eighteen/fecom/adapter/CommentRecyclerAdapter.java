@@ -170,7 +170,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
                                 public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                                     Log.i("CommentRecycler 확인용", response.toString());
                                     if (response.code() == 200)
-                                        ((PostActivity) context).updatePostInfo();
+                                        ((PostActivity) context).updatePostInfo(false);
                                     else
                                         Toast.makeText(context, "해당 댓글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                 }

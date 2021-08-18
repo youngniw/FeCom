@@ -55,6 +55,9 @@ public interface RetrofitAPI {
     @POST("/fecom/api/post/delete.php")
     Call<String> postDeletePost(@Field("post_id") int postID);          //게시글 삭제
 
+    @GET("/fecom/api/post/search_by_keyword.php")
+    Call<String> getSearchPosts(@Query("user_id") int userID, @Query("board_id") int boardID, @Query("keyword") String keyword);   //해당 게시판의 키워드를 가진 게시글 조회
+
 
     @FormUrlEncoded
     @POST("/fecom/api/postlike/register.php")

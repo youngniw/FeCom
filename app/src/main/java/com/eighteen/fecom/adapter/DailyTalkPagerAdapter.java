@@ -54,7 +54,6 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
         holder.tvWriterName.setText(talkList.get(position).getWriterInfo().getNick());
 
         LocalDateTime dateNow = LocalDateTime.now();
-        /*
         LocalDateTime date = LocalDateTime.parse(talkList.get(position).getPostTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         if (ChronoUnit.SECONDS.between(date, dateNow) < 60)
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.SECONDS.between(date, dateNow)).concat("초 전"));
@@ -62,9 +61,6 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.MINUTES.between(date, dateNow)).concat("분 전"));
         else if (ChronoUnit.HOURS.between(date, dateNow) <= 24)
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
-
-         */
-        holder.tvTalkTime.setText(talkList.get(position).getPostTime());        //TODO: 삭제 요망!!
 
         holder.tvContent.setText(talkList.get(position).getContent());
         if (talkList.get(position).getAmILike() == 1)
@@ -74,7 +70,7 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
         holder.tvLikeNum.setText(String.valueOf(talkList.get(position).getLikeNum()));
         holder.tvCommentNum.setText(String.valueOf(talkList.get(position).getCommentNum()));
 
-        //TODO: dailyTalk 화면일 때 댓글 클릭 시! && like 이미지 클릭 시!
+        //like 이미지 클릭 시!
     }
 
     @Override

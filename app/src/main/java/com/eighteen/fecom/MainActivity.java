@@ -152,7 +152,11 @@ public class MainActivity extends AppCompatActivity {
     private void boardToolbarListener(Toolbar toolbar) {
         AppCompatImageButton ivSearch = toolbar.findViewById(R.id.boardTB_search);
         ivSearch.setOnClickListener(v -> {
-            //TODO: 검색 창으로 넘어감
+            Intent searchIntent = new Intent(this, SearchActivity.class);
+            Bundle bundle = new Bundle();
+                bundle.putInt("whichTopic", 2);     //게시판 검색
+            searchIntent.putExtras(bundle);
+            startActivity(searchIntent);
         });
 
         AppCompatImageButton ivAdd = toolbar.findViewById(R.id.boardTB_add);
