@@ -94,19 +94,26 @@
             android:layout_width="45dp"
             android:layout_height="match_parent" />
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@drawable/icon_comment"
-            android:layout_marginEnd="5dp"
-            android:contentDescription="@string/comment" />
-        <TextView
-            android:id="@+id/talkPage_comment"
+        <LinearLayout
+            android:id="@+id/talkPage_llComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/example_num"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/icon_comment"
+                android:layout_marginEnd="5dp"
+                android:contentDescription="@string/comment" />
+            <TextView
+                android:id="@+id/talkPage_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_num"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

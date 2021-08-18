@@ -73,6 +73,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         else
             holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
         holder.ibtLike.setOnClickListener(v -> {
+            //TODO: 데일리톡일 때는 이 함수 사용 안됨!
             holder.ibtLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == 1) {
@@ -158,6 +159,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
             ibtSubmit = itemView.findViewById(R.id.commentRow_ibEditSubmit);
 
             ibtDelete.setOnClickListener(v -> {
+                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -189,6 +191,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
             });
 
             ibtEdit.setOnClickListener(v -> {
+                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 llMenu.setVisibility(View.GONE);
                 llEdit.setVisibility(View.VISIBLE);
                 etContent.setEnabled(true);
@@ -196,6 +199,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
             });
 
             ibtCancel.setOnClickListener(v -> {
+                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     llMenu.setVisibility(View.VISIBLE);
@@ -207,6 +211,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
             });
 
             ibtSubmit.setOnClickListener(v -> {
+                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 etContent.setEnabled(false);
 
                 int pos = getAdapterPosition();

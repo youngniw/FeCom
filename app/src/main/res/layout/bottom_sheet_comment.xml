@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/light_fecom"
+        android:text="@string/post_comment"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/bscomm_commentInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/post_noComment"
+        android:textAlignment="center"
+        android:lineSpacingExtra="3dp"
+        android:textColor="@color/grey"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/bscomm_rvComments"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:id="@+id/bscomm_writeCommentL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_upper_line"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/bscomm_etComment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/post_etComment"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:padding="4dp"
+            android:textSize="15sp"
+            android:textColor="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/bscomm_ibCommSubmit"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:tint="@color/main_fecom"
+            android:contentDescription="@string/add"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_add_comment" />
+    </LinearLayout>
+</LinearLayout>

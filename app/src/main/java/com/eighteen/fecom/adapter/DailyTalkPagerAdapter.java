@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eighteen.fecom.BottomCommentDialog;
 import com.eighteen.fecom.DailyTalkActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.PostInfo;
@@ -52,6 +54,7 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
         holder.tvWriterName.setText(talkList.get(position).getWriterInfo().getNick());
 
         LocalDateTime dateNow = LocalDateTime.now();
+        /*
         LocalDateTime date = LocalDateTime.parse(talkList.get(position).getPostTime(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         if (ChronoUnit.SECONDS.between(date, dateNow) < 60)
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.SECONDS.between(date, dateNow)).concat("초 전"));
@@ -59,6 +62,9 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.MINUTES.between(date, dateNow)).concat("분 전"));
         else if (ChronoUnit.HOURS.between(date, dateNow) <= 24)
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
+
+         */
+        holder.tvTalkTime.setText(talkList.get(position).getPostTime());        //TODO: 삭제 요망!!
 
         holder.tvContent.setText(talkList.get(position).getContent());
         if (talkList.get(position).getAmILike() == 1)
@@ -75,6 +81,7 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
     public int getItemCount() { return talkList.size(); }
 
     public class TalkViewHolder extends RecyclerView.ViewHolder {
+        LinearLayout llComment;
         TextView tvWriterName, tvTalkTime, tvContent, tvLikeNum, tvCommentNum;
         ImageView ivLike;
 
@@ -100,7 +107,14 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
                 tvContent = itemView.findViewById(R.id.talkPage_content);
                 ivLike = itemView.findViewById(R.id.talkPage_ivLike);
                 tvLikeNum = itemView.findViewById(R.id.talkPage_tvLike);
+                llComment = itemView.findViewById(R.id.talkPage_llComment);
                 tvCommentNum = itemView.findViewById(R.id.talkPage_comment);
+                
+                llComment.setOnClickListener(v -> {
+                    //TODO: 댓글이 보여짐
+                    BottomCommentDialog commentDialog = new BottomCommentDialog();
+                    commentDialog.show(((DailyTalkActivity) context).getSupportFragmentManager(), "commentSheet");
+                });
             }
         }
     }

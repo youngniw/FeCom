@@ -4,11 +4,9 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +15,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -197,7 +194,7 @@ public class PostActivity extends AppCompatActivity {
                 RetrofitClient.getApiService().postRegisterLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("PostRecycler 확인용", response.toString());
+                        Log.i("PostActivity 확인용", response.toString());
                         if (response.code() == 200) {
                             isChangedLike = true;
                             try {
@@ -241,7 +238,7 @@ public class PostActivity extends AppCompatActivity {
                 RetrofitClient.getApiService().postRegisterComment(commentData).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("PostRecycler 댓글 확인용", response.toString());
+                        Log.i("PostActivity 댓글 확인용", response.toString());
                         etComment.setEnabled(true);
 
                         if (response.code() == 200) {
