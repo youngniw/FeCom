@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,6 +43,7 @@ public class FragmentHome extends Fragment {
     ArrayList<PostInfo> dtalkLists = null;
     ArrayList<SimpleBoardInfo> bSubLists = null;
 
+    AppCompatImageButton ibRefreshBoard;
     DailyTalkPagerAdapter talkAdapter;
     HomeRecyclerAdapter bAdapter;
     ImageView ivBoardError;
@@ -76,6 +78,7 @@ public class FragmentHome extends Fragment {
         });
         vpDailyTalk.setPageTransformer(transformer);
 
+        ibRefreshBoard = rootView.findViewById(R.id.home_refreshBoard);
         llBoardError = rootView.findViewById(R.id.fHome_llBoardError);
         ivBoardError = rootView.findViewById(R.id.fHome_ivBoardError);
         tvBoardError = rootView.findViewById(R.id.fHome_tvBoardError);
@@ -98,6 +101,7 @@ public class FragmentHome extends Fragment {
         llTalkError.setOnClickListener(v -> setTopTalkPager());
 
         llBoardError.setOnClickListener(v -> setSubscribeBoard());
+        ibRefreshBoard.setOnClickListener(v -> setSubscribeBoard());
     }
 
     private void setTopTalkPager() {
@@ -108,6 +112,7 @@ public class FragmentHome extends Fragment {
     private void setSubscribeBoard() {
         bSubLists.clear();
         llBoardError.setVisibility(View.GONE);
+        ibRefreshBoard.setVisibility(View.INVISIBLE);
         RetrofitClient.getApiService().getSubscribeBoard(myInfo.getUserID()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
@@ -124,8 +129,9 @@ public class FragmentHome extends Fragment {
                             else
                                 bSubLists.add(new SimpleBoardInfo(boardObject.getInt("id"), boardObject.getString("board_name"), boardObject.getString("latestContent")));
                         }
-                        bAdapter.notifyDataSetChanged();
                     } catch (JSONException e) { e.printStackTrace(); }
+                    bAdapter.notifyDataSetChanged();
+                    ibRefreshBoard.setVisibility(View.VISIBLE);
                 }
                 else if (response.code() == 400) {      //구독한 게시판이 없을 때
                     llBoardError.setVisibility(View.VISIBLE);

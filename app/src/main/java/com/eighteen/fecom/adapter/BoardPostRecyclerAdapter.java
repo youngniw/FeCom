@@ -38,11 +38,13 @@ import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class BoardPostRecyclerAdapter extends RecyclerView.Adapter<BoardPostRecyclerAdapter.PostViewHolder> {
     private Context context;
+    int boardID;
     private ArrayList<PostInfo> postList;
     private ActivityResultLauncher<Intent> startActivityResultPost;
 
-    public BoardPostRecyclerAdapter(ArrayList<PostInfo> postList, ActivityResultLauncher<Intent> startActivityResultPost) {
+    public BoardPostRecyclerAdapter(ArrayList<PostInfo> postList, int boardID, ActivityResultLauncher<Intent> startActivityResultPost) {
         this.postList = postList;
+        this.boardID = boardID;
         this.startActivityResultPost = startActivityResultPost;
     }
 
@@ -171,6 +173,7 @@ public class BoardPostRecyclerAdapter extends RecyclerView.Adapter<BoardPostRecy
                 if (pos != RecyclerView.NO_POSITION) {
                     Intent showPostIntent = new Intent(context, BoardPostActivity.class);
                     Bundle bundle = new Bundle();
+                        bundle.putInt("boardID", boardID);
                         bundle.putParcelable("postInfo", postList.get(pos));
                     showPostIntent.putExtras(bundle);
                     startActivityResultPost.launch(showPostIntent);

@@ -85,7 +85,7 @@ public class BoardPostListActivity extends AppCompatActivity {
         RecyclerView rvPost = findViewById(R.id.postlist_rv);
         LinearLayoutManager postManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         rvPost.setLayoutManager(postManager);
-        postAdapter = new BoardPostRecyclerAdapter(postList, startActivityResultPost);
+        postAdapter = new BoardPostRecyclerAdapter(postList, boardID, startActivityResultPost);
         rvPost.setAdapter(postAdapter);
         rvPost.addItemDecoration(new DividerItemDecoration(this, 1));
 

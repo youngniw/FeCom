@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
+import com.eighteen.fecom.data.PostInfo;
 import com.google.gson.JsonObject;
 
 import java.util.Objects;
@@ -27,8 +28,10 @@ import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class PostingActivity extends AppCompatActivity {
     private boolean isSubmitted = false;
+    private boolean isEditing = false;
     private int whereFrom = 0;     //1은 게시판, 2는 데일리톡, 3은 전공 커뮤니티
     private int boardOrCollegeID = -1;
+    private PostInfo boardPostInfo = null;
 
     private CheckBox cbAnonymous;
     private EditText etContent;
@@ -42,6 +45,11 @@ public class PostingActivity extends AppCompatActivity {
         if (getIntent().hasExtra("boardID")) {
             whereFrom = 1;
             boardOrCollegeID = getIntent().getExtras().getInt("boardID");
+
+            if (getIntent().hasExtra("postInfo")) {     //글 수정
+                isEditing = true;
+                boardPostInfo = getIntent().getParcelableExtra("postInfo");
+            }
         }
         else if (getIntent().hasExtra("isDailyTalk"))
             whereFrom = 2;
@@ -65,6 +73,13 @@ public class PostingActivity extends AppCompatActivity {
         if (whereFrom == 2 || whereFrom == 3)
             cbAnonymous.setVisibility(View.GONE);
         etContent = findViewById(R.id.posting_etContent);
+        tvError = findViewById(R.id.posting_errorInfo);
+
+        if (whereFrom == 1 && isEditing) {      //게시글 수정일 때 설정!
+            cbAnonymous.setChecked(boardPostInfo.getAnonymous() == 1);
+            etContent.setText(boardPostInfo.getContent());
+        }
+
         etContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -76,7 +91,6 @@ public class PostingActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        tvError = findViewById(R.id.posting_errorInfo);
     }
 
     @Override
@@ -110,46 +124,89 @@ public class PostingActivity extends AppCompatActivity {
             //TODO: posting 성공! -> 서버로 값 전달(startActivityForResult로 인해 결과 전달)
             //TODO: 익명에 체크일 시 익명으로 서버에 저장 -> if (cbAnonymous.isChecked() == true)
             tvError.setVisibility(View.GONE);
+
+            int anonymous;
+            if (cbAnonymous.isChecked())
+                anonymous = 1;
+            else
+                anonymous = 0;
+
             String content = etContent.getText().toString().trim();
             if (content.length() == 0) {
                 tvError.setVisibility(View.VISIBLE);
                 tvError.setText(R.string.posting_error);
             }
             else {
-                if (whereFrom == 1) {
-                    JsonObject postData = new JsonObject();
-                    postData.addProperty("board_id", boardOrCollegeID);
-                    postData.addProperty("writer", myInfo.getUserID());
-                    postData.addProperty("content", content);
-                    if (cbAnonymous.isChecked())
-                        postData.addProperty("anonymous", 1);
-                    else
-                        postData.addProperty("anonymous", 0);
-                    RetrofitClient.getApiService().postPostInfo(postData).enqueue(new Callback<String>() {
-                        @Override
-                        public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                            if (response.code() == 200) {
-                                isSubmitted = true;
-                                finish();
+                if (isEditing) {
+                    if (whereFrom == 1 && (!content.equals(boardPostInfo.getContent()) || anonymous != boardPostInfo.getAnonymous())) {       //게시글 수정 완료
+                        JsonObject postData = new JsonObject();
+                        postData.addProperty("post_id", boardPostInfo.getPostID());
+                        postData.addProperty("content", content);
+                        postData.addProperty("anonymous", anonymous);
+                        RetrofitClient.getApiService().postEditPostInfo(postData).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                if (response.code() == 200) {
+                                    isSubmitted = true;
+                                    finish();
+                                }
+                                else {
+                                    tvError.setVisibility(View.VISIBLE);
+                                    tvError.setText(R.string.signup_submit_error);
+                                }
                             }
-                            else {
-                                tvError.setVisibility(View.VISIBLE);
-                                tvError.setText(R.string.signup_submit_error);
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                            tvError.setVisibility(View.VISIBLE);
-                            tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
-                        }
-                    });
-                }
-                else if (whereFrom == 2){
-                    //TODO: 데일리톡 추가
+                            @Override
+                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                tvError.setVisibility(View.VISIBLE);
+                                tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                            }
+                        });
+                    }
+                    else if (whereFrom == 3) {
+                        //TODO: 전공 커뮤니티 수정 완료(입력한 게 다를 시!)
+                    }
+                    else {
+                        tvError.setVisibility(View.VISIBLE);
+                        tvError.setText("기존 글과 동일합니다.");
+                    }
                 }
                 else {
-                    //TODO: 전공 커뮤니티 추가
+                    if (whereFrom == 1) {
+                        JsonObject postData = new JsonObject();
+                        postData.addProperty("board_id", boardOrCollegeID);
+                        postData.addProperty("writer", myInfo.getUserID());
+                        postData.addProperty("content", content);
+                        if (cbAnonymous.isChecked())
+                            postData.addProperty("anonymous", 1);
+                        else
+                            postData.addProperty("anonymous", 0);
+                        RetrofitClient.getApiService().postPostInfo(postData).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                if (response.code() == 200) {
+                                    isSubmitted = true;
+                                    finish();
+                                }
+                                else {
+                                    tvError.setVisibility(View.VISIBLE);
+                                    tvError.setText(R.string.signup_submit_error);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                tvError.setVisibility(View.VISIBLE);
+                                tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                            }
+                        });
+                    }
+                    else if (whereFrom == 2){
+                        //TODO: 데일리톡 추가
+                    }
+                    else {
+                        //TODO: 전공 커뮤니티 추가
+                    }
                 }
             }
         });

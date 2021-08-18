@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,8 +46,10 @@ public class BoardPostActivity extends AppCompatActivity {
     private boolean isWriter = false;
     private boolean isDeleted = false, isChangedLike = false, isChangedComment = false;
 
+    private int boardID = -1;
     private PostInfo postInfo;
     private ArrayList<BoardCommentInfo> commentList = null;
+    private ActivityResultLauncher<Intent> startActivityResultPosting;
 
     private AppCompatImageButton ibLike, ibCommSubmit;
     private CheckBox cbAnonymous;
@@ -58,6 +63,7 @@ public class BoardPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_board);
 
+        boardID = getIntent().getExtras().getInt("boardID");
         postInfo = getIntent().getParcelableExtra("postInfo");
         if (myInfo.getUserID() == postInfo.getWriterInfo().getUserID())
             isWriter = true;
@@ -98,6 +104,12 @@ public class BoardPostActivity extends AppCompatActivity {
         rvComment.addItemDecoration(new DividerItemDecoration(this, 1));
 
         updatePostInfo(false);
+
+        startActivityResultPosting = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK)
+                        updatePostInfo(false);
+                });
     }
 
     @Override
@@ -118,44 +130,62 @@ public class BoardPostActivity extends AppCompatActivity {
         AppCompatImageButton ivBack = toolbar.findViewById(R.id.post_back);
         ivBack.setOnClickListener(v -> finish());
 
-        AppCompatImageButton ivDelete = toolbar.findViewById(R.id.post_delete);
+        AppCompatImageButton ivRefresh = toolbar.findViewById(R.id.post_refresh);
+        ivRefresh.setOnClickListener(v -> updatePostInfo(false));
+
+        AppCompatImageButton ivMenu = toolbar.findViewById(R.id.post_menu);
         if (isWriter) {
-            ivDelete.setOnClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(BoardPostActivity.this);
-                builder.setTitle("글 삭제").setMessage("현재 글을 삭제하시겠습니까?");
-                builder.setPositiveButton("삭제", (dialog, which) ->
-                        RetrofitClient.getApiService().postDeletePost(postInfo.getPostID()).enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                                Log.i("BoardPostActivity 확인용1", response.toString());
+            ivMenu.setOnClickListener(v -> {
+                PopupMenu setMenu = new PopupMenu(getApplicationContext(), v);
+                getMenuInflater().inflate(R.menu.menu_post, setMenu.getMenu());
 
-                                if (response.code() == 200) {
-                                    isDeleted = true;
-                                    finish();
-                                }
-                                else
-                                    Toast.makeText(BoardPostActivity.this, "해당 글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
-                            }
+                setMenu.setOnMenuItemClickListener(menuItem -> {
+                    if (menuItem.getItemId() == R.id.menu_post_edit) {
+                        Intent postingIntent = new Intent(this, PostingActivity.class);
+                        Bundle bundle = new Bundle();
+                            bundle.putInt("boardID", boardID);
+                            bundle.putParcelable("postInfo", postInfo);
+                        postingIntent.putExtras(bundle);
+                        startActivityResultPosting.launch(postingIntent);
+                    }
+                    else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(BoardPostActivity.this);
+                        builder.setTitle("글 삭제").setMessage("현재 글을 삭제하시겠습니까?");
+                        builder.setPositiveButton("삭제", (dialog, which) ->
+                                RetrofitClient.getApiService().postDeletePost(postInfo.getPostID()).enqueue(new Callback<String>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                                        Log.i("BoardPostActivity 확인용1", response.toString());
 
-                            @Override
-                            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                                Toast.makeText(BoardPostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
-                            }
-                        }));
-                builder.setNegativeButton("취소", (dialog, id) -> dialog.cancel());
-                AlertDialog alertDialog = builder.create();
-                alertDialog.setOnShowListener(dialogInterface -> {
-                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.main_fecom));
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.main_fecom));
+                                        if (response.code() == 200) {
+                                            isDeleted = true;
+                                            finish();
+                                        }
+                                        else
+                                            Toast.makeText(BoardPostActivity.this, "해당 글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                                        Toast.makeText(BoardPostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }));
+                        builder.setNegativeButton("취소", (dialog, id) -> dialog.cancel());
+                        AlertDialog alertDialog = builder.create();
+                        alertDialog.setOnShowListener(dialogInterface -> {
+                            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.main_fecom));
+                            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(this, R.color.main_fecom));
+                        });
+                        alertDialog.show();
+                    }
+
+                    return false;
                 });
-                alertDialog.show();
+                setMenu.show();
             });
         }
         else
-            ivDelete.setVisibility(View.GONE);
-
-        AppCompatImageButton ivRefresh = toolbar.findViewById(R.id.post_refresh);
-        ivRefresh.setOnClickListener(v -> updatePostInfo(false));
+            ivMenu.setVisibility(View.GONE);
     }
 
     private void postListener() {

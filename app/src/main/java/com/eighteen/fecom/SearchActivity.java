@@ -97,7 +97,7 @@ public class SearchActivity extends AppCompatActivity {
                         if (result.getResultCode() == RESULT_OK)
                             setSearchPostList(presentKeyword);
                     });
-            postAdapter = new BoardPostRecyclerAdapter(postList, startActivityResultPost2);
+            postAdapter = new BoardPostRecyclerAdapter(postList, boardID, startActivityResultPost2);
             rvSearch.setAdapter(postAdapter);
         }
         else
