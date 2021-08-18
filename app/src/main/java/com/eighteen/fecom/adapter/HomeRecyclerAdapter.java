@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.PostListActivity;
+import com.eighteen.fecom.BoardPostListActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.SimpleBoardInfo;
 
@@ -63,7 +63,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    Intent showPostList = new Intent(context, PostListActivity.class);
+                    Intent showPostList = new Intent(context, BoardPostListActivity.class);
                     Bundle bundle = new Bundle();
                         bundle.putInt("boardID", simpleBoardList.get(pos).getBoardID());
                         bundle.putString("boardName", simpleBoardList.get(pos).getName());

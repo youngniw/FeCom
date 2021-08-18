@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
@@ -9,38 +8,57 @@
     android:paddingEnd="5dp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/postRow_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/nickname"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/postRow_time"
+        <ImageView
+            android:id="@+id/cPostRow_logo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/university"
+            android:src="@drawable/logo_sookmyung" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="@string/dailyTalk_time"
-            android:textColor="@color/middle_grey"
-            android:textSize="12sp"
-            tools:ignore="RelativeOverlap" />
-    </RelativeLayout>
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp">
+
+            <TextView
+                android:id="@+id/cPostRow_univ"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sook"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp" />
+
+            <TextView
+                android:id="@+id/cPostRow_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dailyTalk_time"
+                android:textColor="@color/middle_grey"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="12dp" />
 
     <TextView
-        android:id="@+id/postRow_content"
+        android:id="@+id/cPostRow_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -62,8 +80,9 @@
         android:layout_height="wrap_content"
         android:gravity="end"
         android:orientation="horizontal">
+
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/postRow_ibLike"
+            android:id="@+id/cPostRow_ivLike"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:adjustViewBounds="true"
@@ -73,7 +92,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/icon_like" />
         <TextView
-            android:id="@+id/postRow_tvLike"
+            android:id="@+id/cPostRow_tvLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -86,14 +105,14 @@
             android:layout_height="match_parent" />
 
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="5dp"
             android:src="@drawable/icon_comment"
             android:contentDescription="@string/comment" />
         <TextView
-            android:id="@+id/postRow_tvComment"
+            android:id="@+id/cPostRow_tvComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

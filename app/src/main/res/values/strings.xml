@@ -5,6 +5,7 @@
     <string name="mypage">mypage</string>
     <string name="board">게시판</string>
     <string name="like">좋아요</string>
+    <string name="notLike">좋아요</string>
     <string name="comment">댓글</string>
     <string name="subscribe">구독</string>
     <string name="title">타이틀</string>
@@ -19,8 +20,10 @@
     <string name="posting">글쓰기</string>
     <string name="menu">Menu</string>
     <string name="refresh">새로고침</string>
+    <string name="university">대학</string>
+    <string name="sook">숙명여대</string>
 
-    <string name="example_time">2021.07.15 20:50:10</string>
+    <string name="example_time">2021-07-15 20:50:10</string>
     <string name="example_num">100</string>
 
     <string name="login_id">ID</string>
@@ -59,7 +62,7 @@
     <string name="tab_board">전체 게시판</string>
     <string name="tab_dailytalk">Daily Talk</string>
     <string name="tab_home">Home</string>
-    <string name="tab_majorcommunity">전공 커뮤니티</string>
+    <string name="tab_collegeCommunity">전공 커뮤니티</string>
     <string name="tab_notice">알림</string>
     <string name="tab_message">쪽지함</string>
 
@@ -91,7 +94,7 @@
     <string name="dailyTalk_time">1시간 전</string>
     <string name="dailyTalk_content">데일리톡 내용</string>
 
-    <string name="major_college">XX계열</string>
+    <string name="college_ex">XX계열</string>
 
     <string name="post_load">글을 불러오고 있습니다:)</string>
     <string name="post_comment">Comment</string>

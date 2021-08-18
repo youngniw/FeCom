@@ -21,12 +21,14 @@
         <activity android:name=".SignUpActivity"/>
         <activity android:name=".SignUp2Activity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".PostListActivity"/>
+        <activity android:name=".BoardPostListActivity"/>
         <activity android:name=".DailyTalkActivity"/>
         <activity android:name=".SearchActivity"/>
-        <activity android:name=".PostActivity"/>
+        <activity android:name=".BoardPostActivity"/>
         <activity android:name=".PostingActivity"/>
         <activity android:name=".MyPageActivity"/>
+        <activity android:name=".CollegePostListActivity"/>
+        <activity android:name=".CollegePostActivity"/>
     </application>
 
 </manifest>

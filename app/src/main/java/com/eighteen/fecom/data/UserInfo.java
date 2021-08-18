@@ -16,6 +16,12 @@ public class UserInfo implements Parcelable {
         this.nickname = nick;
     }
 
+    public UserInfo(int userID, int univCode, String univName) {  //전공커뮤니티 게시글 목록에서 사용
+        this.userID = userID;
+        this.univCode = univCode;
+        this.univName = univName;
+    }
+
     public UserInfo(int userID, String name, String nickname, String email, int univCode, String univName) {
         this.userID = userID;
         this.name = name;

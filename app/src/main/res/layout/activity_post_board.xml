@@ -8,7 +8,7 @@
     android:focusableInTouchMode="true" >
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/post_toolbar"
+        android:id="@+id/postB_toolbar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@color/main_fecom"
@@ -19,16 +19,16 @@
         app:layout_constraintRight_toRightOf="parent"/>
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/post_nsv"
+        android:id="@+id/postB_nsv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="1"
-        app:layout_constraintTop_toBottomOf="@id/post_toolbar"
-        app:layout_constraintBottom_toTopOf="@id/post_writeCommentL"
+        app:layout_constraintTop_toBottomOf="@id/postB_toolbar"
+        app:layout_constraintBottom_toTopOf="@id/postB_writeCommentL"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
         <LinearLayout
-            android:id="@+id/post_llPost"
+            android:id="@+id/postB_llPost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -50,7 +50,7 @@
                     android:padding="3dp">
 
                     <TextView
-                        android:id="@+id/post_writerName"
+                        android:id="@+id/postB_writerName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -60,7 +60,7 @@
                         android:textColor="@color/black"/>
 
                     <TextView
-                        android:id="@+id/post_time"
+                        android:id="@+id/postB_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/example_time"
@@ -69,7 +69,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/post_content"
+                    android:id="@+id/postB_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
@@ -91,7 +91,7 @@
                     android:paddingEnd="3dp">
 
                     <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/post_ibLike"
+                        android:id="@+id/postB_ibLike"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:adjustViewBounds="true"
@@ -101,7 +101,7 @@
                         android:scaleType="fitCenter"
                         android:src="@drawable/icon_like" />
                     <TextView
-                        android:id="@+id/post_likeNum"
+                        android:id="@+id/postB_likeNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
@@ -120,7 +120,7 @@
                         android:contentDescription="@string/comment"
                         android:src="@drawable/icon_comment" />
                     <TextView
-                        android:id="@+id/post_commentNum"
+                        android:id="@+id/postB_commentNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="1dp"
@@ -149,7 +149,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/main_fecom"/>
             <TextView
-                android:id="@+id/post_commentInfo"
+                android:id="@+id/postB_commentInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -162,7 +162,7 @@
                 android:textSize="15sp"
                 android:visibility="gone" />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/post_rvComments"
+                android:id="@+id/postB_rvComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -172,7 +172,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <TextView
-        android:id="@+id/post_tvInfo"
+        android:id="@+id/postB_tvInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/post_load"
@@ -180,14 +180,14 @@
         android:lineSpacingExtra="3dp"
         android:textColor="@color/grey"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/post_toolbar"
+        app:layout_constraintTop_toBottomOf="@id/postB_toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_bias="0.3"/>
 
     <LinearLayout
-        android:id="@+id/post_writeCommentL"
+        android:id="@+id/postB_writeCommentL"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
@@ -195,20 +195,20 @@
         android:gravity="center_vertical"
         android:padding="10dp"
         android:layout_marginBottom="1dp"
-        app:layout_constraintTop_toBottomOf="@id/post_nsv"
+        app:layout_constraintTop_toBottomOf="@id/postB_nsv"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent">
 
         <CheckBox
-            android:id="@+id/post_cbAnonymous"
+            android:id="@+id/postB_cbAnonymous"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
             android:text="@string/anonymous" />
 
         <EditText
-            android:id="@+id/post_etComment"
+            android:id="@+id/postB_etComment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -223,7 +223,7 @@
             android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/post_ibCommSubmit"
+            android:id="@+id/postB_ibCommSubmit"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:adjustViewBounds="true"

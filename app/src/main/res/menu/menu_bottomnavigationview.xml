@@ -13,9 +13,9 @@
         android:icon="@drawable/tab_home"
         android:title="@string/tab_home" />
     <item
-        android:id="@+id/tab_majorCommunity"
-        android:icon="@drawable/tab_majorcommunity"
-        android:title="@string/tab_majorcommunity" />
+        android:id="@+id/tab_collegeCommunity"
+        android:icon="@drawable/tab_collegecommunity"
+        android:title="@string/tab_collegeCommunity" />
     <item
         android:id="@+id/tab_notice"
         android:icon="@drawable/tab_notice"

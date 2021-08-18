@@ -10,21 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.PostListActivity;
+import com.eighteen.fecom.CollegePostListActivity;
 import com.eighteen.fecom.R;
-import com.eighteen.fecom.data.MajorInfo;
+import com.eighteen.fecom.data.CollegeInfo;
 
 import java.util.ArrayList;
 
 public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecyclerAdapter.CollegeViewHolder> {
     private Context context;
-    private ArrayList<MajorInfo> collegeList;
+    private ArrayList<CollegeInfo> collegeList;
 
-    public CollegeRecyclerAdapter(ArrayList<MajorInfo> collegeList) {
+    public CollegeRecyclerAdapter(ArrayList<CollegeInfo> collegeList) {
         this.collegeList = collegeList;
     }
 
@@ -34,7 +32,7 @@ public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecycler
         context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.item_major_college, parent, false);
+        View view = inflater.inflate(R.layout.item_college, parent, false);
         CollegeRecyclerAdapter.CollegeViewHolder viewHolder = new CollegeRecyclerAdapter.CollegeViewHolder(view);
 
         return viewHolder;
@@ -61,8 +59,7 @@ public class CollegeRecyclerAdapter extends RecyclerView.Adapter<CollegeRecycler
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 해당 계열의 글 목록이 보여아함(Intent)
-                    Intent showPostList = new Intent(context, PostListActivity.class);
+                    Intent showPostList = new Intent(context, CollegePostListActivity.class);
                     Bundle bundle = new Bundle();
                         bundle.putInt("collegeID", collegeList.get(pos).getCollegeID());
                         bundle.putString("collegeName", collegeList.get(pos).getCollegeName());

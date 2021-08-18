@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.PostActivity;
+import com.eighteen.fecom.BoardPostActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.CommentInfo;
@@ -35,36 +35,29 @@ import retrofit2.Response;
 
 import static com.eighteen.fecom.MainActivity.myInfo;
 
-public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.CommentViewHolder> {
+public class CollegeCommentRecyclerAdapter extends RecyclerView.Adapter<CollegeCommentRecyclerAdapter.CCommentViewHolder> {
     private Context context;
     private ArrayList<CommentInfo> commentList;
 
-    public CommentRecyclerAdapter(ArrayList<CommentInfo> commentList) {
+    public CollegeCommentRecyclerAdapter(ArrayList<CommentInfo> commentList) {
         this.commentList = commentList;
     }
 
     @NonNull
     @Override
-    public CommentRecyclerAdapter.CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CollegeCommentRecyclerAdapter.CCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.item_comment, parent, false);
-        CommentRecyclerAdapter.CommentViewHolder viewHolder = new CommentRecyclerAdapter.CommentViewHolder(view);
+        View view = inflater.inflate(R.layout.item_comment_college, parent, false);
+        CollegeCommentRecyclerAdapter.CCommentViewHolder viewHolder = new CollegeCommentRecyclerAdapter.CCommentViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentRecyclerAdapter.CommentViewHolder holder, int position) {
-        if (commentList.get(position).getAnonymous() == 1) {
-            holder.tvWriterNick.setText("익명".concat(String.valueOf(commentList.get(position).getAnonymousNum())));
-            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.grey));
-        }
-        else {
-            holder.tvWriterNick.setText(commentList.get(position).getCommenterInfo().getNick());
-            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.black));
-        }
+    public void onBindViewHolder(@NonNull CollegeCommentRecyclerAdapter.CCommentViewHolder holder, int position) {
+        holder.tvWriterUniv.setText(commentList.get(position).getCommenterInfo().getUnivName());
         holder.tvTime.setText(commentList.get(position).getCommentTime());
         holder.etContent.setText(commentList.get(position).getContent());
 
@@ -136,27 +129,27 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     @Override
     public int getItemCount() { return commentList.size(); }
 
-    public class CommentViewHolder extends RecyclerView.ViewHolder {
+    public class CCommentViewHolder extends RecyclerView.ViewHolder {
         AppCompatImageButton ibtLike, ibtEdit, ibtDelete, ibtCancel, ibtSubmit;
         LinearLayout llMenu, llToWriter, llEdit;
-        TextView tvWriterNick, tvTime, tvLike;
+        TextView tvWriterUniv, tvTime, tvLike;
         EditText etContent;
 
-        CommentViewHolder(final View itemView) {
+        CCommentViewHolder(final View itemView) {
             super(itemView);
 
-            tvWriterNick = itemView.findViewById(R.id.commentRow_nick);
-            tvTime = itemView.findViewById(R.id.commentRow_time);
-            etContent = itemView.findViewById(R.id.commentRow_content);
-            llMenu = itemView.findViewById(R.id.commentRow_llMenu);
-            llToWriter = itemView.findViewById(R.id.comment_llToWriter);
-            ibtLike = itemView.findViewById(R.id.commentRow_ibLike);
-            tvLike = itemView.findViewById(R.id.commentRow_tvLike);
-            ibtEdit = itemView.findViewById(R.id.commentRow_ibEdit);
-            ibtDelete = itemView.findViewById(R.id.commentRow_ibDelete);
-            llEdit = itemView.findViewById(R.id.commentRow_llEdit);
-            ibtCancel = itemView.findViewById(R.id.commentRow_ibEditCancel);
-            ibtSubmit = itemView.findViewById(R.id.commentRow_ibEditSubmit);
+            tvWriterUniv = itemView.findViewById(R.id.cCommentRow_nick);
+            tvTime = itemView.findViewById(R.id.cCommentRow_time);
+            etContent = itemView.findViewById(R.id.cCommentRow_content);
+            llMenu = itemView.findViewById(R.id.cCommentRow_llMenu);
+            llToWriter = itemView.findViewById(R.id.cComment_llToWriter);
+            ibtLike = itemView.findViewById(R.id.cCommentRow_ibLike);
+            tvLike = itemView.findViewById(R.id.cCommentRow_tvLike);
+            ibtEdit = itemView.findViewById(R.id.cCommentRow_ibEdit);
+            ibtDelete = itemView.findViewById(R.id.cCommentRow_ibDelete);
+            llEdit = itemView.findViewById(R.id.cCommentRow_llEdit);
+            ibtCancel = itemView.findViewById(R.id.cCommentRow_ibEditCancel);
+            ibtSubmit = itemView.findViewById(R.id.cCommentRow_ibEditSubmit);
 
             ibtDelete.setOnClickListener(v -> {
                 //TODO: 데일리톡일 때는 이 함수 사용 안됨!
@@ -170,7 +163,7 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
                                 public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                                     Log.i("CommentRecycler 확인용", response.toString());
                                     if (response.code() == 200)
-                                        ((PostActivity) context).updatePostInfo(false);
+                                        ((BoardPostActivity) context).updatePostInfo(false);
                                     else
                                         Toast.makeText(context, "해당 댓글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                 }

@@ -16,7 +16,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.PostActivity;
+import com.eighteen.fecom.BoardPostActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.PostInfo;
@@ -36,30 +36,30 @@ import retrofit2.Response;
 
 import static com.eighteen.fecom.MainActivity.myInfo;
 
-public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapter.PostViewHolder> {
+public class BoardPostRecyclerAdapter extends RecyclerView.Adapter<BoardPostRecyclerAdapter.PostViewHolder> {
     private Context context;
     private ArrayList<PostInfo> postList;
     private ActivityResultLauncher<Intent> startActivityResultPost;
 
-    public PostRecyclerAdapter(ArrayList<PostInfo> postList, ActivityResultLauncher<Intent> startActivityResultPost) {
+    public BoardPostRecyclerAdapter(ArrayList<PostInfo> postList, ActivityResultLauncher<Intent> startActivityResultPost) {
         this.postList = postList;
         this.startActivityResultPost = startActivityResultPost;
     }
 
     @NonNull
     @Override
-    public PostRecyclerAdapter.PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BoardPostRecyclerAdapter.PostViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View view = inflater.inflate(R.layout.item_post, parent, false);
-        PostRecyclerAdapter.PostViewHolder viewHolder = new PostRecyclerAdapter.PostViewHolder(view);
+        View view = inflater.inflate(R.layout.item_post_board, parent, false);
+        BoardPostRecyclerAdapter.PostViewHolder viewHolder = new BoardPostRecyclerAdapter.PostViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PostRecyclerAdapter.PostViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BoardPostRecyclerAdapter.PostViewHolder holder, int position) {
         if (postList.get(position).getAnonymous() == 1) {
             holder.tvWriterNick.setText(R.string.anonymous);
             holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.grey));
@@ -159,18 +159,17 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
         PostViewHolder(final View itemView) {
             super(itemView);
 
-            tvWriterNick = itemView.findViewById(R.id.postRow_name);
-            tvTime = itemView.findViewById(R.id.postRow_time);
-            tvContent = itemView.findViewById(R.id.postRow_content);
-            ibtLike = itemView.findViewById(R.id.postRow_ibLike);
-            tvLike = itemView.findViewById(R.id.postRow_tvLike);
-            tvComment = itemView.findViewById(R.id.postRow_tvComment);
+            tvWriterNick = itemView.findViewById(R.id.bPostRow_name);
+            tvTime = itemView.findViewById(R.id.bPostRow_time);
+            tvContent = itemView.findViewById(R.id.bPostRow_content);
+            ibtLike = itemView.findViewById(R.id.bPostRow_ibLike);
+            tvLike = itemView.findViewById(R.id.bPostRow_tvLike);
+            tvComment = itemView.findViewById(R.id.bPostRow_tvComment);
 
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 게시판글/전공글으로 넘어감!
-                    Intent showPostIntent = new Intent(context, PostActivity.class);
+                    Intent showPostIntent = new Intent(context, BoardPostActivity.class);
                     Bundle bundle = new Bundle();
                         bundle.putParcelable("postInfo", postList.get(pos));
                     showPostIntent.putExtras(bundle);

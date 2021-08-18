@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.adapter.CommentRecyclerAdapter;
-import com.eighteen.fecom.data.CommentInfo;
+import com.eighteen.fecom.adapter.BoardCommentRecyclerAdapter;
+import com.eighteen.fecom.data.BoardCommentInfo;
 import com.eighteen.fecom.data.PostInfo;
 import com.google.gson.JsonObject;
 
@@ -39,16 +39,16 @@ import retrofit2.Response;
 
 import static com.eighteen.fecom.MainActivity.myInfo;
 
-public class PostActivity extends AppCompatActivity {
+public class BoardPostActivity extends AppCompatActivity {
     private boolean isWriter = false;
     private boolean isDeleted = false, isChangedLike = false, isChangedComment = false;
 
     private PostInfo postInfo;
-    private ArrayList<CommentInfo> commentList = null;
+    private ArrayList<BoardCommentInfo> commentList = null;
 
     private AppCompatImageButton ibLike, ibCommSubmit;
     private CheckBox cbAnonymous;
-    private CommentRecyclerAdapter commentAdapter;
+    private BoardCommentRecyclerAdapter commentAdapter;
     private EditText etComment;
     private NestedScrollView nsvPost;
     private TextView tvInfo, tvWriterNick, tvTime, tvContent, tvLikeNum, tvCommentNum, tvCommentInfo;
@@ -56,14 +56,14 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+        setContentView(R.layout.activity_post_board);
 
         postInfo = getIntent().getParcelableExtra("postInfo");
         if (myInfo.getUserID() == postInfo.getWriterInfo().getUserID())
             isWriter = true;
         commentList = new ArrayList<>();
 
-        Toolbar toolbar = findViewById(R.id.post_toolbar);
+        Toolbar toolbar = findViewById(R.id.postB_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
             Objects.requireNonNull(actionBar).setDisplayShowCustomEnabled(true);
@@ -74,26 +74,26 @@ public class PostActivity extends AppCompatActivity {
         actionBar.setCustomView(customView, params);
         toolbarListener(toolbar);
 
-        nsvPost = findViewById(R.id.post_nsv);
-        tvInfo = findViewById(R.id.post_tvInfo);
-        tvWriterNick = findViewById(R.id.post_writerName);
-        tvTime = findViewById(R.id.post_time);
-        tvContent = findViewById(R.id.post_content);
-        ibLike = findViewById(R.id.post_ibLike);
-        tvLikeNum = findViewById(R.id.post_likeNum);
-        tvCommentNum = findViewById(R.id.post_commentNum);
-        tvCommentInfo = findViewById(R.id.post_commentInfo);
-        cbAnonymous = findViewById(R.id.post_cbAnonymous);
-        etComment = findViewById(R.id.post_etComment);
-        ibCommSubmit = findViewById(R.id.post_ibCommSubmit);
+        nsvPost = findViewById(R.id.postB_nsv);
+        tvInfo = findViewById(R.id.postB_tvInfo);
+        tvWriterNick = findViewById(R.id.postB_writerName);
+        tvTime = findViewById(R.id.postB_time);
+        tvContent = findViewById(R.id.postB_content);
+        ibLike = findViewById(R.id.postB_ibLike);
+        tvLikeNum = findViewById(R.id.postB_likeNum);
+        tvCommentNum = findViewById(R.id.postB_commentNum);
+        tvCommentInfo = findViewById(R.id.postB_commentInfo);
+        cbAnonymous = findViewById(R.id.postB_cbAnonymous);
+        etComment = findViewById(R.id.postB_etComment);
+        ibCommSubmit = findViewById(R.id.postB_ibCommSubmit);
 
         showPostInfo();
         postListener();
 
-        RecyclerView rvComment = findViewById(R.id.post_rvComments);
+        RecyclerView rvComment = findViewById(R.id.postB_rvComments);
         LinearLayoutManager commentManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         rvComment.setLayoutManager(commentManager);
-        commentAdapter = new CommentRecyclerAdapter(commentList);
+        commentAdapter = new BoardCommentRecyclerAdapter(commentList);
         rvComment.setAdapter(commentAdapter);
         rvComment.addItemDecoration(new DividerItemDecoration(this, 1));
 
@@ -121,25 +121,25 @@ public class PostActivity extends AppCompatActivity {
         AppCompatImageButton ivDelete = toolbar.findViewById(R.id.post_delete);
         if (isWriter) {
             ivDelete.setOnClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(BoardPostActivity.this);
                 builder.setTitle("글 삭제").setMessage("현재 글을 삭제하시겠습니까?");
                 builder.setPositiveButton("삭제", (dialog, which) ->
                         RetrofitClient.getApiService().postDeletePost(postInfo.getPostID()).enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                                Log.i("PostActivity 확인용1", response.toString());
+                                Log.i("BoardPostActivity 확인용1", response.toString());
 
                                 if (response.code() == 200) {
                                     isDeleted = true;
                                     finish();
                                 }
                                 else
-                                    Toast.makeText(PostActivity.this, "해당 글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BoardPostActivity.this, "해당 글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                                Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BoardPostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                             }
                         }));
                 builder.setNegativeButton("취소", (dialog, id) -> dialog.cancel());
@@ -166,7 +166,7 @@ public class PostActivity extends AppCompatActivity {
                 RetrofitClient.getApiService().postDeleteLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("PostActivity 확인용", response.toString());
+                        Log.i("BoardPostActivity 확인용", response.toString());
                         if (response.code() == 200) {
                             isChangedLike = true;
                             try {
@@ -174,19 +174,19 @@ public class PostActivity extends AppCompatActivity {
 
                                 postInfo.setAmILike(0);
                                 postInfo.setLikeNum(result.getInt("like_count"));
-                                ibLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.black));
+                                ibLike.setColorFilter(ContextCompat.getColor(BoardPostActivity.this, R.color.black));
                                 tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
                             } catch (JSONException e) { e.printStackTrace(); }
                         }
                         else
-                            Toast.makeText(PostActivity.this, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BoardPostActivity.this, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
                         ibLike.setEnabled(true);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         ibLike.setEnabled(true);
-                        Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardPostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -194,7 +194,7 @@ public class PostActivity extends AppCompatActivity {
                 RetrofitClient.getApiService().postRegisterLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("PostActivity 확인용", response.toString());
+                        Log.i("BoardPostActivity 확인용", response.toString());
                         if (response.code() == 200) {
                             isChangedLike = true;
                             try {
@@ -202,19 +202,19 @@ public class PostActivity extends AppCompatActivity {
 
                                 postInfo.setAmILike(1);
                                 postInfo.setLikeNum(result.getInt("like_count"));
-                                ibLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.red));
+                                ibLike.setColorFilter(ContextCompat.getColor(BoardPostActivity.this, R.color.red));
                                 tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
                             } catch (JSONException e) { e.printStackTrace(); }
                         }
                         else
-                            Toast.makeText(PostActivity.this, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BoardPostActivity.this, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
                         ibLike.setEnabled(true);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         ibLike.setEnabled(true);
-                        Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardPostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -238,7 +238,7 @@ public class PostActivity extends AppCompatActivity {
                 RetrofitClient.getApiService().postRegisterComment(commentData).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("PostActivity 댓글 확인용", response.toString());
+                        Log.i("BoardPostActivity 댓글 확인용", response.toString());
                         if (response.code() == 200) {
                             isChangedComment = true;
                             updatePostInfo(true);
@@ -246,7 +246,7 @@ public class PostActivity extends AppCompatActivity {
                             cbAnonymous.setChecked(false);
                         }
                         else
-                            Toast.makeText(PostActivity.this, "죄송합니다. 다시 한번 댓글을 전송해 주세요:)", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BoardPostActivity.this, "죄송합니다. 다시 한번 댓글을 전송해 주세요:)", Toast.LENGTH_SHORT).show();
 
                         etComment.setEnabled(true);
                     }
@@ -254,7 +254,7 @@ public class PostActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         etComment.setEnabled(true);
-                        Toast.makeText(PostActivity.this, "서버와 연결되지 않습니다. 네트워크를 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BoardPostActivity.this, "서버와 연결되지 않습니다. 네트워크를 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -290,9 +290,9 @@ public class PostActivity extends AppCompatActivity {
         RetrofitClient.getApiService().getPostInfo(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                Log.i("PostActivity 확인용", response.toString());
+                Log.i("BoardPostActivity 확인용", response.toString());
                 if (response.code() == 200) {
-                    Log.i("PostActivity 확인용", response.body());
+                    Log.i("BoardPostActivity 확인용", response.body());
                     try {
                         JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
 
@@ -323,10 +323,11 @@ public class PostActivity extends AppCompatActivity {
                                 String commenterNick = commentObject.getString("writer_nickname");
                                 String commentTime = commentObject.getString("register_datetime");
                                 String comment = commentObject.getString("content");
-                                int commentAmILike = commentObject.getInt("thumbup");
+                                int commentAmILike = commentObject.getInt("thumb");
                                 int commentLikeNum = commentObject.getInt("comment_like_count");
+                                int commentNotLikeNum = commentObject.getInt("comment_dislike_count");
 
-                                commentList.add(new CommentInfo(commentID, commentAnonymous, anonymousNum, commenterID, commenterNick, commentTime, comment, commentAmILike, commentLikeNum));
+                                commentList.add(new BoardCommentInfo(commentID, commentAnonymous, anonymousNum, commenterID, commenterNick, commentTime, comment, commentAmILike, commentLikeNum, commentNotLikeNum));
                             }
                         }
                     } catch (JSONException e) { e.printStackTrace(); }

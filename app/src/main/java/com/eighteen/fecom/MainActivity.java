@@ -28,7 +28,7 @@ import android.widget.TextView;
 import com.eighteen.fecom.data.UserInfo;
 import com.eighteen.fecom.fragment.FragmentBoard;
 import com.eighteen.fecom.fragment.FragmentHome;
-import com.eighteen.fecom.fragment.FragmentMajorCommunity;
+import com.eighteen.fecom.fragment.FragmentCollegeCommunity;
 import com.eighteen.fecom.fragment.FragmentMessage;
 import com.eighteen.fecom.fragment.FragmentNotice;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentBoard fragmentBoard;
     private FragmentHome fragmentHome;
-    private FragmentMajorCommunity fragmentMajorCommunity;
+    private FragmentCollegeCommunity fragmentCollegeCommunity;
     private FragmentNotice fragmentNotice;
     private FragmentMessage fragmentMessage;
 
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentBoard = new FragmentBoard();
         fragmentHome = new FragmentHome();
-        fragmentMajorCommunity = new FragmentMajorCommunity();
+        fragmentCollegeCommunity = new FragmentCollegeCommunity();
         fragmentNotice = new FragmentNotice();
         fragmentMessage = new FragmentMessage();
 
@@ -125,13 +125,13 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 }
-                case R.id.tab_majorCommunity: {
-                    transactionNow.replace(R.id.main_framelayout, fragmentMajorCommunity).commitAllowingStateLoss();
+                case R.id.tab_collegeCommunity: {
+                    transactionNow.replace(R.id.main_framelayout, fragmentCollegeCommunity).commitAllowingStateLoss();
 
-                    View actionBarView = View.inflate(this, R.layout.actionbar_tab_major, null);
+                    View actionBarView = View.inflate(this, R.layout.actionbar_tab_college, null);
                     actionBar.setCustomView(actionBarView, params);
                     TextView tvTitle = toolbar.findViewById(R.id.tabTB_title);
-                    tvTitle.setText(R.string.tab_majorcommunity);
+                    tvTitle.setText(R.string.tab_collegeCommunity);
 
                     break;
                 }

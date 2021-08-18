@@ -15,7 +15,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.PostListActivity;
+import com.eighteen.fecom.BoardPostListActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.BoardInfo;
@@ -116,7 +116,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerAdap
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     //TODO: 해당 게시판으로 넘어감!
-                    Intent showPostList = new Intent(context, PostListActivity.class);
+                    Intent showPostList = new Intent(context, BoardPostListActivity.class);
                     Bundle bundle = new Bundle();
                         bundle.putInt("boardID", boardInfoList.get(pos).getBoardID());
                         bundle.putString("boardName", boardInfoList.get(pos).getBoardName());

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.eighteen.fecom.adapter.BoardRecyclerAdapter;
-import com.eighteen.fecom.adapter.PostRecyclerAdapter;
+import com.eighteen.fecom.adapter.BoardPostRecyclerAdapter;
 import com.eighteen.fecom.data.BoardInfo;
 import com.eighteen.fecom.data.PostInfo;
 
@@ -40,7 +39,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class SearchActivity extends AppCompatActivity {
-    private int whichTopic = 0;     //1은 홈, 2는 게시판, 3은 게시물
+    private int whichTopic = 0;     //1은 홈, 2는 게시판, 3은 게시판의 게시물, 4는 단과대학의 게시글
     private int boardID = -1;
     private String presentKeyword = "";
     private ArrayList<BoardInfo> boardList = null;
@@ -48,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private AppCompatImageButton ibtBack, ibtSearch;
     private BoardRecyclerAdapter boardAdapter;
-    private PostRecyclerAdapter postAdapter;
+    private BoardPostRecyclerAdapter postAdapter;
     private EditText etSearch;
     private LinearLayout llInfo;
     private TextView tvNoResult;
@@ -68,9 +67,13 @@ public class SearchActivity extends AppCompatActivity {
             etSearch.setHint("게시판 및 게시물 검색");
         else if (whichTopic == 2)
             etSearch.setHint("게시판 검색");
-        else {
+        else if (whichTopic == 3) {
             etSearch.setHint("게시물 검색");
             boardID = getIntent().getExtras().getInt("boardID");
+        }
+        else {
+            etSearch.setHint("단과대학 게시글 검색");
+            boardID = getIntent().getExtras().getInt("collegeID");
         }
         tvNoResult = findViewById(R.id.search_tvNoPost);
 
@@ -86,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
             boardAdapter = new BoardRecyclerAdapter(boardList);
             rvSearch.setAdapter(boardAdapter);
         }
-        else {
+        else if (whichTopic == 3) {
             postList = new ArrayList<>();
             ActivityResultLauncher<Intent> startActivityResultPost2 = registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
@@ -94,9 +97,11 @@ public class SearchActivity extends AppCompatActivity {
                         if (result.getResultCode() == RESULT_OK)
                             setSearchPostList(presentKeyword);
                     });
-            postAdapter = new PostRecyclerAdapter(postList, startActivityResultPost2);
+            postAdapter = new BoardPostRecyclerAdapter(postList, startActivityResultPost2);
             rvSearch.setAdapter(postAdapter);
         }
+        else
+            ;   //TODO: 단과대학의 게시글 검색
 
         searchListener();
     }
@@ -129,8 +134,10 @@ public class SearchActivity extends AppCompatActivity {
                             setSearchBPList(searchKeyword);
                         else if (whichTopic == 2)
                             setSearchBoardList(searchKeyword);
-                        else
+                        else if (whichTopic == 3)
                             setSearchPostList(searchKeyword);
+                        else
+                            setSearchCollegePostList(searchKeyword);
                     }
                     break;
                 }
@@ -149,8 +156,10 @@ public class SearchActivity extends AppCompatActivity {
                     setSearchBPList(searchKeyword);
                 else if (whichTopic == 2)
                     setSearchBoardList(searchKeyword);
-                else
+                else if (whichTopic == 3)
                     setSearchPostList(searchKeyword);
+                else
+                    setSearchCollegePostList(searchKeyword);
             }
         });
     }
@@ -213,5 +222,9 @@ public class SearchActivity extends AppCompatActivity {
                 tvNoResult.setText("게시글 로드 실패\n네트워크를 확인해 주세요.");
             }
         });
+    }
+
+    private void setSearchCollegePostList(String keyword) {
+        //TODO: 단과대학의 게시글 검색
     }
 }

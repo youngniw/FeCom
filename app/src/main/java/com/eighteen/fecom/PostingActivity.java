@@ -103,7 +103,7 @@ public class PostingActivity extends AppCompatActivity {
         else if (whereFrom == 2)
             tvTitle.setText(R.string.tab_dailytalk);
         else
-            tvTitle.setText(R.string.tab_majorcommunity);
+            tvTitle.setText(R.string.tab_collegeCommunity);
 
         AppCompatButton btComplete = toolbar.findViewById(R.id.posting_complete);
         btComplete.setOnClickListener(v -> {
