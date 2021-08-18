@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -160,6 +163,8 @@ public class PostActivity extends AppCompatActivity {
 
     private void postListener() {
         ibLike.setOnClickListener(v -> {
+            ibLike.setEnabled(false);
+
             if (postInfo.getAmILike() == 1) {
                 RetrofitClient.getApiService().postDeleteLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
                     @Override
@@ -178,10 +183,12 @@ public class PostActivity extends AppCompatActivity {
                         }
                         else
                             Toast.makeText(PostActivity.this, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
+                        ibLike.setEnabled(true);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        ibLike.setEnabled(true);
                         Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -204,10 +211,12 @@ public class PostActivity extends AppCompatActivity {
                         }
                         else
                             Toast.makeText(PostActivity.this, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        ibLike.setEnabled(true);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        ibLike.setEnabled(true);
                         Toast.makeText(PostActivity.this, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -343,5 +352,4 @@ public class PostActivity extends AppCompatActivity {
             }
         });
     }
-
 }

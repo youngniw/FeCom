@@ -71,4 +71,16 @@ public interface RetrofitAPI {
     @FormUrlEncoded
     @POST("/fecom/api/postcomment/delete.php")
     Call<String> postDeleteComment(@Field("comment_id") int commentID); //댓글 삭제
+
+    @POST("/fecom/api/postcomment/edit.php")
+    Call<String> postEditComment(@Body JsonObject commentData);         //댓글 수정
+
+
+    @FormUrlEncoded
+    @POST("/fecom/api/postcommentlike/register.php")
+    Call<String> postRegisterLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);           //댓글 좋아요 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/postcommentlike/delete.php")
+    Call<String> postDeleteLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);             //댓글 좋아요 삭제
 }

@@ -86,12 +86,13 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
 
         holder.tvContent.setText(postList.get(position).getContent());
 
-        //TODO: 이미지버튼으로 바꾸자!!!! -> padding 넣어야 함!!
         if (postList.get(position).getAmILike() == 1)
-            holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
+            holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
-            holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
-        holder.ivLike.setOnClickListener(v -> {
+            holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
+        holder.ibtLike.setOnClickListener(v -> {
+            holder.ibtLike.setEnabled(false);
+
             if (postList.get(position).getAmILike() == 1) {
                 RetrofitClient.getApiService().postDeleteLikeP(myInfo.getUserID(), postList.get(position).getPostID()).enqueue(new Callback<String>() {
                     @Override
@@ -107,10 +108,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                         }
                         else
                             Toast.makeText(context, "다시 한번 시도해 주세요:)", Toast.LENGTH_SHORT).show();
+                        holder.ibtLike.setEnabled(true);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        holder.ibtLike.setEnabled(true);
                         Toast.makeText(context, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -130,10 +133,12 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
                         }
                         else
                             Toast.makeText(context, "다시 한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        holder.ibtLike.setEnabled(true);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        holder.ibtLike.setEnabled(true);
                         Toast.makeText(context, "서버와 연결되지 않았습니다. 확인해 주세요.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -148,7 +153,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     public int getItemCount() { return postList.size(); }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-        AppCompatImageButton ivLike;
+        AppCompatImageButton ibtLike;
         TextView tvWriterNick, tvTime, tvContent, tvLike, tvComment;
 
         PostViewHolder(final View itemView) {
@@ -157,7 +162,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             tvWriterNick = itemView.findViewById(R.id.postRow_name);
             tvTime = itemView.findViewById(R.id.postRow_time);
             tvContent = itemView.findViewById(R.id.postRow_content);
-            ivLike = itemView.findViewById(R.id.postRow_ibLike);
+            ibtLike = itemView.findViewById(R.id.postRow_ibLike);
             tvLike = itemView.findViewById(R.id.postRow_tvLike);
             tvComment = itemView.findViewById(R.id.postRow_tvComment);
 

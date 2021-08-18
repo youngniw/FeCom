@@ -29,4 +29,8 @@ public class CommentInfo {
     public String getContent() { return content; }
     public int getAmILike() { return amILike; }
     public int getLikeNum() { return likeNum; }
+
+    public void setContent(String content) { this.content = content; }
+    public void setAmILike(int amILike) { this.amILike = amILike; }
+    public void setLikeNum(int likeNum) { this.likeNum = likeNum; }
 }

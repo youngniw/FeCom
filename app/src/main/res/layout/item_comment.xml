@@ -31,17 +31,25 @@
             android:textSize="13sp"/>
     </LinearLayout>
 
-    <TextView
+    <EditText
         android:id="@+id/commentRow_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:enabled="false"
+        android:inputType="textMultiLine"
         android:text="@string/content"
         android:textColor="@color/black"
         android:textSize="15sp" />
 
     <LinearLayout
+        android:id="@+id/commentRow_llMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -120,5 +128,53 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_delete" />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/commentRow_llEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_comment_menu"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/commentRow_ibEditCancel"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/cancel"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_cancel"
+            android:tint="@color/black" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@color/black" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/commentRow_ibEditSubmit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/complete"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_edit_comment"
+            android:tint="@color/main_fecom" />
     </LinearLayout>
 </LinearLayout>
