@@ -7,12 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -148,12 +148,8 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
     public int getItemCount() { return postList.size(); }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
-        TextView tvWriterNick;
-        TextView tvTime;
-        TextView tvContent;
-        ImageView ivLike;
-        TextView tvLike;
-        TextView tvComment;
+        AppCompatImageButton ivLike;
+        TextView tvWriterNick, tvTime, tvContent, tvLike, tvComment;
 
         PostViewHolder(final View itemView) {
             super(itemView);
@@ -161,7 +157,7 @@ public class PostRecyclerAdapter extends RecyclerView.Adapter<PostRecyclerAdapte
             tvWriterNick = itemView.findViewById(R.id.postRow_name);
             tvTime = itemView.findViewById(R.id.postRow_time);
             tvContent = itemView.findViewById(R.id.postRow_content);
-            ivLike = itemView.findViewById(R.id.postRow_ivLike);
+            ivLike = itemView.findViewById(R.id.postRow_ibLike);
             tvLike = itemView.findViewById(R.id.postRow_tvLike);
             tvComment = itemView.findViewById(R.id.postRow_tvComment);
 

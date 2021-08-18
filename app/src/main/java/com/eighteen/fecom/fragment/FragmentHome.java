@@ -2,7 +2,6 @@ package com.eighteen.fecom.fragment;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,8 +76,6 @@ public class FragmentHome extends Fragment {
         });
         vpDailyTalk.setPageTransformer(transformer);
 
-        setTopTalkPager();
-
         llBoardError = rootView.findViewById(R.id.fHome_llBoardError);
         ivBoardError = rootView.findViewById(R.id.fHome_ivBoardError);
         tvBoardError = rootView.findViewById(R.id.fHome_tvBoardError);
@@ -89,9 +86,18 @@ public class FragmentHome extends Fragment {
         bAdapter = new HomeRecyclerAdapter(bSubLists);
         rvBoard.setAdapter(bAdapter);
 
+        setTopTalkPager();
         setSubscribeBoard();
 
+        homeClickListener();
+
         return rootView;
+    }
+
+    private void homeClickListener() {
+        llTalkError.setOnClickListener(v -> setTopTalkPager());
+
+        llBoardError.setOnClickListener(v -> setSubscribeBoard());
     }
 
     private void setTopTalkPager() {

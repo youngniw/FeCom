@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,42 +58,47 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
             holder.tvWriterNick.setText(commentList.get(position).getCommenterInfo().getNick());
             holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
-
         holder.tvTime.setText(commentList.get(position).getCommentTime());
-
-        if (myInfo.getUserID() != commentList.get(position).getCommenterInfo().getUserID())
-            holder.ibtDelete.setVisibility(View.GONE);
-
         holder.tvContent.setText(commentList.get(position).getContent());
 
         if (commentList.get(position).getAmILike() == 1)
-            holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
+            holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.red));
         else
-            holder.ivLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
+            holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
         holder.tvLike.setText(String.valueOf(commentList.get(position).getLikeNum()));
+
+        if (myInfo.getUserID() != commentList.get(position).getCommenterInfo().getUserID())
+            holder.llToWriter.setVisibility(View.GONE);
+        else {
+            holder.ibtEdit.setOnClickListener(v -> {
+                //TODO: 수정 기능!
+            });
+        }
     }
 
     @Override
     public int getItemCount() { return commentList.size(); }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder {
-        AppCompatImageButton ibtDelete;
+        AppCompatImageButton ibtLike, ibtEdit, ibtDelete;
+        LinearLayout llToWriter;
         TextView tvWriterNick, tvTime, tvContent, tvLike;
-        ImageView ivLike;
 
         CommentViewHolder(final View itemView) {
             super(itemView);
 
             tvWriterNick = itemView.findViewById(R.id.commentRow_nick);
             tvTime = itemView.findViewById(R.id.commentRow_time);
-            ibtDelete = itemView.findViewById(R.id.commentRow_delete);
             tvContent = itemView.findViewById(R.id.commentRow_content);
-            ivLike = itemView.findViewById(R.id.commentRow_ivLike);
+            llToWriter = itemView.findViewById(R.id.comment_llToWriter);
+            ibtLike = itemView.findViewById(R.id.commentRow_ibLike);
             tvLike = itemView.findViewById(R.id.commentRow_tvLike);
+            ibtEdit = itemView.findViewById(R.id.commentRow_ibEdit);
+            ibtDelete = itemView.findViewById(R.id.commentRow_ibDelete);
 
             ibtDelete.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {      //TODO: 삭제 메시지를 보여줌
+                if (pos != RecyclerView.NO_POSITION) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("댓글 삭제").setMessage("현재 댓글을 삭제하시겠습니까?");
                     builder.setPositiveButton("삭제", (dialog, which) ->

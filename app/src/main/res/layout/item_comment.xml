@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,68 +11,24 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/commentRow_nick"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="15dp"
-            android:orientation="vertical" >
+            android:text="@string/nickname"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-                <TextView
-                    android:id="@+id/commentRow_nick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nickname"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="25dp"
-                    android:layout_height="match_parent" />
-
-                <ImageView
-                    android:id="@+id/commentRow_ivLike"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginEnd="5dp"
-                    android:src="@drawable/icon_like"
-                    android:contentDescription="@string/like" />
-                <TextView
-                    android:id="@+id/commentRow_tvLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/example_num"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/commentRow_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/example_time"
-                android:textColor="#A3A3A3"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/commentRow_delete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:adjustViewBounds="true"
-            android:backgroundTint="@color/white"
-            android:contentDescription="@string/delete"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/icon_delete"
-            app:tint="@color/main_fecom" />
+        <TextView
+            android:id="@+id/commentRow_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/example_time"
+            android:textColor="#A3A3A3"
+            android:textSize="13sp"/>
     </LinearLayout>
 
     <TextView
@@ -82,8 +37,88 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
-        android:text="댓글 내용"
+        android:text="@string/content"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="15sp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_comment_menu"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/commentRow_ibLike"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:adjustViewBounds="true"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/like"
+            android:padding="3dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_like" />
+        <TextView
+            android:id="@+id/commentRow_tvLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="3dp"
+            android:text="@string/example_num"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/comment_llToWriter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/commentRow_ibEdit"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/like"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_write"
+                android:tint="@color/black" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/commentRow_ibDelete"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/delete"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_delete" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

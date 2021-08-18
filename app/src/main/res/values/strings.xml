@@ -15,6 +15,7 @@
     <string name="anonymous">익명</string>
     <string name="cancel">취소</string>
     <string name="complete">완료</string>
+    <string name="add">추가</string>
     <string name="posting">글쓰기</string>
     <string name="menu">Menu</string>
     <string name="refresh">새로고침</string>
@@ -88,6 +89,11 @@
     <string name="dailyTalk_content">데일리톡 내용</string>
 
     <string name="major_college">XX계열</string>
+
+    <string name="post_load">글을 불러오고 있습니다:)</string>
+    <string name="post_comment">Comment</string>
+    <string name="post_etComment">댓글을 입력하세요.</string>
+    <string name="post_noComment">아직 댓글이 없습니다.</string>
 
     <string name="posting_error">내용을 입력하세요.</string>
     <string name="posting_content">글의 내용을 입력하세요.</string>

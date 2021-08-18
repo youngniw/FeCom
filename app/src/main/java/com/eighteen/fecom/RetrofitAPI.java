@@ -65,7 +65,10 @@ public interface RetrofitAPI {
     Call<String> postDeleteLikeP(@Field("user_id") int userID, @Field("post_id") int postID);                   //게시글 좋아요 삭제
 
 
+    @POST("/fecom/api/postcomment/register.php")
+    Call<String> postRegisterComment(@Body JsonObject commentData);     //댓글 등록
+
     @FormUrlEncoded
     @POST("/fecom/api/postcomment/delete.php")
-    Call<String> postDeleteComment(@Field("comment_id") int commentID); //댓글 삭제         -> TODO: 확인 바람!!! 시도 안해봄!
+    Call<String> postDeleteComment(@Field("comment_id") int commentID); //댓글 삭제
 }

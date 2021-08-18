@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.eighteen.fecom.adapter.CommentRecyclerAdapter;
 import com.eighteen.fecom.data.CommentInfo;
 import com.eighteen.fecom.data.PostInfo;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,16 +40,18 @@ import retrofit2.Response;
 import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class PostActivity extends AppCompatActivity {
-    private boolean isWriter = false, isDeleted = false, isChangedLike = false;
+    private boolean isWriter = false;
+    private boolean isDeleted = false, isChangedLike = false, isChangedComment = false;
+
     private PostInfo postInfo;
     private ArrayList<CommentInfo> commentList = null;
 
+    private AppCompatImageButton ibLike, ibCommSubmit;
+    private CheckBox cbAnonymous;
     private CommentRecyclerAdapter commentAdapter;
-    private LinearLayout llPost;
-    private ImageView ivPostLike;
+    private EditText etComment;
+    private NestedScrollView nsvPost;
     private TextView tvInfo, tvWriterNick, tvTime, tvContent, tvLikeNum, tvCommentNum, tvCommentInfo;
-
-    //TODO: 댓글 추가 버튼도 구현해야 함!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +74,21 @@ public class PostActivity extends AppCompatActivity {
         actionBar.setCustomView(customView, params);
         toolbarListener(toolbar);
 
-        llPost = findViewById(R.id.post_llPost);
+        nsvPost = findViewById(R.id.post_nsv);
         tvInfo = findViewById(R.id.post_tvInfo);
         tvWriterNick = findViewById(R.id.post_writerName);
         tvTime = findViewById(R.id.post_time);
         tvContent = findViewById(R.id.post_content);
-        ivPostLike = findViewById(R.id.post_ivLike);
+        ibLike = findViewById(R.id.post_ibLike);
         tvLikeNum = findViewById(R.id.post_likeNum);
         tvCommentNum = findViewById(R.id.post_commentNum);
         tvCommentInfo = findViewById(R.id.post_commentInfo);
+        cbAnonymous = findViewById(R.id.post_cbAnonymous);
+        etComment = findViewById(R.id.post_etComment);
+        ibCommSubmit = findViewById(R.id.post_ibCommSubmit);
 
         showPostInfo();
-        postClickListener();
+        postListener();
 
         RecyclerView rvComment = findViewById(R.id.post_rvComments);
         LinearLayoutManager commentManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
@@ -95,7 +102,7 @@ public class PostActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
-        if (isDeleted || isChangedLike) {
+        if (isDeleted || isChangedLike || isChangedComment) {
             Intent deletedIntent = new Intent();
             setResult(RESULT_OK, deletedIntent);
         }
@@ -151,8 +158,8 @@ public class PostActivity extends AppCompatActivity {
         ivRefresh.setOnClickListener(v -> updatePostInfo());
     }
 
-    private void postClickListener() {
-        ivPostLike.setOnClickListener(v -> {
+    private void postListener() {
+        ibLike.setOnClickListener(v -> {
             if (postInfo.getAmILike() == 1) {
                 RetrofitClient.getApiService().postDeleteLikeP(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
                     @Override
@@ -165,7 +172,7 @@ public class PostActivity extends AppCompatActivity {
 
                                 postInfo.setAmILike(0);
                                 postInfo.setLikeNum(result.getInt("like_count"));
-                                ivPostLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.black));
+                                ibLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.black));
                                 tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
                             } catch (JSONException e) { e.printStackTrace(); }
                         }
@@ -191,7 +198,7 @@ public class PostActivity extends AppCompatActivity {
 
                                 postInfo.setAmILike(1);
                                 postInfo.setLikeNum(result.getInt("like_count"));
-                                ivPostLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.red));
+                                ibLike.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.red));
                                 tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
                             } catch (JSONException e) { e.printStackTrace(); }
                         }
@@ -206,6 +213,46 @@ public class PostActivity extends AppCompatActivity {
                 });
             }
         });
+
+        ibCommSubmit.setOnClickListener(v -> {
+            etComment.setEnabled(false);
+
+            String comment = etComment.getText().toString().trim();
+            if (comment.length() <= 0)
+                etComment.setEnabled(true);
+            else {
+                JsonObject commentData = new JsonObject();
+                commentData.addProperty("post_id", postInfo.getPostID());
+                commentData.addProperty("writer", myInfo.getUserID());
+                commentData.addProperty("content", comment);
+                if (cbAnonymous.isChecked())
+                    commentData.addProperty("anonymous", 1);
+                else
+                    commentData.addProperty("anonymous", 0);
+                RetrofitClient.getApiService().postRegisterComment(commentData).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                        Log.i("PostRecycler 댓글 확인용", response.toString());
+                        etComment.setEnabled(true);
+
+                        if (response.code() == 200) {
+                            isChangedComment = true;
+                            updatePostInfo();
+                            etComment.setText("");
+                            nsvPost.post(() -> nsvPost.fullScroll(View.FOCUS_DOWN));
+                        }
+                        else
+                            Toast.makeText(PostActivity.this, "죄송합니다. 다시 한번 댓글을 전송해 주세요:)", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                        etComment.setEnabled(true);
+                        Toast.makeText(PostActivity.this, "서버와 연결되지 않습니다. 네트워크를 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     public void showPostInfo() {
@@ -216,9 +263,9 @@ public class PostActivity extends AppCompatActivity {
         tvTime.setText(postInfo.getPostTime());
         tvContent.setText(postInfo.getContent());
         if (postInfo.getAmILike() == 1)
-            ivPostLike.setColorFilter(ContextCompat.getColor(this, R.color.red));
+            ibLike.setColorFilter(ContextCompat.getColor(this, R.color.red));
         else
-            ivPostLike.setColorFilter(ContextCompat.getColor(this, R.color.black));
+            ibLike.setColorFilter(ContextCompat.getColor(this, R.color.black));
         tvLikeNum.setText(String.valueOf(postInfo.getLikeNum()));
         tvCommentNum.setText(String.valueOf(postInfo.getCommentNum()));
 
@@ -230,7 +277,7 @@ public class PostActivity extends AppCompatActivity {
         commentList.clear();
         commentAdapter.notifyDataSetChanged();
 
-        llPost.setVisibility(View.INVISIBLE);
+        nsvPost.setVisibility(View.INVISIBLE);
         tvInfo.setVisibility(View.VISIBLE);
         tvInfo.setText("글을 불러오고 있습니다:)");
         tvCommentInfo.setVisibility(View.GONE);
@@ -279,7 +326,7 @@ public class PostActivity extends AppCompatActivity {
                     } catch (JSONException e) { e.printStackTrace(); }
 
                     tvInfo.setVisibility(View.GONE);
-                    llPost.setVisibility(View.VISIBLE);
+                    nsvPost.setVisibility(View.VISIBLE);
                     showPostInfo();
 
                     commentAdapter.notifyDataSetChanged();
@@ -296,4 +343,5 @@ public class PostActivity extends AppCompatActivity {
             }
         });
     }
+
 }
