@@ -115,7 +115,7 @@ public class FragmentHome extends Fragment {
 
         llTalkError.setVisibility(View.GONE);
         ibRefreshTalk.setVisibility(View.INVISIBLE);
-        RetrofitClient.getApiService().getDailyTalks(myInfo.getUserID()).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService().getTop10Talks(myInfo.getUserID()).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("FragmentHome 확인용1", response.toString());

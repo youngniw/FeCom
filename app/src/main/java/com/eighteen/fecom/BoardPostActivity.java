@@ -265,7 +265,7 @@ public class BoardPostActivity extends AppCompatActivity {
                     commentData.addProperty("anonymous", 1);
                 else
                     commentData.addProperty("anonymous", 0);
-                RetrofitClient.getApiService().postRegisterComment(commentData).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postRegisterCommentB(commentData).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("BoardPostActivity 댓글 확인용", response.toString());

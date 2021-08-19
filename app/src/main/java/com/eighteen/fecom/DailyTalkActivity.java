@@ -40,6 +40,7 @@ public class DailyTalkActivity extends AppCompatActivity {
 
     private DailyTalkPagerAdapter talkAdapter;
     private TextView tvInfo;
+    private ViewPager2 vpDailyTalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class DailyTalkActivity extends AppCompatActivity {
 
         tvInfo = findViewById(R.id.dailyTalk_info);
 
-        ViewPager2 vpDailyTalk = findViewById(R.id.dailyTalk_vp);
+        vpDailyTalk = findViewById(R.id.dailyTalk_vp);
         talkAdapter = new DailyTalkPagerAdapter(false, dtalkLists);
         vpDailyTalk.setAdapter(talkAdapter);
         vpDailyTalk.setOffscreenPageLimit(3);
@@ -101,7 +102,7 @@ public class DailyTalkActivity extends AppCompatActivity {
         ibRefresh.setOnClickListener(v -> updateTalkList());
     }
 
-    private void updateTalkList() {
+    public void updateTalkList() {
         dtalkLists.clear();
         talkAdapter.notifyDataSetChanged();
 
@@ -133,6 +134,7 @@ public class DailyTalkActivity extends AppCompatActivity {
 
                     tvInfo.setVisibility(View.GONE);
                     talkAdapter.notifyDataSetChanged();
+                    //TODO: vpDailyTalk.setCurrentItem(번째수:) -> home에서 들어온 경우);
                 }
                 else
                     tvInfo.setText("Daily Talk이 아직 없습니다.\n한번 작성해 보세요:)");

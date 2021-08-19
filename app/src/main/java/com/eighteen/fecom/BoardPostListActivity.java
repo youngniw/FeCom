@@ -201,7 +201,7 @@ public class BoardPostListActivity extends AppCompatActivity {
 
         tvInfo.setVisibility(View.VISIBLE);
         tvInfo.setText("게시글을 찾고 있습니다:)");
-        RetrofitClient.getApiService().getPosts(myInfo.getUserID(), boardID).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService().getBoardPosts(myInfo.getUserID(), boardID).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("BoardPostListActivity 확인용", response.toString());

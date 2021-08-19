@@ -84,7 +84,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
             holder.ibtLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == 1) {
-                RetrofitClient.getApiService().postDeleteLikeC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postDeleteLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("BCommentRecycler 확인용1", response.toString());
@@ -110,7 +110,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                 });
             }
             else {
-                RetrofitClient.getApiService().postRegisterLikeC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postRegisterLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("BCommentRecycler 확인용2", response.toString());
@@ -141,7 +141,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
             holder.ibtNotLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == -1) {
-                RetrofitClient.getApiService().postDeleteNotLikeC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postDeleteNotLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("BCommentRecycler 확인용3", response.toString());
@@ -167,7 +167,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                 });
             }
             else {
-                RetrofitClient.getApiService().postRegisterNotLikeC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postRegisterNotLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("BCommentRecycler 확인용4", response.toString());
@@ -232,7 +232,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("댓글 삭제").setMessage("현재 댓글을 삭제하시겠습니까?");
                     builder.setPositiveButton("삭제", (dialog, which) ->
-                            RetrofitClient.getApiService().postDeleteComment(commentList.get(pos).getCommentID()).enqueue(new Callback<String>() {
+                            RetrofitClient.getApiService().postDeleteCommentB(commentList.get(pos).getCommentID()).enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                                     Log.i("CommentRecycler 확인용", response.toString());

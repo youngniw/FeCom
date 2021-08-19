@@ -111,4 +111,22 @@
     <string name="fHomeBoardRow_content">내용입니다..</string>
 
     <string name="boardRow_name">자유게시판</string>
+
+
+    <string name="infoDetail">제 2회 여대 연합 해커톤 LIGHT IT UP\n\n여대생을 위한 커뮤니티 Fe:Com 입니다</string>
+    <string name="noticeDetail">아직 공지사항이 없습니다</string>
+    <string name="curPWTitle">현재 비밀번호</string>
+    <string name="curPW">현재 비밀번호</string>
+    <string name="newPWTitle">새 비밀번호</string>
+    <string name="newPW">새 비밀번호</string>
+    <string name="newPWCheck">새 비밀번호 확인</string>
+    <string name="changePW">비밀번호 변경</string>
+    <string name="changePWbtn">비밀번호 변경</string>
+    <string name="curNickname">현재 닉네임</string>
+    <string name="curNicknameTitle">현재 닉네임</string>
+    <string name="newNickname">새 닉네임</string>
+    <string name="newNicknameTitle">새 닉네임</string>
+    <string name="changeNickname">닉네임 변경</string>
+    <string name="changeNicknamebtn">닉네임 변경</string>
+    <string name="mypage_mylike">내가 좋아요 누른 글</string>
 </resources>

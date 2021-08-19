@@ -17,7 +17,7 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.BoardPostActivity;
+import com.eighteen.fecom.BottomCommentDialog;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.CommentInfo;
@@ -41,9 +41,11 @@ import static com.eighteen.fecom.MainActivity.myInfo;
 public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkCommentRecyclerAdapter.TCommentViewHolder> {
     private Context context;
     private ArrayList<CommentInfo> commentList;
+    private BottomCommentDialog bottomCommentDialog;
 
-    public TalkCommentRecyclerAdapter(ArrayList<CommentInfo> commentList) {
+    public TalkCommentRecyclerAdapter(ArrayList<CommentInfo> commentList, BottomCommentDialog bottomCommentDialog) {
         this.commentList = commentList;
+        this.bottomCommentDialog = bottomCommentDialog;
     }
 
     @NonNull
@@ -78,11 +80,10 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
         else
             holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.black));
         holder.ibtLike.setOnClickListener(v -> {
-            //TODO: 데일리톡일 때는 이 함수 사용 안됨!
             holder.ibtLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == 1) {
-                RetrofitClient.getApiService().postDeleteLikeC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postDeleteLikeTC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("TCommentRecycler 확인용1", response.toString());
@@ -107,7 +108,7 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
                 });
             }
             else {
-                RetrofitClient.getApiService().postRegisterLikeC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postRegisterLikeTC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         Log.i("TCommentRecycler 확인용2", response.toString());
@@ -164,18 +165,17 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
             ibtSubmit = itemView.findViewById(R.id.tCommentRow_ibEditSubmit);
 
             ibtDelete.setOnClickListener(v -> {
-                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("댓글 삭제").setMessage("현재 댓글을 삭제하시겠습니까?");
                     builder.setPositiveButton("삭제", (dialog, which) ->
-                            RetrofitClient.getApiService().postDeleteComment(commentList.get(pos).getCommentID()).enqueue(new Callback<String>() {
+                            RetrofitClient.getApiService().postDeleteCommentT(commentList.get(pos).getCommentID()).enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                                    Log.i("CommentRecycler 확인용", response.toString());
+                                    Log.i("TCommentRecycler 확인용", response.toString());
                                     if (response.code() == 200)
-                                        ((BoardPostActivity) context).updatePostInfo(false);
+                                        bottomCommentDialog.updateTalkComment();
                                     else
                                         Toast.makeText(context, "해당 댓글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                 }
@@ -196,7 +196,6 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
             });
 
             ibtEdit.setOnClickListener(v -> {
-                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 llMenu.setVisibility(View.GONE);
                 llEdit.setVisibility(View.VISIBLE);
                 etContent.setEnabled(true);
@@ -204,7 +203,6 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
             });
 
             ibtCancel.setOnClickListener(v -> {
-                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
                     llMenu.setVisibility(View.VISIBLE);
@@ -216,7 +214,6 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
             });
 
             ibtSubmit.setOnClickListener(v -> {
-                //TODO: 데일리톡일 때는 이 함수 사용 안됨!
                 etContent.setEnabled(false);
 
                 int pos = getAdapterPosition();
@@ -228,10 +225,10 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
                         JsonObject commentData = new JsonObject();
                         commentData.addProperty("comment_id", commentList.get(pos).getCommentID());
                         commentData.addProperty("content", comment);
-                        RetrofitClient.getApiService().postEditComment(commentData).enqueue(new Callback<String>() {
+                        RetrofitClient.getApiService().postEditCommentT(commentData).enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                                Log.i("TCommentRecycler 댓글 확인용", response.toString());
+                                Log.i("TCommentRecycler 댓글수정 확인용", response.toString());
                                 if (response.code() == 200) {
                                     commentList.get(pos).setContent(comment);
 

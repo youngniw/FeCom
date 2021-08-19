@@ -18,10 +18,14 @@ public interface RetrofitAPI {
     Call<String> postUserInfo(@Body JsonObject userData);               //회원가입
 
     @GET("/fecom/api/user/duplicate_check_nickname.php")
-    Call<String> getCheckNick(@Query("nickname") String userNick);      //회원가입 시 닉네임 중복 확인
+    Call<String> getCheckNick(@Query("nickname") String userNick);      //닉네임 중복 확인
 
     @GET("/fecom/api/user/duplicate_check_email.php")
-    Call<String> getCheckEmail(@Query("email") String userEmail);       //회원가입 시 이메일ID 중복 확인
+    Call<String> getCheckEmail(@Query("email") String userEmail);       //이메일ID 중복 확인
+
+    @FormUrlEncoded
+    @POST("/fecom/api/user/edit_nickname.php")
+    Call<String> postChangeNick(@Field("user_id") int userID, @Field("nickname") String nick);                  //닉네임 변경
 
 
     @GET("/fecom/api/board/show_subscribe.php")
@@ -44,7 +48,7 @@ public interface RetrofitAPI {
 
 
     @GET("/fecom/api/post/search_by_board.php")
-    Call<String> getPosts(@Query("user_id") int userID, @Query("board_id") int boardID);                        //해당 게시판의 게시글 조회
+    Call<String> getBoardPosts(@Query("user_id") int userID, @Query("board_id") int boardID);                   //해당 게시판의 게시글 조회
 
     @POST("/fecom/api/post/register.php")
     Call<String> postPostInfo(@Body JsonObject postData);               //게시글 등록
@@ -73,11 +77,11 @@ public interface RetrofitAPI {
 
 
     @POST("/fecom/api/postcomment/register.php")
-    Call<String> postRegisterComment(@Body JsonObject commentData);     //댓글 등록
+    Call<String> postRegisterCommentB(@Body JsonObject commentData);    //댓글 등록
 
     @FormUrlEncoded
     @POST("/fecom/api/postcomment/delete.php")
-    Call<String> postDeleteComment(@Field("comment_id") int commentID); //댓글 삭제
+    Call<String> postDeleteCommentB(@Field("comment_id") int commentID);//댓글 삭제
 
     @POST("/fecom/api/postcomment/edit.php")
     Call<String> postEditComment(@Body JsonObject commentData);         //댓글 수정
@@ -85,19 +89,19 @@ public interface RetrofitAPI {
 
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/register_like.php")
-    Call<String> postRegisterLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);           //댓글 좋아요 추가
+    Call<String> postRegisterLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //댓글 좋아요 추가
 
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/delete_like.php")
-    Call<String> postDeleteLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);             //댓글 좋아요 삭제
+    Call<String> postDeleteLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);            //댓글 좋아요 삭제
 
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/register_dislike.php")
-    Call<String> postRegisterNotLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);        //댓글 싫어요 추가
+    Call<String> postRegisterNotLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);        //댓글 싫어요 추가
 
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/delete_dislike.php")
-    Call<String> postDeleteNotLikeC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //댓글 싫어요 삭제
+    Call<String> postDeleteNotLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //댓글 싫어요 삭제
 
 
     @GET("/fecom/api/dailytalk/show_top10.php")
@@ -108,4 +112,37 @@ public interface RetrofitAPI {
     
     @POST("/fecom/api/dailytalk/register.php")
     Call<String> postRegisterTalk(@Body JsonObject talkData);           //데일리톡 등록
+
+    @FormUrlEncoded
+    @POST("/fecom/api/dailytalk/delete.php")
+    Call<String> postDeleteTalk(@Field("daily_id") int talkID);         //데일리톡 삭제
+
+    @FormUrlEncoded
+    @POST("/fecom/api/dailytalk/like/register.php")
+    Call<String> postRegisterLikeT(@Field("user_id") int userID, @Field("daily_id") int talkID);                //데일리톡 좋아요 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/dailytalk/like/delete.php")
+    Call<String> postDeleteLikeT(@Field("user_id") int userID, @Field("daily_id") int talkID);                  //데일리톡 좋아요 삭제
+
+    @GET("/fecom/api/dailytalk/comment/search.php")
+    Call<String> getTalkComments(@Query("user_id") int userID, @Query("daily_id") int talkID);                  //데일리톡 댓글 조회
+
+    @POST("/fecom/api/dailytalk/comment/register.php")
+    Call<String> postRegisterCommentT(@Body JsonObject commentData);    //데일리톡 댓글 등록
+
+    @FormUrlEncoded
+    @POST("/fecom/api/dailytalk/comment/delete.php")
+    Call<String> postDeleteCommentT(@Field("comment_id") int commentID);//데일리톡 댓글 삭제
+
+    @POST("/fecom/api/dailytalk/comment/edit.php")
+    Call<String> postEditCommentT(@Body JsonObject commentData);        //데일리톡 댓글 수정
+
+    @FormUrlEncoded
+    @POST("/fecom/api/dailytalk/comment/like/register.php")
+    Call<String> postRegisterLikeTC(@Field("user_id") int userID, @Field("comment_id") int commentID);           //데일리톡 댓글 좋아요 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/dailytalk/comment/like/delete.php")
+    Call<String> postDeleteLikeTC(@Field("user_id") int userID, @Field("comment_id") int comment_id);            //데일리톡 댓글 좋아요 삭제
 }

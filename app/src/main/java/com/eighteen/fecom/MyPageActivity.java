@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,13 +16,16 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Objects;
 
 public class MyPageActivity extends AppCompatActivity {
-    TextView tvName, tvNick, tvID, tvUnivAuth, tvChNick, tvChPW, tvWritePosts, tvLikePosts, tvVersion, tvAnnouncement, tvUseInfo;
-    Button btLogout;
+    private TextView tvName, tvNick, tvID, tvUnivAuth, tvChNick, tvChPW, tvWritePosts, tvLikePosts, tvVersion, tvAnnouncement, tvUseInfo;
+    private Button btLogout;
+    private ActivityResultLauncher<Intent> startChNickActivityResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
+
+        //TODO: 회원 조회 필요!!
 
         Toolbar toolbar = findViewById(R.id.mypage_toolbar);
         setSupportActionBar(toolbar);
@@ -48,6 +53,14 @@ public class MyPageActivity extends AppCompatActivity {
         tvUseInfo = findViewById(R.id.mypage_useInfo);
         btLogout = findViewById(R.id.mypage_btLogout);
 
+        startChNickActivityResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK);
+                        updateMyInfo();
+                });
+
+        updateMyInfo();
         mypageClickListener();
     }
 
@@ -56,16 +69,17 @@ public class MyPageActivity extends AppCompatActivity {
         ivBack.setOnClickListener(v -> finish());
     }
 
+    private void updateMyInfo() {
+        //TODO: 사용자 조회
+    }
+
     private void mypageClickListener() {
         tvUnivAuth.setOnClickListener(v -> {
             //TODO: 학교 인증 화면으로 넘어감
             //startActivity(new Intent(this, .class));
         });
 
-        tvChNick.setOnClickListener(v -> {
-            //TODO: 닉네임 변경 화면으로 넘어감
-            //startActivityForResult(new Intent(this, .class), CHANGE_NICK_REQUEST);
-        });
+        tvChNick.setOnClickListener(v -> startChNickActivityResult.launch(new Intent(this, CheckNickActivity.class)));
 
         tvChPW.setOnClickListener(v -> {
             //TODO: 비밀번호 변경 화면으로 넘어감

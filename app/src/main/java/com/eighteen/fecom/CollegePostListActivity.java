@@ -167,7 +167,7 @@ public class CollegePostListActivity extends AppCompatActivity {
         tvInfo.setVisibility(View.VISIBLE);
         tvInfo.setText("글을 찾고 있습니다:)");
         //TODO: api 이름 바꿔야 함!
-        RetrofitClient.getApiService().getPosts(myInfo.getUserID(), collegeID).enqueue(new Callback<String>() {
+        RetrofitClient.getApiService().getBoardPosts(myInfo.getUserID(), collegeID).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("CollegePostListActivity 확인용", response.toString());

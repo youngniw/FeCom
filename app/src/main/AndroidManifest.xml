@@ -27,6 +27,7 @@
         <activity android:name=".BoardPostActivity"/>
         <activity android:name=".PostingActivity"/>
         <activity android:name=".MyPageActivity"/>
+        <activity android:name=".CheckNickActivity"/>
         <activity android:name=".CollegePostListActivity"/>
         <activity android:name=".CollegePostActivity"/>
     </application>
