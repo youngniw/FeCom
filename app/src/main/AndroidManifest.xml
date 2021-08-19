@@ -10,6 +10,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_main_round"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.FeCom">
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -28,7 +30,7 @@
         <activity android:name=".ApplyingActivity"/>
         <activity android:name=".SearchActivity"/>
         <activity android:name=".MyPageActivity"/>
-        <activity android:name=".CheckNickActivity"/>
+        <activity android:name=".ChangeNickActivity"/>
     </application>
 
 </manifest>

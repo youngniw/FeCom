@@ -126,7 +126,7 @@ public class MyPageActivity extends AppCompatActivity {
             //startActivity(new Intent(this, .class));
         });
 
-        tvChNick.setOnClickListener(v -> startChNickActivityResult.launch(new Intent(this, CheckNickActivity.class)));
+        tvChNick.setOnClickListener(v -> startChNickActivityResult.launch(new Intent(this, ChangeNickActivity.class)));
 
         tvChPW.setOnClickListener(v -> {
             //TODO: 비밀번호 변경 화면으로 넘어감

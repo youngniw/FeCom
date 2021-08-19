@@ -30,6 +30,10 @@ public interface RetrofitAPI {
     @POST("/fecom/api/user/edit_nickname.php")
     Call<String> postChangeNick(@Field("user_id") int userID, @Field("nickname") String nick);                  //닉네임 변경
 
+    @FormUrlEncoded
+    @POST("/fecom/api/user/edit_pw.php")
+    Call<String> postChangePW(@Field("user_id") int userID, @Field("pw") String pw);                            //비밀번호 변경
+
 
     @GET("/fecom/api/notification/search.php")
     Call<String> getNotice(@Query("user_id") int userID);               //알림 조회

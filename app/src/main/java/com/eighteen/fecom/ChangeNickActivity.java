@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 import static com.eighteen.fecom.MainActivity.myInfo;
 
-public class CheckNickActivity extends AppCompatActivity {
+public class ChangeNickActivity extends AppCompatActivity {
     private boolean isCheckedNick = false;
 
     private AppCompatImageButton ibBack;
@@ -34,7 +34,7 @@ public class CheckNickActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_nick);
+        setContentView(R.layout.activity_change_nick);
 
         ibBack = findViewById(R.id.chNick_ibBack);
         etNick = findViewById(R.id.chNick_etName);
@@ -54,8 +54,8 @@ public class CheckNickActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 isCheckedNick = false;
                 tvNickError.setVisibility(View.GONE);
-                tvNickError.setTextColor(ContextCompat.getColor(CheckNickActivity.this, R.color.red));
-                ibCheck.setBackground(AppCompatResources.getDrawable(CheckNickActivity.this, R.drawable.bg_bt_check));
+                tvNickError.setTextColor(ContextCompat.getColor(ChangeNickActivity.this, R.color.red));
+                ibCheck.setBackground(AppCompatResources.getDrawable(ChangeNickActivity.this, R.drawable.bg_bt_check));
             }
 
             @Override
@@ -84,8 +84,8 @@ public class CheckNickActivity extends AppCompatActivity {
                             isCheckedNick = true;
                             etNick.clearFocus();
                             tvNickError.setText("사용 가능한 닉네임입니다.");
-                            tvNickError.setTextColor(ContextCompat.getColor(CheckNickActivity.this, R.color.light_green));
-                            ibCheck.setBackground(AppCompatResources.getDrawable(CheckNickActivity.this, R.drawable.bg_bt_checked));
+                            tvNickError.setTextColor(ContextCompat.getColor(ChangeNickActivity.this, R.color.light_green));
+                            ibCheck.setBackground(AppCompatResources.getDrawable(ChangeNickActivity.this, R.drawable.bg_bt_checked));
                         }
                         else
                             tvNickError.setText(R.string.signup_nick_error2);
@@ -115,7 +115,7 @@ public class CheckNickActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                         if (response.code() == 200) {
-                            Toast.makeText(CheckNickActivity.this, "닉네임 변경이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangeNickActivity.this, "닉네임 변경이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                         else {

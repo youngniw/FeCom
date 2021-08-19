@@ -69,14 +69,14 @@ public class BoardPostActivity extends AppCompatActivity {
             isNotice = true;
             postID = getIntent().getExtras().getInt("postID");
         }
-
         else {
             boardID = getIntent().getExtras().getInt("boardID");
             postInfo = getIntent().getParcelableExtra("postInfo");
             if (myInfo.getUserID() == postInfo.getWriterInfo().getUserID())
                 isWriter = true;
-            commentList = new ArrayList<>();
         }
+
+        commentList = new ArrayList<>();
 
         Toolbar toolbar = findViewById(R.id.postB_toolbar);
         setSupportActionBar(toolbar);
