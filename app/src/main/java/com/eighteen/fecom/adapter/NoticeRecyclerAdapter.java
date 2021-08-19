@@ -2,6 +2,7 @@ package com.eighteen.fecom.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.BoardPostListActivity;
+import com.eighteen.fecom.BoardPostActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.data.NoticeInfo;
 
@@ -38,30 +39,47 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull NoticeRecyclerAdapter.NoticeViewHolder holder, int position) {
-        holder.tvAbout.setText(noticeInfoList.get(position).getNoticeAbout());
-        holder.tvContent.setText(noticeInfoList.get(position).getNoticeContent());
+        holder.tvTime.setText(noticeInfoList.get(position).getNoticeTime());
+
+        String simplePost;
+        if (noticeInfoList.get(position).getPostContent().length() > 7)
+            simplePost = noticeInfoList.get(position).getPostContent().substring(0, 7);
+        else
+            simplePost = noticeInfoList.get(position).getPostContent();
+        String about = "게시글 ".concat(simplePost).concat("...");
+        holder.tvAbout.setText(about);
+
+        String simpleComment;
+        if (noticeInfoList.get(position).getCommentContent().length() > 7)
+            simpleComment = noticeInfoList.get(position).getCommentContent().substring(0, 7);
+        else
+            simpleComment = noticeInfoList.get(position).getCommentContent();
+        String content = simpleComment.concat("... 댓글이 달렸습니다.");
+        holder.tvContent.setText(content);
     }
 
     @Override
     public int getItemCount() { return noticeInfoList.size(); }
 
     public class NoticeViewHolder extends RecyclerView.ViewHolder {
-        TextView tvAbout;
-        TextView tvContent;
+        TextView tvTime, tvAbout, tvContent;
 
         NoticeViewHolder(final View itemView) {
             super(itemView);
 
+            tvTime = itemView.findViewById(R.id.noticeRow_time);
             tvAbout = itemView.findViewById(R.id.noticeRow_about);
             tvContent = itemView.findViewById(R.id.noticeRow_content);
 
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 게시판글/전공글/데일리톡으로 넘어감!(알림에 대한)
-                    context.startActivity(new Intent(context, BoardPostListActivity.class));        //게시판
-                    //context.startActivity(new Intent(context, DailyTalkActivity.class));          //데일리톡
-                    //context.startActivity(new Intent(context, BoardPostActivity.class));          //게시글       -> postInfo를 넘겨줘야 함!
+                    Intent showPost = new Intent(context, BoardPostActivity.class);
+                    Bundle bundle = new Bundle();
+                        bundle.putBoolean("isNotice", true);
+                        bundle.putInt("postID", noticeInfoList.get(pos).getPostID());
+                    showPost.putExtras(bundle);
+                    context.startActivity(showPost);
                 }
             });
         }

@@ -46,6 +46,8 @@ public class BoardPostActivity extends AppCompatActivity {
     private boolean isWriter = false;
     private boolean isDeleted = false, isChangedLike = false, isChangedComment = false;
 
+    private boolean isNotice = false;
+    private int postID = -1;    //알림에서 사용함
     private int boardID = -1;
     private PostInfo postInfo;
     private ArrayList<BoardCommentInfo> commentList = null;
@@ -63,11 +65,18 @@ public class BoardPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_board);
 
-        boardID = getIntent().getExtras().getInt("boardID");
-        postInfo = getIntent().getParcelableExtra("postInfo");
-        if (myInfo.getUserID() == postInfo.getWriterInfo().getUserID())
-            isWriter = true;
-        commentList = new ArrayList<>();
+        if (getIntent().hasExtra("isNotice")){
+            isNotice = true;
+            postID = getIntent().getExtras().getInt("postID");
+        }
+
+        else {
+            boardID = getIntent().getExtras().getInt("boardID");
+            postInfo = getIntent().getParcelableExtra("postInfo");
+            if (myInfo.getUserID() == postInfo.getWriterInfo().getUserID())
+                isWriter = true;
+            commentList = new ArrayList<>();
+        }
 
         Toolbar toolbar = findViewById(R.id.postB_toolbar);
         setSupportActionBar(toolbar);
@@ -93,7 +102,8 @@ public class BoardPostActivity extends AppCompatActivity {
         etComment = findViewById(R.id.postB_etComment);
         ibCommSubmit = findViewById(R.id.postB_ibCommSubmit);
 
-        showPostInfo();
+        if (!isNotice)
+            showPostInfo();
         postListener();
 
         RecyclerView rvComment = findViewById(R.id.postB_rvComments);
@@ -317,7 +327,8 @@ public class BoardPostActivity extends AppCompatActivity {
         tvInfo.setVisibility(View.VISIBLE);
         tvInfo.setText("글을 불러오고 있습니다:)");
         tvCommentInfo.setVisibility(View.GONE);
-        RetrofitClient.getApiService().getPostInfo(myInfo.getUserID(), postInfo.getPostID()).enqueue(new Callback<String>() {
+
+        Callback<String> callback = new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("BoardPostActivity 확인용", response.toString());
@@ -381,6 +392,11 @@ public class BoardPostActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 tvInfo.setText("게시글 로드 실패\n네트워크를 확인해 주세요.");
             }
-        });
+        };
+
+        if (isNotice)
+            RetrofitClient.getApiService().getPostInfo(myInfo.getUserID(), postID).enqueue(callback);
+        else
+            RetrofitClient.getApiService().getPostInfo(myInfo.getUserID(), postInfo.getPostID()).enqueue(callback);
     }
 }

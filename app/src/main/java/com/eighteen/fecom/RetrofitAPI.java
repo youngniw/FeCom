@@ -31,11 +31,18 @@ public interface RetrofitAPI {
     Call<String> postChangeNick(@Field("user_id") int userID, @Field("nickname") String nick);                  //닉네임 변경
 
 
+    @GET("/fecom/api/notification/search.php")
+    Call<String> getNotice(@Query("user_id") int userID);               //알림 조회
+
+
     @GET("/fecom/api/board/show_subscribe.php")
     Call<String> getSubscribeBoard(@Query("user_id") int userID);       //즐겨찾는 게시판 조회
     
     @GET("/fecom/api/board/search_all.php")
     Call<String> getBoard(@Query("user_id") int userID);                //전체 게시판 조회
+
+    @GET("/fecom/api/board/search_by_keyword.php")
+    Call<String> getSearchBoards(@Query("user_id") int userID, @Query("keyword") String keyword);            //키워드로 게시판 검색
 
     @FormUrlEncoded
     @POST("/fecom/api/board/register.php")

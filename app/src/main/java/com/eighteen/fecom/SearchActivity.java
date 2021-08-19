@@ -39,7 +39,7 @@ import static android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH;
 import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class SearchActivity extends AppCompatActivity {
-    private int whichTopic = 0;     //1은 홈, 2는 게시판, 3은 게시판의 게시물, 4는 단과대학의 게시글
+    private int whichTopic = 0;     //1은 게시판, 2은 게시판의 게시물
     private int boardID = -1;
     private String presentKeyword = "";
     private ArrayList<BoardInfo> boardList = null;
@@ -147,7 +147,49 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setSearchBoardList(String keyword) {
-        //TODO: 게시판 검색
+        boardList.clear();
+        boardAdapter.notifyDataSetChanged();
+
+        tvNoResult.setVisibility(View.GONE);
+        llInfo.setVisibility(View.VISIBLE);
+        RetrofitClient.getApiService().getSearchBoards(myInfo.getUserID(), keyword).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                Log.i("SearchActivity 확인용1", response.toString());
+                if (response.code() == 200) {
+                    presentKeyword = keyword;
+                    try {
+                        JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                        JSONArray jsonBoards = result.getJSONArray("boards");
+                        for (int i=0; i<jsonBoards.length(); i++) {
+                            JSONObject boardObject = jsonBoards.getJSONObject(i);
+
+                            int boardID = boardObject.getInt("id");
+                            String boardName = boardObject.getString("board_name");
+                            int amISubscribe = boardObject.getInt("subscribe");
+
+                            boardList.add(new BoardInfo(boardID, boardName, 0, amISubscribe));
+                        }
+                    } catch (JSONException e) { e.printStackTrace(); }
+                    llInfo.setVisibility(View.GONE);
+                    boardAdapter.notifyDataSetChanged();
+                }
+                else {
+                    llInfo.setVisibility(View.GONE);
+                    tvNoResult.setVisibility(View.VISIBLE);
+                    tvNoResult.setText("입력한 키워드를\n포함한 게시판이 없습니다.");
+                }
+                etSearch.setEnabled(true);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                etSearch.setEnabled(true);
+                llInfo.setVisibility(View.GONE);
+                tvNoResult.setVisibility(View.VISIBLE);
+                tvNoResult.setText("게시판 로드 실패\n네트워크를 확인해 주세요.");
+            }
+        });
     }
 
     private void setSearchPostList(String keyword) {
@@ -159,7 +201,6 @@ public class SearchActivity extends AppCompatActivity {
         RetrofitClient.getApiService().getSearchPosts(myInfo.getUserID(), boardID, keyword).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                Log.i("SearchActivity 확인용2", response.toString());
                 if (response.code() == 200) {
                     presentKeyword = keyword;
                     try {

@@ -3,10 +3,8 @@ package com.eighteen.fecom;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -132,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
 
                     View actionBarView = View.inflate(this, R.layout.actionbar_tab_notice, null);
                     actionBar.setCustomView(actionBarView, params);
-                    tabNoticeSetting(toolbar);
+                    AppCompatImageButton ibtRefresh = actionBarView.findViewById(R.id.noticeTB_refresh);
+                    ibtRefresh.setOnClickListener(v -> fragmentNotice.updateNoticeList());
 
                     break;
                 }
@@ -210,21 +209,6 @@ public class MainActivity extends AppCompatActivity {
 
             Button btAddCancel = dialogView.findViewById(R.id.dialog_board_btCancel);
             btAddCancel.setOnClickListener(view -> alertDialog.dismiss());
-        });
-    }
-
-    private void tabNoticeSetting(Toolbar toolbar) {
-        TextView tvNotice = toolbar.findViewById(R.id.noticeTB_notice);
-        tvNotice.setEnabled(false);
-
-        tvNotice.setOnClickListener(v -> {
-            tvNotice.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-            tvNotice.setBackground(AppCompatResources.getDrawable(this, R.drawable.bg_tab_underline));
-
-            FragmentTransaction transactionNow = fragmentManager.beginTransaction();
-            transactionNow.replace(R.id.main_framelayout, fragmentNotice).commitAllowingStateLoss();
-
-            tvNotice.setEnabled(false);
         });
     }
 }

@@ -98,7 +98,8 @@
     <string name="dailyTalk_content">데일리톡 내용</string>
     <string name="dailyTalk_load">Daily Talk 불러오는 중:)</string>
 
-    <string name="college_ex">XX계열</string>
+    <string name="notice_load">알림을 불러오고 있습니다:)</string>
+    <string name="notice_topic">주제</string>
 
     <string name="post_load">글을 불러오고 있습니다:)</string>
     <string name="post_comment">Comment</string>
