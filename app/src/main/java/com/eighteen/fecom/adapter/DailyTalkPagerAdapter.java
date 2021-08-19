@@ -81,7 +81,7 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
         else if (ChronoUnit.HOURS.between(date, dateNow) <= 24)
             holder.tvTalkTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
 
-        holder.tvContent.setText(talkList.get(position).getContent());
+        holder.tvContent.setText(talkList.get(position).getContent().replace(" ", "\u00A0"));
 
         if (talkList.get(position).getAmILike() == 1)
             holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.red));

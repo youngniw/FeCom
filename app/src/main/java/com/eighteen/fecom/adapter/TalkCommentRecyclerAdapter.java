@@ -73,7 +73,7 @@ public class TalkCommentRecyclerAdapter extends RecyclerView.Adapter<TalkComment
         else if (ChronoUnit.HOURS.between(date, dateNow) <= 24)
             holder.tvTime.setText(String.valueOf(ChronoUnit.HOURS.between(date, dateNow)).concat("시간 전"));
 
-        holder.etContent.setText(commentList.get(position).getContent());
+        holder.etContent.setText(commentList.get(position).getContent().replace(" ", "\u00A0"));
 
         if (commentList.get(position).getAmILike() == 1)
             holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.red));

@@ -71,8 +71,9 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
         else
             holder.tvTime.setText(String.valueOf(date.getYear()).substring(2).concat(".").concat(String.valueOf(date.getMonthValue())).concat(".").concat(String.valueOf(date.getDayOfMonth())));
 
-        holder.tvPros.setText(discussList.get(position).getProsContent());
-        holder.tvCons.setText(discussList.get(position).getConsContent());
+        holder.tvPros.setText(discussList.get(position).getProsContent().replace(" ", "\u00A0"));
+        holder.tvCons.setText(discussList.get(position).getConsContent().replace(" ", "\u00A0"));
+
         holder.tvProsRate.setText(String.valueOf(discussList.get(position).getProsRate()).concat("%"));
         holder.tvConsRate.setText(String.valueOf(discussList.get(position).getConsRate()).concat("%"));
 

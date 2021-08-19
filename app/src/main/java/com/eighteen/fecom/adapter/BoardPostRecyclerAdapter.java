@@ -86,7 +86,7 @@ public class BoardPostRecyclerAdapter extends RecyclerView.Adapter<BoardPostRecy
         else
             holder.tvTime.setText(String.valueOf(date.getYear()).substring(2).concat("/").concat(String.valueOf(date.getMonthValue())).concat("/").concat(String.valueOf(date.getDayOfMonth())));
 
-        holder.tvContent.setText(postList.get(position).getContent());
+        holder.tvContent.setText(postList.get(position).getContent().replace(" ", "\u00A0"));
 
         if (postList.get(position).getAmILike() == 1)
             holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.red));

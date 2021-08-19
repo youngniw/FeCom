@@ -66,7 +66,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
             holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.black));
         }
         holder.tvTime.setText(commentList.get(position).getCommentTime());
-        holder.etContent.setText(commentList.get(position).getContent());
+        holder.etContent.setText(commentList.get(position).getContent().replace(" ", "\u00A0"));
 
         if (commentList.get(position).getAmILike() == -1) {
             holder.ibtLike.setColorFilter(ContextCompat.getColor(context, R.color.black));

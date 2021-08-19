@@ -307,7 +307,7 @@ public class BoardPostActivity extends AppCompatActivity {
         else
             tvWriterNick.setText(postInfo.getWriterInfo().getNick());
         tvTime.setText(postInfo.getPostTime());
-        tvContent.setText(postInfo.getContent());
+        tvContent.setText(postInfo.getContent().replace(" ", "\u00A0"));
         if (postInfo.getAmILike() == 1)
             ibLike.setColorFilter(ContextCompat.getColor(this, R.color.red));
         else
