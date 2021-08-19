@@ -309,7 +309,7 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                             @Override
                             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                                 etContent.setEnabled(true);
-                                Toast.makeText(context, "서버와 연결되지 않습니다. 네트워크를 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.server_error, Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

@@ -87,13 +87,7 @@ public class DailyTalkActivity extends AppCompatActivity {
                         updateTalkList(false, -1);
                 });
         FloatingActionButton fabAddPost = findViewById(R.id.dailyTalk_fabWrite);
-        fabAddPost.setOnClickListener(v -> {
-            Intent addTalk = new Intent(this, PostingActivity.class);
-            Bundle bundle = new Bundle();
-                bundle.putBoolean("isDailyTalk", true);
-            addTalk.putExtras(bundle);
-            startActivityResultPosting.launch(addTalk);
-        });
+        fabAddPost.setOnClickListener(v -> startActivityResultPosting.launch(new Intent(this, PostingActivity.class)));
 
         updateTalkList(true, showID);
     }

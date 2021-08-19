@@ -6,7 +6,7 @@
     android:background="@color/main_fecom">
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/posting_cancel"
+        android:id="@+id/applying_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -21,33 +21,18 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <LinearLayout
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/posting"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/posting_topic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/board"
-            android:textColor="@color/white_transparent2"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+        android:text="@string/discussion_apply"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/posting_complete"
+        android:id="@+id/applying_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

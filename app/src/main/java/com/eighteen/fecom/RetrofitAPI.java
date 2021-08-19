@@ -100,11 +100,11 @@ public interface RetrofitAPI {
 
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/register_dislike.php")
-    Call<String> postRegisterNotLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);        //댓글 싫어요 추가
+    Call<String> postRegisterNotLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);       //댓글 싫어요 추가
 
     @FormUrlEncoded
     @POST("/fecom/api/postcommentexpression/delete_dislike.php")
-    Call<String> postDeleteNotLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //댓글 싫어요 삭제
+    Call<String> postDeleteNotLikeBC(@Field("user_id") int userID, @Field("comment_id") int commentID);         //댓글 싫어요 삭제
 
 
     @GET("/fecom/api/dailytalk/show_top10.php")
@@ -143,9 +143,34 @@ public interface RetrofitAPI {
 
     @FormUrlEncoded
     @POST("/fecom/api/dailytalk/comment/like/register.php")
-    Call<String> postRegisterLikeTC(@Field("user_id") int userID, @Field("comment_id") int commentID);           //데일리톡 댓글 좋아요 추가
+    Call<String> postRegisterLikeTC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //데일리톡 댓글 좋아요 추가
 
     @FormUrlEncoded
     @POST("/fecom/api/dailytalk/comment/like/delete.php")
-    Call<String> postDeleteLikeTC(@Field("user_id") int userID, @Field("comment_id") int comment_id);            //데일리톡 댓글 좋아요 삭제
+    Call<String> postDeleteLikeTC(@Field("user_id") int userID, @Field("comment_id") int comment_id);           //데일리톡 댓글 좋아요 삭제
+
+
+    @GET("/fecom/api/discussion/search_order_latest.php")
+    Call<String> getLatestDiscussList(@Query("user_id") int userID);    //최신순으로 된 대결 목록 조회
+
+    @POST("/fecom/api/discussion/register.php")
+    Call<String> postRegisterDiscuss(@Body JsonObject discussData);     //대결 신청
+
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/expression/register_pro.php")
+    Call<String> postExpressPro(@Field("user_id") int userID, @Field("discussion_id") int discussionID);        //대결 찬성 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/expression/delete_pro.php")
+    Call<String> postDeletePro(@Field("user_id") int userID, @Field("discussion_id") int discussionID);         //대결 찬성 삭제
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/expression/register_con.php")
+    Call<String> postExpressCon(@Field("user_id") int userID, @Field("discussion_id") int discussionID);        //대결 반대 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/expression/delete_con.php")
+    Call<String> postDeleteCon(@Field("user_id") int userID, @Field("discussion_id") int discussionID);         //대결 반대 삭제
+
 }

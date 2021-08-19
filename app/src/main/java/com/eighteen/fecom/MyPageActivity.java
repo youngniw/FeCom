@@ -115,7 +115,7 @@ public class MyPageActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                Toast.makeText(MyPageActivity.this, "서버와 연결되지 않습니다. 네트워크를 확인해 주세요.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyPageActivity.this, R.string.server_error, Toast.LENGTH_SHORT).show();
             }
         });
     }

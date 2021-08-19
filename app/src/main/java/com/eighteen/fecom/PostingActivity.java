@@ -51,12 +51,8 @@ public class PostingActivity extends AppCompatActivity {
                 boardPostInfo = getIntent().getParcelableExtra("postInfo");
             }
         }
-        else if (getIntent().hasExtra("isDailyTalk"))
+        else
             whereFrom = 2;
-        else {
-            whereFrom = 3;
-            boardOrCollegeID = getIntent().getExtras().getInt("collegeID");
-        }
 
         Toolbar toolbar = findViewById(R.id.posting_toolbar);
         setSupportActionBar(toolbar);
@@ -70,7 +66,7 @@ public class PostingActivity extends AppCompatActivity {
         toolbarListener(toolbar);
 
         cbAnonymous = findViewById(R.id.posting_cbAnonymous);
-        if (whereFrom == 2 || whereFrom == 3)
+        if (whereFrom == 2)
             cbAnonymous.setVisibility(View.GONE);
         etContent = findViewById(R.id.posting_etContent);
         tvError = findViewById(R.id.posting_errorInfo);
@@ -114,14 +110,11 @@ public class PostingActivity extends AppCompatActivity {
         TextView tvTitle = toolbar.findViewById(R.id.posting_topic);
         if (whereFrom == 1)
             tvTitle.setText(R.string.board);
-        else if (whereFrom == 2)
-            tvTitle.setText(R.string.tab_dailytalk);
         else
-            tvTitle.setText(R.string.tab_collegeCommunity);
+            tvTitle.setText(R.string.tab_dailytalk);
 
         AppCompatButton btComplete = toolbar.findViewById(R.id.posting_complete);
         btComplete.setOnClickListener(v -> {
-            //TODO: posting 성공! -> 서버로 값 전달(startActivityForResult로 인해 결과 전달)
             tvError.setVisibility(View.GONE);
 
             String content = etContent.getText().toString().trim();
@@ -154,12 +147,9 @@ public class PostingActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                                 tvError.setVisibility(View.VISIBLE);
-                                tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                                tvError.setText(R.string.server_error);
                             }
                         });
-                    }
-                    else if (whereFrom == 3) {
-                        //TODO: 전공 커뮤니티 수정 완료(입력한 게 다를 시!)
                     }
                     else {
                         tvError.setVisibility(View.VISIBLE);
@@ -192,11 +182,11 @@ public class PostingActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                                 tvError.setVisibility(View.VISIBLE);
-                                tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                                tvError.setText(R.string.server_error);
                             }
                         });
                     }
-                    else if (whereFrom == 2) {
+                    else {
                         JsonObject talkData = new JsonObject();
                         talkData.addProperty("writer", myInfo.getUserID());
                         talkData.addProperty("content", content);
@@ -216,12 +206,9 @@ public class PostingActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                                 tvError.setVisibility(View.VISIBLE);
-                                tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                                tvError.setText(R.string.server_error);
                             }
                         });
-                    }
-                    else {
-                        //TODO: 전공 커뮤니티 추가
                     }
                 }
             }

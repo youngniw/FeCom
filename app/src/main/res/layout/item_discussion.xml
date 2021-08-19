@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:gravity="end">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/discussRow_num"/>
+
+        <TextView
+            android:id="@+id/discussionRow_tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:text="@string/example_num"/>
+
+        <ImageView
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:padding="9dp"
+            android:src="@drawable/icon_dot"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/discussionRow_date"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/discussRow_time"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp">
+        <TextView
+            android:id="@+id/discussionRow_pros"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:text="@string/discussRow_ex_prosContent"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="19sp"
+            android:text="@string/discussRow_vs"/>
+
+        <TextView
+            android:id="@+id/discussionRow_cons"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:text="@string/discussRow_ex_consContent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:id="@+id/discussionRow_prosRate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_pros"
+            android:layout_weight="0.73"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="@string/discussRow_ex_percent1" />
+        <TextView
+            android:id="@+id/discussionRow_consRate"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_cons"
+            android:layout_weight="0.27"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="@string/discussRow_ex_percent2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:text="@string/discussRow_by"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/discussionRow_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:text="@string/nickname"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/discussionRow_ibPros"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/like"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_pros" />
+
+            <TextView
+                android:id="@+id/discussionRow_prosCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/example_num"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/discussionRow_ibCons"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/white"
+                android:contentDescription="@string/like"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_cons" />
+
+            <TextView
+                android:id="@+id/discussionRow_consCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/example_num"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

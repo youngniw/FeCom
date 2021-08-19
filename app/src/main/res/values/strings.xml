@@ -23,8 +23,9 @@
     <string name="university">대학</string>
     <string name="sook">숙명여대</string>
 
-    <string name="example_time">2021-07-15 20:50:10</string>
+    <string name="example_time">2021–07–15 20:50:10</string>
     <string name="example_num">100</string>
+    <string name="server_error">서버와 연결되지 않습니다. 네트워크를 확인해 주세요.</string>
 
     <string name="login_id">ID</string>
     <string name="login_id_ex">fecomMyfriend@gmail.com</string>
@@ -62,7 +63,8 @@
     <string name="tab_board">전체 게시판</string>
     <string name="tab_dailytalk">Daily Talk</string>
     <string name="tab_home">Home</string>
-    <string name="tab_collegeCommunity">전공 커뮤니티</string>
+    <string name="tab_discussion">대결</string>
+    <string name="tab_discussion_full">대신 결정해드립니다</string>
     <string name="tab_notice">알림</string>
     <string name="tab_message">쪽지함</string>
 
@@ -112,6 +114,25 @@
 
     <string name="boardRow_name">자유게시판</string>
 
+    <string name="discussion_load">대결을 찾고 있습니다:)</string>
+    <string name="discussion_apply">대결 신청</string>
+    <string name="discussion_showResult">Best 대결 결과</string>
+
+    <string name="discussRow_num">참여자 수</string>
+    <string name="discussRow_time">2021.08.19</string>
+    <string name="discussRow_ex_prosContent">송강 호락호락한 모습</string>
+    <string name="discussRow_ex_consContent">송강호 락하는 모습</string>
+    <string name="discussRow_vs">VS</string>
+    <string name="discussRow_ex_percent1">73%</string>
+    <string name="discussRow_ex_percent2">27%</string>
+    <string name="discussRow_by">By</string>
+
+    <string name="applying_prosTitle">찬성 내용</string>
+    <string name="applying_consTitle">반대 내용</string>
+    <string name="applying_prosError">찬성 내용을 입력하세요.</string>
+    <string name="applying_consError">반대 내용을 입력하세요.</string>
+    <string name="applying_prosContent">대결의 찬성 내용을 입력하세요.</string>
+    <string name="applying_consContent">대결의 반대 내용을 입력하세요.</string>
 
     <string name="infoDetail">제 2회 여대 연합 해커톤 LIGHT IT UP\n\n여대생을 위한 커뮤니티 Fe:Com 입니다</string>
     <string name="noticeDetail">아직 공지사항이 없습니다</string>

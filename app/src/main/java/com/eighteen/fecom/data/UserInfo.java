@@ -11,7 +11,7 @@ public class UserInfo implements Parcelable {
     private int univCode = -1;      //-1이면 인증 x
     private String univName = "";   //""이면 학교 인증 x
 
-    public UserInfo(int userID, String nick) {      //게시판의 게시글목록, 데일리톡, 댓글에서 사용됨(PostListActivity, DailyTalkActivity)
+    public UserInfo(int userID, String nick) {      //게시판의 게시글목록, 데일리톡, 댓글, 대결에서 사용됨
         this.userID = userID;
         this.nickname = nick;
     }

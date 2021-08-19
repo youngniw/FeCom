@@ -6,9 +6,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_main"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_main_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FeCom">
         <activity android:name=".LoginActivity">
@@ -21,15 +21,14 @@
         <activity android:name=".SignUpActivity"/>
         <activity android:name=".SignUp2Activity"/>
         <activity android:name=".MainActivity"/>
-        <activity android:name=".BoardPostListActivity"/>
         <activity android:name=".DailyTalkActivity"/>
-        <activity android:name=".SearchActivity"/>
+        <activity android:name=".BoardPostListActivity"/>
         <activity android:name=".BoardPostActivity"/>
         <activity android:name=".PostingActivity"/>
+        <activity android:name=".ApplyingActivity"/>
+        <activity android:name=".SearchActivity"/>
         <activity android:name=".MyPageActivity"/>
         <activity android:name=".CheckNickActivity"/>
-        <activity android:name=".CollegePostListActivity"/>
-        <activity android:name=".CollegePostActivity"/>
     </application>
 
 </manifest>

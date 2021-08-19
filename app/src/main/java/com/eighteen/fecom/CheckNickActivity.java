@@ -96,7 +96,7 @@ public class CheckNickActivity extends AppCompatActivity {
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         etNick.setEnabled(true);
                         tvNickError.setVisibility(View.VISIBLE);
-                        tvNickError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                        tvNickError.setText(R.string.server_error);
                     }
                 });
             }
@@ -127,7 +127,7 @@ public class CheckNickActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                         tvSubmitError.setVisibility(View.VISIBLE);
-                        tvSubmitError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                        tvSubmitError.setText(R.string.server_error);
                     }
                 });
             }

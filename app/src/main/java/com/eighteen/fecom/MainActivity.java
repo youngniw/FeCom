@@ -27,9 +27,8 @@ import android.widget.TextView;
 
 import com.eighteen.fecom.data.UserInfo;
 import com.eighteen.fecom.fragment.FragmentBoard;
+import com.eighteen.fecom.fragment.FragmentDiscussion;
 import com.eighteen.fecom.fragment.FragmentHome;
-import com.eighteen.fecom.fragment.FragmentCollegeCommunity;
-import com.eighteen.fecom.fragment.FragmentMessage;
 import com.eighteen.fecom.fragment.FragmentNotice;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.JsonObject;
@@ -46,9 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentBoard fragmentBoard;
     private FragmentHome fragmentHome;
-    private FragmentCollegeCommunity fragmentCollegeCommunity;
+    private FragmentDiscussion fragmentDiscussion;
     private FragmentNotice fragmentNotice;
-    private FragmentMessage fragmentMessage;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -69,9 +67,8 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentBoard = new FragmentBoard();
         fragmentHome = new FragmentHome();
-        fragmentCollegeCommunity = new FragmentCollegeCommunity();
+        fragmentDiscussion = new FragmentDiscussion();
         fragmentNotice = new FragmentNotice();
-        fragmentMessage = new FragmentMessage();
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.main_framelayout, fragmentHome).commitAllowingStateLoss();
@@ -120,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 }
-                case R.id.tab_collegeCommunity: {
-                    transactionNow.replace(R.id.main_framelayout, fragmentCollegeCommunity).commitAllowingStateLoss();
+                case R.id.tab_discussion: {
+                    transactionNow.replace(R.id.main_framelayout, fragmentDiscussion).commitAllowingStateLoss();
 
-                    View actionBarView = View.inflate(this, R.layout.actionbar_tab_college, null);
+                    View actionBarView = View.inflate(this, R.layout.actionbar_tab_discussion, null);
                     actionBar.setCustomView(actionBarView, params);
-                    TextView tvTitle = toolbar.findViewById(R.id.tabTB_title);
-                    tvTitle.setText(R.string.tab_collegeCommunity);
+                    AppCompatImageButton ibtRefresh = actionBarView.findViewById(R.id.discussTB_refresh);
+                    ibtRefresh.setOnClickListener(v -> fragmentDiscussion.updateDiscussList());
 
                     break;
                 }
@@ -205,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                             tvError.setVisibility(View.VISIBLE);
-                            tvError.setText("서버와 연결되지 않습니다. 네트워크를 확인해 주세요.");
+                            tvError.setText(R.string.server_error);
                         }
                     });
                 }
@@ -217,34 +214,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void tabNoticeSetting(Toolbar toolbar) {
-        TextView tvMessage = toolbar.findViewById(R.id.noticeTB_message);
         TextView tvNotice = toolbar.findViewById(R.id.noticeTB_notice);
         tvNotice.setEnabled(false);
 
         tvNotice.setOnClickListener(v -> {
             tvNotice.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-            tvMessage.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white_transparent));
             tvNotice.setBackground(AppCompatResources.getDrawable(this, R.drawable.bg_tab_underline));
-            tvMessage.setBackground(AppCompatResources.getDrawable(this, R.drawable.bg_tab_underline_none));
 
             FragmentTransaction transactionNow = fragmentManager.beginTransaction();
             transactionNow.replace(R.id.main_framelayout, fragmentNotice).commitAllowingStateLoss();
 
             tvNotice.setEnabled(false);
-            tvMessage.setEnabled(true);
-        });
-
-        tvMessage.setOnClickListener(v -> {
-            tvNotice.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white_transparent));
-            tvMessage.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-            tvNotice.setBackground(AppCompatResources.getDrawable(this, R.drawable.bg_tab_underline_none));
-            tvMessage.setBackground(AppCompatResources.getDrawable(this, R.drawable.bg_tab_underline));
-
-            FragmentTransaction transactionNow = fragmentManager.beginTransaction();
-            transactionNow.replace(R.id.main_framelayout, fragmentMessage).commitAllowingStateLoss();
-
-            tvNotice.setEnabled(true);
-            tvMessage.setEnabled(false);
         });
     }
 }
