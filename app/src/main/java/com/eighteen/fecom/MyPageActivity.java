@@ -32,7 +32,7 @@ import static com.eighteen.fecom.MainActivity.myInfo;
 public class MyPageActivity extends AppCompatActivity {
     private TextView tvName, tvNick, tvID, tvUnivAuth, tvChNick, tvChPW, tvWritePosts, tvLikePosts, tvVersion, tvAnnouncement, tvUseInfo;
     private Button btLogout;
-    private ActivityResultLauncher<Intent> startChNickActivityResult;
+    private ActivityResultLauncher<Intent> startChangeActivityResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class MyPageActivity extends AppCompatActivity {
         tvUnivAuth = findViewById(R.id.mypage_univAuth);
         tvChNick = findViewById(R.id.mypage_chNick);
         tvChPW = findViewById(R.id.mypage_chPW);
-        tvWritePosts = findViewById(R.id.mypage_writePosts);
-        tvLikePosts = findViewById(R.id.mypage_likePosts);
+        //tvWritePosts = findViewById(R.id.mypage_writePosts);
+        //tvLikePosts = findViewById(R.id.mypage_likePosts);
 
         tvVersion = findViewById(R.id.mypage_version);
         tvVersion.setText(BuildConfig.VERSION_NAME);
@@ -68,7 +68,7 @@ public class MyPageActivity extends AppCompatActivity {
         tvUseInfo = findViewById(R.id.mypage_useInfo);
         btLogout = findViewById(R.id.mypage_btLogout);
 
-        startChNickActivityResult = registerForActivityResult(
+        startChangeActivityResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK);
@@ -123,16 +123,14 @@ public class MyPageActivity extends AppCompatActivity {
     private void mypageClickListener() {
         tvUnivAuth.setOnClickListener(v -> {
             //TODO: 학교 인증 화면으로 넘어감
-            //startActivity(new Intent(this, .class));
+            startActivity(new Intent(this, SignUp2Activity.class));
         });
 
-        tvChNick.setOnClickListener(v -> startChNickActivityResult.launch(new Intent(this, ChangeNickActivity.class)));
+        tvChNick.setOnClickListener(v -> startChangeActivityResult.launch(new Intent(this, ChangeNickActivity.class)));
 
-        tvChPW.setOnClickListener(v -> {
-            //TODO: 비밀번호 변경 화면으로 넘어감
-            //startActivityForResult(new Intent(this, .class), CHANGE_PW_REQUEST);
-        });
+        tvChPW.setOnClickListener(v -> startChangeActivityResult.launch(new Intent(this, ChangePWActivity.class)));
 
+        /*
         tvWritePosts.setOnClickListener(v -> {
             //TODO: 내가 작성한 글 화면으로 넘어감
             //startActivity(new Intent(this, .class));
@@ -142,6 +140,8 @@ public class MyPageActivity extends AppCompatActivity {
             //TODO: 내가 좋아요한 글 화면으로 넘어감
             //startActivity(new Intent(this, .class));
         });
+
+         */
 
         tvAnnouncement.setOnClickListener(v -> {
             //TODO: 공지사항 화면으로 넘어감

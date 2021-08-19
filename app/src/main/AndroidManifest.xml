@@ -31,6 +31,7 @@
         <activity android:name=".SearchActivity"/>
         <activity android:name=".MyPageActivity"/>
         <activity android:name=".ChangeNickActivity"/>
+        <activity android:name=".ChangePWActivity"/>
     </application>
 
 </manifest>

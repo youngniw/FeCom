@@ -11,10 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatImageButton;
-import androidx.core.content.ContextCompat;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +28,7 @@ public class ChangePWActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_nick);
+        setContentView(R.layout.activity_change_pw);
 
         ibBack = findViewById(R.id.chPW_btBack);
         etPW = findViewById(R.id.chPW_etPW);
@@ -45,6 +42,30 @@ public class ChangePWActivity extends AppCompatActivity {
 
     private void chNickListener() {
         ibBack.setOnClickListener(v -> finish());
+
+        etPW.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvPWError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
+        etPWCheck.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tvPWError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
         btSubmit.setOnClickListener(v -> {
             String newPW = etPW.getText().toString().trim();

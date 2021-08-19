@@ -79,7 +79,7 @@
                 android:layout_weight="1"
                 android:hint="@string/newPW"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:textSize="15sp"
                 android:background="@drawable/bg_edit_info"/>
         </LinearLayout>
@@ -95,7 +95,7 @@
                 android:layout_weight="1"
                 android:hint="@string/newPWCheck"
                 android:importantForAutofill="no"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:textSize="15sp"
                 android:background="@drawable/bg_edit_info"/>
         </LinearLayout>
