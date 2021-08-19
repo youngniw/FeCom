@@ -39,10 +39,10 @@ import static android.app.Activity.RESULT_OK;
 import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class FragmentDiscussion extends Fragment {
-    private boolean isOrderByLatest = true;     //TODO: 구현 바람!
+    private boolean isOrderByLatest = true;
     private ArrayList<DiscussionInfo> discussList = null;
 
-    private AppCompatButton btAddDiscuss, btShowResultDiscuss;
+    private AppCompatButton btAddDiscuss, btChangeOrder;
     private DiscussionRecyclerAdapter discussAdapter;
     private TextView tvInfo;
 
@@ -53,7 +53,7 @@ public class FragmentDiscussion extends Fragment {
         discussList = new ArrayList<>();
 
         btAddDiscuss =  rootView.findViewById(R.id.fDiscussion_addDiscuss);
-        btShowResultDiscuss = rootView.findViewById(R.id.fDiscussion_showResult);
+        btChangeOrder = rootView.findViewById(R.id.fDiscussion_changeOrder);
         tvInfo = rootView.findViewById(R.id.fDiscussion_tvInfo);
 
         RecyclerView rvDiscussion = rootView.findViewById(R.id.fDiscussion_rv);
@@ -78,8 +78,14 @@ public class FragmentDiscussion extends Fragment {
                 });
         btAddDiscuss.setOnClickListener(v -> startActivityResultPosting.launch(new Intent(getContext(), ApplyingActivity.class)));
 
-        btShowResultDiscuss.setOnClickListener(v -> {
-            //TODO: 대결 결과 보여주기
+        btChangeOrder.setOnClickListener(v -> {
+            isOrderByLatest = !isOrderByLatest;
+
+            if (isOrderByLatest)
+                btChangeOrder.setText(R.string.discussion_changeOrder1);
+            else
+                btChangeOrder.setText(R.string.discussion_changeOrder2);
+            updateDiscussList();
         });
     }
 
@@ -89,49 +95,97 @@ public class FragmentDiscussion extends Fragment {
 
         tvInfo.setVisibility(View.VISIBLE);
         tvInfo.setText(R.string.discussion_load);
-        RetrofitClient.getApiService().getLatestDiscussList(myInfo.getUserID()).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                Log.i("FragmentDiscussion 확인용", response.toString());
-                if (response.code() == 200) {
-                    try {
-                        JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
-                        JSONArray jsonDiscussions = result.getJSONArray("discussions");
-                        for (int i=0; i<jsonDiscussions.length(); i++) {
-                            JSONObject discussionObject = jsonDiscussions.getJSONObject(i);
+        if (isOrderByLatest) {
+            RetrofitClient.getApiService().getLatestDiscussList(myInfo.getUserID()).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                    Log.i("FragmentDiscussion 확인용1", response.toString());
+                    if (response.code() == 200) {
+                        try {
+                            JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                            JSONArray jsonDiscussions = result.getJSONArray("discussions");
+                            for (int i=0; i<jsonDiscussions.length(); i++) {
+                                JSONObject discussionObject = jsonDiscussions.getJSONObject(i);
 
-                            int discussID = discussionObject.getInt("id");
-                            int writerID = discussionObject.getInt("writer");
-                            String writerNick = discussionObject.getString("writer_nickname");
-                            String discussTime = discussionObject.getString("register_datetime");
-                            String prosContent = discussionObject.getString("pros");
-                            String consContent = discussionObject.getString("cons");
-                            int myExpression = discussionObject.getInt("myexpression");
-                            int totalCount = discussionObject.getInt("total_count");
-                            int prosCount = discussionObject.getInt("pros_count");
-                            int consCount = discussionObject.getInt("cons_count");
+                                int discussID = discussionObject.getInt("id");
+                                int writerID = discussionObject.getInt("writer");
+                                String writerNick = discussionObject.getString("writer_nickname");
+                                String discussTime = discussionObject.getString("register_datetime");
+                                String prosContent = discussionObject.getString("pros");
+                                String consContent = discussionObject.getString("cons");
+                                int myExpression = discussionObject.getInt("myexpression");
+                                int totalCount = discussionObject.getInt("total_count");
+                                int prosCount = discussionObject.getInt("pros_count");
+                                int consCount = discussionObject.getInt("cons_count");
 
-                            double prosRate = discussionObject.getDouble("pros_rate");
-                            prosRate = Math.round(prosRate*10000) / 100.0;
-                            double consRate = discussionObject.getDouble("cons_rate");
-                            consRate = Math.round(consRate*10000) / 100.0;
+                                double prosRate = discussionObject.getDouble("pros_rate");
+                                prosRate = Math.round(prosRate*10000) / 100.0;
+                                double consRate = discussionObject.getDouble("cons_rate");
+                                consRate = Math.round(consRate*10000) / 100.0;
 
-                            discussList.add(new DiscussionInfo(discussID, writerID, writerNick, discussTime, prosContent, consContent,
-                                    myExpression, totalCount, prosCount, consCount, prosRate, consRate));
-                        }
-                    } catch (JSONException e) { e.printStackTrace(); }
+                                discussList.add(new DiscussionInfo(discussID, writerID, writerNick, discussTime, prosContent, consContent,
+                                        myExpression, totalCount, prosCount, consCount, prosRate, consRate));
+                            }
+                        } catch (JSONException e) { e.printStackTrace(); }
 
-                    tvInfo.setVisibility(View.GONE);
-                    discussAdapter.notifyDataSetChanged();
+                        tvInfo.setVisibility(View.GONE);
+                        discussAdapter.notifyDataSetChanged();
+                    }
+                    else
+                        tvInfo.setText("대결이 아직 없습니다.\n대결을 신청해 보세요:)");
                 }
-                else
-                    tvInfo.setText("대결이 아직 없습니다.\n대결을 신청해 보세요:)");
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                tvInfo.setText("대결 로드 실패\n네트워크를 확인해 주세요.");
-            }
-        });
+                @Override
+                public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                    tvInfo.setText("대결 로드 실패\n네트워크를 확인해 주세요.");
+                }
+            });
+        }
+        else {      //인기순
+            RetrofitClient.getApiService().getPopularDiscussList(myInfo.getUserID()).enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                    Log.i("FragmentDiscussion 확인용2", response.toString());
+                    if (response.code() == 200) {
+                        try {
+                            JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
+                            JSONArray jsonDiscussions = result.getJSONArray("discussions");
+                            for (int i=0; i<jsonDiscussions.length(); i++) {
+                                JSONObject discussionObject = jsonDiscussions.getJSONObject(i);
+
+                                int discussID = discussionObject.getInt("id");
+                                int writerID = discussionObject.getInt("writer");
+                                String writerNick = discussionObject.getString("writer_nickname");
+                                String discussTime = discussionObject.getString("register_datetime");
+                                String prosContent = discussionObject.getString("pros");
+                                String consContent = discussionObject.getString("cons");
+                                int myExpression = discussionObject.getInt("myexpression");
+                                int totalCount = discussionObject.getInt("total_count");
+                                int prosCount = discussionObject.getInt("pros_count");
+                                int consCount = discussionObject.getInt("cons_count");
+
+                                double prosRate = discussionObject.getDouble("pros_rate");
+                                prosRate = Math.round(prosRate*10000) / 100.0;
+                                double consRate = discussionObject.getDouble("cons_rate");
+                                consRate = Math.round(consRate*10000) / 100.0;
+
+                                discussList.add(new DiscussionInfo(discussID, writerID, writerNick, discussTime, prosContent, consContent,
+                                        myExpression, totalCount, prosCount, consCount, prosRate, consRate));
+                            }
+                        } catch (JSONException e) { e.printStackTrace(); }
+
+                        tvInfo.setVisibility(View.GONE);
+                        discussAdapter.notifyDataSetChanged();
+                    }
+                    else
+                        tvInfo.setText("대결이 아직 없습니다.\n대결을 신청해 보세요:)");
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                    tvInfo.setText("대결 로드 실패\n네트워크를 확인해 주세요.");
+                }
+            });
+        }
     }
 }

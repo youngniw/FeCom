@@ -115,7 +115,6 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerAdap
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 해당 게시판으로 넘어감!
                     Intent showPostList = new Intent(context, BoardPostListActivity.class);
                     Bundle bundle = new Bundle();
                         bundle.putInt("boardID", boardInfoList.get(pos).getBoardID());

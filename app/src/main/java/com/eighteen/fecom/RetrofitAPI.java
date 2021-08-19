@@ -153,9 +153,11 @@ public interface RetrofitAPI {
     @GET("/fecom/api/discussion/search_order_latest.php")
     Call<String> getLatestDiscussList(@Query("user_id") int userID);    //최신순으로 된 대결 목록 조회
 
+    @GET("/fecom/api/discussion/search_order_popular.php")
+    Call<String> getPopularDiscussList(@Query("user_id") int userID);   //인기순으로 된 대결 목록 조회
+
     @POST("/fecom/api/discussion/register.php")
     Call<String> postRegisterDiscuss(@Body JsonObject discussData);     //대결 신청
-
 
     @FormUrlEncoded
     @POST("/fecom/api/discussion/expression/register_pro.php")
@@ -173,4 +175,36 @@ public interface RetrofitAPI {
     @POST("/fecom/api/discussion/expression/delete_con.php")
     Call<String> postDeleteCon(@Field("user_id") int userID, @Field("discussion_id") int discussionID);         //대결 반대 삭제
 
+
+    @GET("/fecom/api/discussion/comment/search_order_latest.php")
+    Call<String> getLatestDiscussComments(@Query("user_id") int userID, @Query("discussion_id") int discussionID);       //대결 댓글 최신순 조회
+    
+    @GET("/fecom/api/discussion/comment/search_order_popular.php")
+    Call<String> getPopularDiscussComments(@Query("user_id") int userID, @Query("discussion_id") int discussionID);      //대결 댓글 인기순 조회
+
+    @POST("/fecom/api/discussion/comment/register.php")
+    Call<String> postRegisterCommentD(@Body JsonObject commentData);    //대결 댓글 등록
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/comment/delete.php")
+    Call<String> postDeleteCommentD(@Field("comment_id") int commentID);//대결 댓글 삭제
+
+    @POST("/fecom/api/discussion/comment/edit.php")
+    Call<String> postEditCommentD(@Body JsonObject commentData);        //대결 댓글 수정
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/comment/expression/register_like.php")
+    Call<String> postRegisterLikeDC(@Field("user_id") int userID, @Field("comment_id") int commentID);          //대결 댓글 좋아요 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/comment/expression/delete_like.php")
+    Call<String> postDeleteLikeDC(@Field("user_id") int userID, @Field("comment_id") int commentID);            //대결 댓글 좋아요 삭제
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/comment/expression/register_dislike.php")
+    Call<String> postRegisterNotLikeDC(@Field("user_id") int userID, @Field("comment_id") int commentID);       //대결 댓글 싫어요 추가
+
+    @FormUrlEncoded
+    @POST("/fecom/api/discussion/comment/expression/delete_dislike.php")
+    Call<String> postDeleteNotLikeDC(@Field("user_id") int userID, @Field("comment_id") int commentID);         //대결 댓글 싫어요 삭제
 }

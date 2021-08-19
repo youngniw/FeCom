@@ -1,9 +1,6 @@
 package com.eighteen.fecom.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-public class DiscussionInfo implements Parcelable {
+public class DiscussionInfo {
     private int discussID;
     private UserInfo writerInfo;
     private String discussTime;
@@ -31,33 +28,6 @@ public class DiscussionInfo implements Parcelable {
         this.consRate = consRate;
     }
 
-
-    protected DiscussionInfo(Parcel in) {
-        discussID = in.readInt();
-        writerInfo = in.readParcelable(UserInfo.class.getClassLoader());
-        discussTime = in.readString();
-        prosContent = in.readString();
-        consContent = in.readString();
-        myExpression = in.readInt();
-        totalCount = in.readInt();
-        prosCount = in.readInt();
-        consCount = in.readInt();
-        prosRate = in.readDouble();
-        consRate = in.readDouble();
-    }
-
-    public static final Creator<DiscussionInfo> CREATOR = new Creator<DiscussionInfo>() {
-        @Override
-        public DiscussionInfo createFromParcel(Parcel in) {
-            return new DiscussionInfo(in);
-        }
-
-        @Override
-        public DiscussionInfo[] newArray(int size) {
-            return new DiscussionInfo[size];
-        }
-    };
-
     public int getDiscussID() { return discussID; }
     public UserInfo getWriterInfo() { return writerInfo; }
     public String getDiscussTime() { return discussTime; }
@@ -76,24 +46,4 @@ public class DiscussionInfo implements Parcelable {
     public void setConsCount(int consCount) { this.consCount = consCount; }
     public void setProsRate(double prosRate) { this.prosRate = prosRate; }
     public void setConsRate(double consRate) { this.consRate = consRate; }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(discussID);
-        dest.writeParcelable(writerInfo, flags);
-        dest.writeString(discussTime);
-        dest.writeString(prosContent);
-        dest.writeString(consContent);
-        dest.writeInt(myExpression);
-        dest.writeInt(totalCount);
-        dest.writeInt(prosCount);
-        dest.writeInt(consCount);
-        dest.writeDouble(prosRate);
-        dest.writeDouble(consRate);
-    }
 }

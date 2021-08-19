@@ -116,7 +116,8 @@
 
     <string name="discussion_load">대결을 찾고 있습니다:)</string>
     <string name="discussion_apply">대결 신청</string>
-    <string name="discussion_showResult">Best 대결 결과</string>
+    <string name="discussion_changeOrder1">HOT한 대결! 보기</string>
+    <string name="discussion_changeOrder2">최신 대결! 보기</string>
 
     <string name="discussRow_num">참여자 수</string>
     <string name="discussRow_time">2021.08.19</string>

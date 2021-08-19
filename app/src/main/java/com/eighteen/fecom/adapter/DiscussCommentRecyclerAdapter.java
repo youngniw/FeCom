@@ -17,10 +17,10 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.eighteen.fecom.BoardPostActivity;
+import com.eighteen.fecom.BottomDiscussCommentDialog;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
-import com.eighteen.fecom.data.BoardCommentInfo;
+import com.eighteen.fecom.data.DiscussCommentInfo;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -35,36 +35,31 @@ import retrofit2.Response;
 
 import static com.eighteen.fecom.MainActivity.myInfo;
 
-public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardCommentRecyclerAdapter.BCommentViewHolder> {
+public class DiscussCommentRecyclerAdapter extends RecyclerView.Adapter<DiscussCommentRecyclerAdapter.DCommentViewHolder> {
     private Context context;
-    private ArrayList<BoardCommentInfo> commentList;
+    private ArrayList<DiscussCommentInfo> commentList;
+    private BottomDiscussCommentDialog bottomDiscussCommentDialog;
 
-    public BoardCommentRecyclerAdapter(ArrayList<BoardCommentInfo> commentList) {
+    public DiscussCommentRecyclerAdapter(ArrayList<DiscussCommentInfo> commentList, BottomDiscussCommentDialog bottomDiscussCommentDialog) {
         this.commentList = commentList;
+        this.bottomDiscussCommentDialog = bottomDiscussCommentDialog;
     }
 
     @NonNull
     @Override
-    public BoardCommentRecyclerAdapter.BCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DiscussCommentRecyclerAdapter.DCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = inflater.inflate(R.layout.item_comment, parent, false);
-        BoardCommentRecyclerAdapter.BCommentViewHolder viewHolder = new BoardCommentRecyclerAdapter.BCommentViewHolder(view);
+        DiscussCommentRecyclerAdapter.DCommentViewHolder viewHolder = new DiscussCommentRecyclerAdapter.DCommentViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BoardCommentRecyclerAdapter.BCommentViewHolder holder, int position) {
-        if (commentList.get(position).getAnonymous() == 1) {
-            holder.tvWriterNick.setText("익명".concat(String.valueOf(commentList.get(position).getAnonymousNum())));
-            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.grey));
-        }
-        else {
-            holder.tvWriterNick.setText(commentList.get(position).getCommenterInfo().getNick());
-            holder.tvWriterNick.setTextColor(ContextCompat.getColor(context, R.color.black));
-        }
+    public void onBindViewHolder(@NonNull DiscussCommentRecyclerAdapter.DCommentViewHolder holder, int position) {
+        holder.tvWriterNick.setText(commentList.get(position).getCommenterInfo().getNick());
         holder.tvTime.setText(commentList.get(position).getCommentTime());
         holder.etContent.setText(commentList.get(position).getContent());
 
@@ -84,10 +79,10 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
             holder.ibtLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == 1) {
-                RetrofitClient.getApiService().postDeleteLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postDeleteLikeDC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("BCommentRecycler 확인용1", response.toString());
+                        Log.i("DiscussCommentRecycler 확인용1", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -110,10 +105,10 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                 });
             }
             else {
-                RetrofitClient.getApiService().postRegisterLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postRegisterLikeDC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("BCommentRecycler 확인용2", response.toString());
+                        Log.i("DiscussCommentRecycler 확인용2", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -141,10 +136,10 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
             holder.ibtNotLike.setEnabled(false);
 
             if (commentList.get(position).getAmILike() == -1) {
-                RetrofitClient.getApiService().postDeleteNotLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postDeleteNotLikeDC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("BCommentRecycler 확인용3", response.toString());
+                        Log.i("DiscussCommentRecycler 확인용3", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -167,10 +162,10 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                 });
             }
             else {
-                RetrofitClient.getApiService().postRegisterNotLikeBC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
+                RetrofitClient.getApiService().postRegisterNotLikeDC(myInfo.getUserID(), commentList.get(position).getCommentID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("BCommentRecycler 확인용4", response.toString());
+                        Log.i("DiscussCommentRecycler 확인용4", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -202,13 +197,13 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
     @Override
     public int getItemCount() { return commentList.size(); }
 
-    public class BCommentViewHolder extends RecyclerView.ViewHolder {
+    public class DCommentViewHolder extends RecyclerView.ViewHolder {
         AppCompatImageButton ibtLike, ibtNotLike, ibtEdit, ibtDelete, ibtCancel, ibtSubmit;
         LinearLayout llMenu, llToWriter, llEdit;
         TextView tvWriterNick, tvTime, tvLike, tvNotLike;
         EditText etContent;
 
-        BCommentViewHolder(final View itemView) {
+        DCommentViewHolder(final View itemView) {
             super(itemView);
 
             tvWriterNick = itemView.findViewById(R.id.commentRow_nick);
@@ -232,12 +227,12 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("댓글 삭제").setMessage("현재 댓글을 삭제하시겠습니까?");
                     builder.setPositiveButton("삭제", (dialog, which) ->
-                            RetrofitClient.getApiService().postDeleteCommentB(commentList.get(pos).getCommentID()).enqueue(new Callback<String>() {
+                            RetrofitClient.getApiService().postDeleteCommentD(commentList.get(pos).getCommentID()).enqueue(new Callback<String>() {
                                 @Override
                                 public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                                    Log.i("CommentRecycler 확인용", response.toString());
+                                    Log.i("DiscussCommentRecycler 확인용", response.toString());
                                     if (response.code() == 200)
-                                        ((BoardPostActivity) context).updatePostInfo(false);
+                                        bottomDiscussCommentDialog.updateTalkComment();
                                     else
                                         Toast.makeText(context, "해당 댓글 삭제에 문제가 생겼습니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
                                 }
@@ -287,10 +282,10 @@ public class BoardCommentRecyclerAdapter extends RecyclerView.Adapter<BoardComme
                         JsonObject commentData = new JsonObject();
                         commentData.addProperty("comment_id", commentList.get(pos).getCommentID());
                         commentData.addProperty("content", comment);
-                        RetrofitClient.getApiService().postEditComment(commentData).enqueue(new Callback<String>() {
+                        RetrofitClient.getApiService().postEditCommentD(commentData).enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                                Log.i("CommentRecycler 댓글 확인용", response.toString());
+                                Log.i("DiscussCommentRecycler 댓글수정 확인용", response.toString());
                                 if (response.code() == 200) {
                                     commentList.get(pos).setContent(comment);
 

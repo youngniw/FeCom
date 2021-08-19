@@ -124,7 +124,7 @@ public class BoardPostListActivity extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.menu_postlist_refresh)
                     updatePostList(false);
 
-                else {      //TODO: BoardRecyclerAdapter의 내용을 새로고침 해야 함! -> registerForActivityResult
+                else {
                     if (amISubscribe == 1) {    //"즐겨찾는 게시판 해제" 선택
                         RetrofitClient.getApiService().postDeleteSubscribeB(myInfo.getUserID(), boardID).enqueue(new Callback<String>() {
                             @Override
@@ -187,12 +187,6 @@ public class BoardPostListActivity extends AppCompatActivity {
             postingIntent.putExtras(bundle);
             startActivityResultPosting.launch(postingIntent);
         });
-    }
-
-    @Override
-    public void finish() {
-        //TODO: Main으로 갈 때 update 되게 해야 함!
-        super.finish();
     }
 
     public void updatePostList(boolean isSwipe) {

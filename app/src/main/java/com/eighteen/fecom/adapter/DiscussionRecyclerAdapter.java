@@ -1,7 +1,7 @@
 package com.eighteen.fecom.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +14,8 @@ import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.eighteen.fecom.BottomDiscussCommentDialog;
+import com.eighteen.fecom.MainActivity;
 import com.eighteen.fecom.R;
 import com.eighteen.fecom.RetrofitClient;
 import com.eighteen.fecom.data.DiscussionInfo;
@@ -122,7 +124,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
                 RetrofitClient.getApiService().postDeletePro(myInfo.getUserID(), discussList.get(position).getDiscussID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("DiscussionRecycler 확인용1", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -159,7 +160,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
                 RetrofitClient.getApiService().postExpressPro(myInfo.getUserID(), discussList.get(position).getDiscussID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("DiscussionRecycler 확인용2", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -201,7 +201,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
                 RetrofitClient.getApiService().postDeleteCon(myInfo.getUserID(), discussList.get(position).getDiscussID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("DiscussionRecycler 확인용3", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -238,7 +237,6 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
                 RetrofitClient.getApiService().postExpressCon(myInfo.getUserID(), discussList.get(position).getDiscussID()).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                        Log.i("DiscussionRecycler 확인용4", response.toString());
                         if (response.code() == 200) {
                             try {
                                 JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
@@ -300,7 +298,11 @@ public class DiscussionRecyclerAdapter extends RecyclerView.Adapter<DiscussionRe
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION) {
-                    //TODO: 화면으로 넘어감
+                    BottomDiscussCommentDialog dCommentDialog = new BottomDiscussCommentDialog();
+                    Bundle bundle = new Bundle();
+                        bundle.putInt("discussID", discussList.get(pos).getDiscussID());
+                    dCommentDialog.setArguments(bundle);
+                    dCommentDialog.show(((MainActivity) context).getSupportFragmentManager(), "discuss_comment_dialog");
                 }
             });
         }
