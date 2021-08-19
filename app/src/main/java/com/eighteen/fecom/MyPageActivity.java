@@ -143,15 +143,9 @@ public class MyPageActivity extends AppCompatActivity {
 
          */
 
-        tvAnnouncement.setOnClickListener(v -> {
-            //TODO: 공지사항 화면으로 넘어감
-            //startActivity(new Intent(this, .class));
-        });
+        tvAnnouncement.setOnClickListener(v -> startActivity(new Intent(this, MyPageNoticeActivity.class)));
 
-        tvUseInfo.setOnClickListener(v -> {
-            //TODO: 이용안내 화면으로 넘어감
-            //startActivity(new Intent(this, .class));
-        });
+        tvUseInfo.setOnClickListener(v -> startActivity(new Intent(this, MyPageUseInfoActivity.class)));
 
         btLogout.setOnClickListener(v -> {
             Intent logoutIntent = new Intent(this, LoginActivity.class);

@@ -38,9 +38,7 @@ public class SignUp2Activity extends AppCompatActivity {
 
         btSignUp = findViewById(R.id.signup2_btSubmit);
         btSignUp.setOnClickListener(v -> {
-            Intent loginIntent = new Intent(this, LoginActivity.class);
-            loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(loginIntent);
+            //TODO: 인증되어야 함!
             finish();
         });
     }

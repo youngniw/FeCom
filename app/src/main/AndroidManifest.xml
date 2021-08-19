@@ -32,6 +32,8 @@
         <activity android:name=".MyPageActivity"/>
         <activity android:name=".ChangeNickActivity"/>
         <activity android:name=".ChangePWActivity"/>
+        <activity android:name=".MyPageNoticeActivity"/>
+        <activity android:name=".MyPageUseInfoActivity"/>
     </application>
 
 </manifest>
