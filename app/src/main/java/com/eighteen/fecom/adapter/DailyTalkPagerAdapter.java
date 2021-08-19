@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -162,14 +161,19 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
                 tvWriterName = itemView.findViewById(R.id.hTalkPage_writer);
                 tvTalkTime = itemView.findViewById(R.id.hTalkPage_time);
                 tvContent = itemView.findViewById(R.id.hTalkPage_content);
-                    tvContent.setMovementMethod(new ScrollingMovementMethod());
                 ibtLike = itemView.findViewById(R.id.hTalkPage_ibLike);
                 tvLikeNum = itemView.findViewById(R.id.hTalkPage_tvLike);
                 tvCommentNum = itemView.findViewById(R.id.hTalkPage_comment);
 
                 itemView.setOnClickListener(v -> {
-                    //TODO: 데일리 톡으로 넘어감!    -> 확인 요망!       -> TextView 누르면 안넘어감!
-                    context.startActivity(new Intent(context, DailyTalkActivity.class));
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent dailyTalkIntent = new Intent(context, DailyTalkActivity.class);
+                        Bundle bundle = new Bundle();
+                            bundle.putInt("showTalkID", talkList.get(pos).getPostID());
+                        dailyTalkIntent.putExtras(bundle);
+                        context.startActivity(dailyTalkIntent);
+                    }
                 });
             }
             else {
@@ -191,6 +195,12 @@ public class DailyTalkPagerAdapter extends RecyclerView.Adapter<DailyTalkPagerAd
                             bundle.putInt("talkID", talkList.get(pos).getPostID());
                         commentDialog.setArguments(bundle);
                         commentDialog.show(((DailyTalkActivity) context).getSupportFragmentManager(), "comment_dialog");
+                        ((DailyTalkActivity) context).getSupportFragmentManager().executePendingTransactions();
+                        Objects.requireNonNull(commentDialog.getDialog()).setOnCancelListener(dialog -> {
+                            Log.i("확인용", "취소");
+                            if (commentDialog.isChangedComment)
+                                ((DailyTalkActivity) context).updateTalkList(true, talkList.get(pos).getPostID());
+                        });
                     }
                 });
 

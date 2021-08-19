@@ -37,8 +37,8 @@ import static com.eighteen.fecom.MainActivity.myInfo;
 
 public class BottomCommentDialog extends BottomSheetDialogFragment {
     private int talkID = -1;
-    private boolean isChangedComment = false;
     private ArrayList<CommentInfo> commentList = null;
+    public boolean isChangedComment = false;
 
     private AppCompatImageButton ibSubmit;
     private EditText etComment;

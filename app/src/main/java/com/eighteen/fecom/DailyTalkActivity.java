@@ -47,7 +47,11 @@ public class DailyTalkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dailytalk);
 
+        int showID = -1;
+
         dtalkLists = new ArrayList<>();
+        if (getIntent().hasExtra("showTalkID"))
+            showID = getIntent().getExtras().getInt("showTalkID");
 
         Toolbar toolbar = findViewById(R.id.dailyTalk_toolbar);
         setSupportActionBar(toolbar);
@@ -80,7 +84,7 @@ public class DailyTalkActivity extends AppCompatActivity {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == RESULT_OK)
-                        updateTalkList();
+                        updateTalkList(false, -1);
                 });
         FloatingActionButton fabAddPost = findViewById(R.id.dailyTalk_fabWrite);
         fabAddPost.setOnClickListener(v -> {
@@ -91,7 +95,7 @@ public class DailyTalkActivity extends AppCompatActivity {
             startActivityResultPosting.launch(addTalk);
         });
 
-        updateTalkList();
+        updateTalkList(true, showID);
     }
 
     private void toolbarListener(Toolbar toolbar) {
@@ -99,10 +103,10 @@ public class DailyTalkActivity extends AppCompatActivity {
         ivBack.setOnClickListener(v -> finish());
 
         AppCompatImageButton ibRefresh = findViewById(R.id.dailyTalk_refresh);
-        ibRefresh.setOnClickListener(v -> updateTalkList());
+        ibRefresh.setOnClickListener(v -> updateTalkList(false, -1));
     }
 
-    public void updateTalkList() {
+    public void updateTalkList(boolean initialSet, int showID) {
         dtalkLists.clear();
         talkAdapter.notifyDataSetChanged();
 
@@ -113,6 +117,7 @@ public class DailyTalkActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 Log.i("DailyTalkActivity 확인용", response.toString());
                 if (response.code() == 200) {
+                    int showFirstPost = 0;
                     try {
                         JSONObject result = new JSONObject(Objects.requireNonNull(response.body()));
                         JSONArray jsonPosts = result.getJSONArray("dailytalks");
@@ -129,12 +134,17 @@ public class DailyTalkActivity extends AppCompatActivity {
                             int commentNum = postObject.getInt("comment_count");
 
                             dtalkLists.add(new PostInfo(talkID, 0, writerID, writerNick, postTime, content, amILike, likeNum, commentNum));
+
+                            if (showID == talkID)
+                                showFirstPost = i;
                         }
                     } catch (JSONException e) { e.printStackTrace(); }
 
                     tvInfo.setVisibility(View.GONE);
                     talkAdapter.notifyDataSetChanged();
-                    //TODO: vpDailyTalk.setCurrentItem(번째수:) -> home에서 들어온 경우);
+
+                    if (initialSet && showID != -1)
+                        vpDailyTalk.setCurrentItem(showFirstPost);
                 }
                 else
                     tvInfo.setText("Daily Talk이 아직 없습니다.\n한번 작성해 보세요:)");

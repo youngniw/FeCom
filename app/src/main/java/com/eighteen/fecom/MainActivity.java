@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.main_tab);
         bottomNavigationView.setSelectedItemId(R.id.tab_home);
 
-        bottomNavigationView.getMenu().getItem(1).setOnMenuItemClickListener(item -> {      //데일리톡 클릭 시
+        bottomNavigationView.getMenu().getItem(1).setOnMenuItemClickListener(item -> {
             startActivity(new Intent(MainActivity.this, DailyTalkActivity.class));
 
             return true;
