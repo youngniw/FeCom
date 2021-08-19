@@ -104,7 +104,7 @@ public class BoardPostListActivity extends AppCompatActivity {
         ivSearch.setOnClickListener(v -> {
             Intent searchIntent = new Intent(this, SearchActivity.class);
             Bundle bundle = new Bundle();
-                bundle.putInt("whichTopic", 3);     //게시물 검색
+                bundle.putInt("whichTopic", 2);     //게시물 검색
                 bundle.putInt("boardID", boardID);
             searchIntent.putExtras(bundle);
             startActivity(searchIntent);

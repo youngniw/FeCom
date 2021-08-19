@@ -57,12 +57,6 @@ public class FragmentHome extends Fragment {
         dtalkLists = new ArrayList<>();
         bSubLists = new ArrayList<>();
 
-        //데일리톡 Top 10 임시 데이터 생성(TODO: 추후 삭제)
-        dtalkLists.add(new PostInfo(1, 0, 1, "능소능소", "1시간 전", "오늘 남자친구랑 헤어졌는데.. \n이 친구가 바람을 피웠어요.. \n진짜 열이 받아서.. XX... 오늘 하루만 같이 욕해주세요;;.... 아오.... 이런 거지같은...\n 길가다가 넘어져라...!!", 1, 32, 2));
-        dtalkLists.add(new PostInfo(2, 0, 2, "하이하이", "3시간 전", "경영학과 과제 세상 많아.. 진짜 교수님.. 이게 말이 된다고 생각하세요??", 0, 10, 9));
-        dtalkLists.add(new PostInfo(3, 0,3, "능소화", "5시간 전", "오늘 학교 앞 호박떡 집에 갔는데,,\n웬일로 딱 하나 남음:)\n여러분:) 제가 막차 탔어요>_<", 1, 22, 3));
-        dtalkLists.add(new PostInfo(4, 0,4, "하이헬로", "8시간 전", "투데이 한강뷰:) 미쳐버렸다!!!>_<", 1, 9, 3));
-
         ibRefreshTalk = rootView.findViewById(R.id.fHome_refreshTalk);
         llTalkError = rootView.findViewById(R.id.fHome_llDailyError);
         ivTalkError = rootView.findViewById(R.id.fHome_ivTalkError);

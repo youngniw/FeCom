@@ -64,10 +64,8 @@ public class SearchActivity extends AppCompatActivity {
         llInfo = findViewById(R.id.search_llInfo);
         etSearch = findViewById(R.id.search_etSearch);
         if (whichTopic == 1)
-            etSearch.setHint("게시판 및 게시물 검색");
-        else if (whichTopic == 2)
             etSearch.setHint("게시판 검색");
-        else if (whichTopic == 3) {
+        else if (whichTopic == 2) {
             etSearch.setHint("게시물 검색");
             boardID = getIntent().getExtras().getInt("boardID");
         }
@@ -82,14 +80,12 @@ public class SearchActivity extends AppCompatActivity {
         rvSearch.setLayoutManager(basicManager);
         rvSearch.addItemDecoration(new DividerItemDecoration(this, 1));
 
-        if (whichTopic == 1)
-            ;       //TODO: 게시판 및 게시물 검색
-        else if (whichTopic == 2) {
+        if (whichTopic == 1) {
             boardList = new ArrayList<>();
             boardAdapter = new BoardRecyclerAdapter(boardList);
             rvSearch.setAdapter(boardAdapter);
         }
-        else if (whichTopic == 3) {
+        else if (whichTopic == 2) {
             postList = new ArrayList<>();
             ActivityResultLauncher<Intent> startActivityResultPost2 = registerForActivityResult(
                     new ActivityResultContracts.StartActivityForResult(),
@@ -131,10 +127,8 @@ public class SearchActivity extends AppCompatActivity {
                         etSearch.setEnabled(true);
                     else {
                         if (whichTopic == 1)
-                            setSearchBPList(searchKeyword);
-                        else if (whichTopic == 2)
                             setSearchBoardList(searchKeyword);
-                        else if (whichTopic == 3)
+                        else if (whichTopic == 2)
                             setSearchPostList(searchKeyword);
                         else
                             setSearchCollegePostList(searchKeyword);
@@ -153,19 +147,13 @@ public class SearchActivity extends AppCompatActivity {
                 etSearch.setEnabled(true);
             else {
                 if (whichTopic == 1)
-                    setSearchBPList(searchKeyword);
-                else if (whichTopic == 2)
                     setSearchBoardList(searchKeyword);
-                else if (whichTopic == 3)
+                else if (whichTopic == 2)
                     setSearchPostList(searchKeyword);
                 else
                     setSearchCollegePostList(searchKeyword);
             }
         });
-    }
-
-    private void setSearchBPList(String keyword) {
-        //TODO: 게시판 및 게시물 검색
     }
 
     private void setSearchBoardList(String keyword) {
@@ -181,7 +169,7 @@ public class SearchActivity extends AppCompatActivity {
         RetrofitClient.getApiService().getSearchPosts(myInfo.getUserID(), boardID, keyword).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                Log.i("SearchActivity 확인용3", response.toString());
+                Log.i("SearchActivity 확인용2", response.toString());
                 if (response.code() == 200) {
                     presentKeyword = keyword;
                     try {

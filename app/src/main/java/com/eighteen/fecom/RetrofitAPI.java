@@ -14,6 +14,9 @@ public interface RetrofitAPI {
     @GET("/fecom/api/user/login.php")
     Call<String> getUserInfo(@Query("email") String userEmail, @Query("pw") String userPW);                     //로그인
 
+    @GET("/fecom/api/user/search_by_id.php")
+    Call<String> getUserInfoByID(@Query("user_id") int userID);         //회원 정보 받아오기
+
     @POST("/fecom/api/user/register.php")
     Call<String> postUserInfo(@Body JsonObject userData);               //회원가입
 

@@ -105,7 +105,7 @@ public class CollegePostListActivity extends AppCompatActivity {
         ivSearch.setOnClickListener(v -> {
             Intent searchIntent = new Intent(this, SearchActivity.class);
             Bundle bundle = new Bundle();
-                bundle.putInt("whichTopic", 4);     //게시물 검색
+                bundle.putInt("whichTopic", 3);     //게시물 검색
                 bundle.putInt("collegeID", collegeID);
             searchIntent.putExtras(bundle);
             startActivity(searchIntent);

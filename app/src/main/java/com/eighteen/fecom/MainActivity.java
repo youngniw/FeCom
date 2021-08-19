@@ -80,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void homeToolbarListener(Toolbar toolbar) {
-        AppCompatImageButton ivSearch = toolbar.findViewById(R.id.homeTB_search);
-        ivSearch.setOnClickListener(v -> {
-            //TODO: 검색 창으로 넘어감!
-        });
-
         AppCompatImageButton ivMyPage = toolbar.findViewById(R.id.homeTB_mypage);
         ivMyPage.setOnClickListener(v -> startActivity(new Intent(this, MyPageActivity.class)));
     }
@@ -154,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         ivSearch.setOnClickListener(v -> {
             Intent searchIntent = new Intent(this, SearchActivity.class);
             Bundle bundle = new Bundle();
-                bundle.putInt("whichTopic", 2);     //게시판 검색
+                bundle.putInt("whichTopic", 1);     //게시판 검색
             searchIntent.putExtras(bundle);
             startActivity(searchIntent);
         });
